@@ -8,9 +8,7 @@
         "lint": "eslint . --ext .ts",
         "test": "echo \"Error: no test specified\" && exit 1",
         "start:dev": "set NODE_ENV=development && npm start",
-        "start:dev:linux": "export NODE_ENV=development && npm start",
-        "start:debug": "set NODE_ENV=debug && npm start",
-        "start:debug:linux": "export NODE_ENV=debug && npm start"
+        "start:dev:linux": "export NODE_ENV=development && npm start"
     },
     "keywords": [],
     "author": "",
