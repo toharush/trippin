@@ -3,9 +3,9 @@
 server env
 ----
 ```env
-  PORT=NUMBER || 8080
-  DATABASE_URL=URI_CLOUD_OR_LOCAL // postgres://user:password@host:port/dbname
-  DATABASE_SCHEMA=DATABASE_SCHEMA_NAME
+PORT=NUMBER || 8080
+DATABASE_URL=URI_CLOUD_OR_LOCAL // postgres://user:password@host:port/dbname
+DATABASE_SCHEMA=DATABASE_SCHEMA_NAME
 ```
 
 server env mode
