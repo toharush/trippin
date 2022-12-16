@@ -1,8 +1,8 @@
 # trippin
 ## trippin server
     read server README additionally.
-    ```bash 
-        cd ./server
-        npm i
-        npm start || npm run start:dev || npm run start:debug
+    ```console 
+        foo@bar:~$ cd ./server
+        foo@bar:~$ npm i
+        foo@bar:~$ npm start || npm run start:dev || npm run start:debug
     ```
