@@ -28,3 +28,14 @@ adding graphql custom server on route /graphiql with all query and mutation opti
 http://localhost:port/api/v1/dev/graphiql
 
 
+
+nodemon
+----
+addding nodemon option (listen to file changes and run the server again).
+
+```
+$ npm run start:nodemon // global
+$ npm run start:dev:nodemon // windows
+$ npm run start:dev:linux:nodemon // mac && linux
+```
+
