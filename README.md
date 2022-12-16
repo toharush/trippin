@@ -1,5 +1,6 @@
 # trippin
-## trippin server
+trippin server
+----
     read server README additionally.
    ```
         foo@bar:~$ cd ./server
