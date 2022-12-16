@@ -7,8 +7,6 @@ dotenv.config();
 const PORT = process.env.APP_PORT || 8080;
 const app = express();
 
-console.log(process.env);
-
 if (process.env.NODE_ENV?.includes('development')) {
     console.log('Running on development mode');
 }
