@@ -19,11 +19,10 @@ running regular without developer or debug tools
 developer mode
 ----
 running with developer tools but without debug tools
-
-    ```
-        foo@bar:~$ npm run start:dev // windows
-        foo@bar:~$ npm run start:dev:linux // mac && linux
-    ```
+```
+    foo@bar:~$ npm run start:dev // windows
+    foo@bar:~$ npm run start:dev:linux // mac && linux
+```
 
 debug mode
 ----
