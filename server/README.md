@@ -11,6 +11,7 @@ server env
 server env mode
 ----
 running regular without developer or debug tools
+
     ```
         foo@bar:~$ npm start
     ```
@@ -18,6 +19,7 @@ running regular without developer or debug tools
 developer mode
 ----
 running with developer tools but without debug tools
+
     ```
         foo@bar:~$ npm run start:dev // windows
         foo@bar:~$ npm run start:dev:linux // mac && linux
@@ -26,9 +28,11 @@ running with developer tools but without debug tools
 debug mode
 ----
 running with developer and debug tools
+
     ``` 
         foo@bar:~$ npm run start:debug // windows
         foo@bar:~$ npm run start:debug:linux // mac && linux
     ```
-    adding graphql custom server on route /graphiql with all query and mutation options.
+
+adding graphql custom server on route /graphiql with all query and mutation options.
 
