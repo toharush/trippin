@@ -19,4 +19,4 @@ SELECT * from (SELECT id, "position",
         SIN( RADIANS( db_latitude ) ) * 
         SIN( RADIANS( $user_latitude) ) 
     ) 
-) "distance" FROM original_Table) the_table WHERE the_table."distance" <= he_radius ORDER BY "distance" ASC;
+) "distance" FROM original_Table) the_table WHERE the_table."distance" <= the_radius ORDER BY "distance" ASC;
