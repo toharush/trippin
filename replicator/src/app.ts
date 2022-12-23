@@ -1,18 +1,10 @@
-import { getGoogleResult } from "./utils/scraper/app";
+import { TrippinReplicator } from "./replicators/trippinReplicator/trippingReplicator";
+import { closeBrowser, getBrowser } from "./utils/browser/browser";
 import { hereApi } from "./utils/api";
-import dotenv from 'dotenv';
-
-dotenv.config();
-const here = hereApi();
 
 (async() => {
-    const res = await here.discover({
-        q: 'restaurant',
-        at: '42.838327,12.517734',
-        limit: 10
-    });
-    let items = res.data.items;
-    items = [items[0], items[1]];
-    const a = await getGoogleResult([items[0], items[1]]);
-    console.log(a);
+        const replicator = new TrippinReplicator(await getBrowser(), await hereApi());
+        const res = await replicator.getInfo({q: 'restaurant', at: "-8.07994,54.3802",  limit: 1});
+        console.log(await res)
+        await closeBrowser();
 })()

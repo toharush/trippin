@@ -1,4 +1,4 @@
-export default interface DiscoverRequest {
+export interface DiscoverRequest {
     q: string;
     at?: string;
     in?: string;

@@ -1,3 +1,3 @@
-export default interface Supplier {
+export interface Supplier {
     id: string;
 }

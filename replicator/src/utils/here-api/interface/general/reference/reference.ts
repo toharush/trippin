@@ -1,6 +1,6 @@
-import Supplier from '../supplier/supplier';
+import { Supplier } from '../../../app';
 
-export default interface Reference {
+export interface Reference {
     id: string;
     supplier: Supplier;
 }

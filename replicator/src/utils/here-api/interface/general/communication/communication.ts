@@ -1,6 +1,6 @@
-import Category from '../category/category';
+import { Category } from '../../../app';
 
-export default interface Communication {
+export interface Communication {
     value: string;
     categories: Category[];
 }

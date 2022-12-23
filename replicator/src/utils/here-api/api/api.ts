@@ -1,8 +1,3 @@
-import discover from './discover/request';
-import { GlobalOptions } from './options/globalOptions';
-
-export class GeneratedAPIs extends discover {
-    constructor(options: GlobalOptions) {
-        super(options);
-    }
-}
+export * from "./discover/request";
+export * from "./discover/hereApis";
+export * from "./options/globalOptions"

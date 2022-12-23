@@ -1,10 +1,4 @@
-import Address from '../../general/address/address';
-import Category from '../../general/category/category';
-import Payment from '../../general/payment/payment';
-import Position from '../../general/position/position';
-import Reference from '../../general/reference/reference';
-import foodType from '../../general/food/type';
-import Contact from '../../general/contact/contact';
+import { Address, Category, Payment, Position, Reference, foodType, Contact } from '../../../app';
 
 export interface GoogleResult {
     [GoogleScraper.MAPS]?: any;
@@ -21,7 +15,7 @@ export const GoogleScraperUrl  = {
     [GoogleScraper.SEARCH]: "https://google.com"
 }
 
-export default interface DiscoverResponse {
+export interface DiscoverResponse {
     title: string;
     id: string;
     resultType: string;

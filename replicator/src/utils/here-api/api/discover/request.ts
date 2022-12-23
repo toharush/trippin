@@ -1,24 +1,17 @@
+import { DiscoverRequest, DiscoverResponse, GlobalOptions, buildReqUri } from '../../app';
 import axios from 'axios';
-import DiscoverRequest from '../../interface/api/discover/request';
-import DiscoverResponse from '../../interface/api/discover/response';
-import { GlobalOptions, GlobalRequest } from '../options/globalOptions';
-import { buildReqUri } from '../../utils/uriBuilder';
 
-export default class discover implements GlobalRequest {
+export class discover {
     private options: GlobalOptions;
-
+    
     constructor(options: GlobalOptions) {
         this.options = options;
     }
 
-    discover(
+    async discover(
         options: DiscoverRequest,
-        requiredParams: string[] = ['q', 'at']
-    ): Promise<{
-        data: {
-            items: DiscoverResponse[];
-        };
-    }> {
+        requiredParams: string[] = ['q']
+    ): Promise<DiscoverResponse[]> {
         try {
             const uri = `${buildReqUri(
                 this.options,
@@ -26,7 +19,7 @@ export default class discover implements GlobalRequest {
                 requiredParams,
                 '/v1/discover'
             )}`;
-            return axios.get(uri);
+            return await (await axios.get(uri)).data.items;
         } catch (err) {
             throw err;
         }

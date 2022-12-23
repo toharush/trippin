@@ -1,7 +1,6 @@
-import Category from '../category/category';
-import Structured from '../structured/structured';
+import { Structured, Category } from '../../../app';
 
-export default interface OpeningHours {
+export interface OpeningHours {
     categories: Category[];
     text: string[];
     isOpen: boolean;

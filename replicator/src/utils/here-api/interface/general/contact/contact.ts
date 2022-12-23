@@ -1,6 +1,6 @@
-import Communication from '../communication/communication';
+import { Communication } from '../../../app';
 
-export default interface Contact {
+export interface Contact {
     phone?: Communication[];
     www?: Communication[];
     email?: Communication[];
