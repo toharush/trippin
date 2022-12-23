@@ -1,0 +1,737 @@
+[
+    {
+        "title": "Hatuchay Inn Restaurante & Hotel",
+        "id": "here:pds:place:604aabd1-f2deb259272a0e24a733f9ff8f43bbc1",
+        "language": "en",
+        "ontologyId": "here:cm:ontology:restaurant",
+        "resultType": "place",
+        "address": {
+            "label": "Hatuchay Inn Restaurante & Hotel, 08680 Machu Picchu, Perú",
+            "countryCode": "PER",
+            "countryName": "Perú",
+            "state": "Cusco",
+            "county": "Urubamba",
+            "city": "Machu Picchu",
+            "postalCode": "08680"
+        },
+        "position": { "lat": -13.16322, "lng": -72.54507 },
+        "access": [{ "lat": -13.16322, "lng": -72.5449 }],
+        "distance": 18,
+        "categories": [
+            { "id": "100-1000-0000", "name": "Restaurante", "primary": true },
+            { "id": "100-1100-0010", "name": "Café" }
+        ],
+        "references": [
+            { "supplier": { "id": "tripadvisor" }, "id": "7834851" }
+        ],
+        "contacts": [{ "phone": [{ "value": "+5184211165" }] }],
+        "openingHours": [
+            {
+                "text": ["Mon-Sun: 06:00 - 23:00"],
+                "isOpen": true,
+                "structured": [
+                    {
+                        "start": "T060000",
+                        "duration": "PT17H00M",
+                        "recurrence": "FREQ:DAILY;BYDAY:MO,TU,WE,TH,FR,SA,SU"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Tampu Restaurante",
+        "id": "here:pds:place:604aabd1-8a9e2cea8f70096f07b4ce344b9a422f",
+        "language": "es",
+        "ontologyId": "here:cm:ontology:restaurant",
+        "resultType": "place",
+        "address": {
+            "label": "Tampu Restaurante, Carretera Hiram Bingham, 08680 Machu Picchu, Perú",
+            "countryCode": "PER",
+            "countryName": "Perú",
+            "state": "Cusco",
+            "county": "Urubamba",
+            "city": "Machu Picchu",
+            "street": "Carretera Hiram Bingham",
+            "postalCode": "08680"
+        },
+        "position": { "lat": -13.16583, "lng": -72.54308 },
+        "access": [{ "lat": -13.16582, "lng": -72.54309 }],
+        "distance": 379,
+        "categories": [
+            { "id": "100-1000-0000", "name": "Restaurante", "primary": true }
+        ],
+        "references": [
+            { "supplier": { "id": "tripadvisor" }, "id": "1568029" },
+            { "supplier": { "id": "tripadvisor" }, "id": "1568031" }
+        ],
+        "foodTypes": [
+            { "id": "407-000", "name": "Peruana", "primary": true },
+            { "id": "400-000", "name": "Sudamericana" },
+            { "id": "800-064", "name": "Internacional" }
+        ],
+        "contacts": [
+            {
+                "phone": [{ "value": "+51984816956" }],
+                "www": [
+                    {
+                        "value": "http://www.facebook.com/TinkuyBuffetRestaurant"
+                    },
+                    {
+                        "value": "http://www.sanctuarylodge.net/web/omac/tampu.jsp"
+                    }
+                ]
+            }
+        ],
+        "openingHours": [
+            {
+                "text": ["lun.-dom.: 11:00 - 15:30"],
+                "isOpen": true,
+                "structured": [
+                    {
+                        "start": "T110000",
+                        "duration": "PT04H30M",
+                        "recurrence": "FREQ:DAILY;BYDAY:MO,TU,WE,TH,FR,SA,SU"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "title": "El Mirador - Snack Bar",
+        "id": "here:pds:place:6046msmj-b110bba85a894aca85bda8a5f8639bd9",
+        "language": "es",
+        "ontologyId": "here:cm:ontology:restaurant",
+        "resultType": "place",
+        "address": {
+            "label": "El Mirador - Snack Bar, Carretera Hiram Bingham, 08680 Machu Picchu, Perú",
+            "countryCode": "PER",
+            "countryName": "Perú",
+            "state": "Cusco",
+            "county": "Urubamba",
+            "city": "Machu Picchu",
+            "street": "Carretera Hiram Bingham",
+            "postalCode": "08680"
+        },
+        "position": { "lat": -13.16584, "lng": -72.54304 },
+        "access": [{ "lat": -13.16583, "lng": -72.54305 }],
+        "distance": 382,
+        "categories": [
+            { "id": "100-1000-0000", "name": "Restaurante", "primary": true }
+        ],
+        "foodTypes": [
+            { "id": "800-058", "name": "Aperitivos y bebidas", "primary": true }
+        ]
+    },
+    {
+        "title": "Restaurante",
+        "id": "here:pds:place:6046msmj-525e4aef735a4991aab9cbb245f39ad2",
+        "language": "es",
+        "ontologyId": "here:cm:ontology:restaurant",
+        "resultType": "place",
+        "address": {
+            "label": "Restaurante, 08680 Machu Picchu, Perú",
+            "countryCode": "PER",
+            "countryName": "Perú",
+            "state": "Cusco",
+            "county": "Urubamba",
+            "city": "Machu Picchu",
+            "postalCode": "08680"
+        },
+        "position": { "lat": -13.16639, "lng": -72.5439 },
+        "access": [{ "lat": -13.16639, "lng": -72.5439 }],
+        "distance": 392,
+        "categories": [
+            { "id": "100-1000-0000", "name": "Restaurante", "primary": true }
+        ],
+        "openingHours": [
+            {
+                "text": ["lun.-dom.: 00:00 - 24:00"],
+                "isOpen": true,
+                "structured": [
+                    {
+                        "start": "T000000",
+                        "duration": "PT24H00M",
+                        "recurrence": "FREQ:DAILY;BYDAY:MO,TU,WE,TH,FR,SA,SU"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Tinkuy",
+        "id": "here:pds:place:6046msmj-d0782a05979ba4ee25c8d1a5d671d270",
+        "language": "es",
+        "ontologyId": "here:cm:ontology:restaurant",
+        "resultType": "place",
+        "address": {
+            "label": "Tinkuy, Carretera Hiram Bingham, 08680 Machu Picchu, Perú",
+            "countryCode": "PER",
+            "countryName": "Perú",
+            "state": "Cusco",
+            "county": "Urubamba",
+            "city": "Machu Picchu",
+            "street": "Carretera Hiram Bingham",
+            "postalCode": "08680"
+        },
+        "position": { "lat": -13.16591, "lng": -72.54289 },
+        "access": [{ "lat": -13.16591, "lng": -72.5429 }],
+        "distance": 398,
+        "categories": [
+            { "id": "100-1000-0000", "name": "Restaurante", "primary": true }
+        ],
+        "foodTypes": [{ "id": "407-000", "name": "Peruana", "primary": true }],
+        "contacts": [
+            {
+                "phone": [{ "value": "+51984816956" }],
+                "email": [{ "value": "res-mapi@peruorientexpress.com.pe" }]
+            }
+        ],
+        "openingHours": [
+            {
+                "text": ["lun.-dom.: 11:00 - 15:30"],
+                "isOpen": true,
+                "structured": [
+                    {
+                        "start": "T110000",
+                        "duration": "PT04H30M",
+                        "recurrence": "FREQ:DAILY;BYDAY:MO,TU,WE,TH,FR,SA,SU"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "title": "El Manu",
+        "id": "here:pds:place:604aabd1-cf1af9f4152302e86801bf46132234c0",
+        "language": "en",
+        "ontologyId": "here:cm:ontology:restaurant",
+        "resultType": "place",
+        "address": {
+            "label": "El Manu, Camino Huayna Picchu, 08680 Machu Picchu, Perú",
+            "countryCode": "PER",
+            "countryName": "Perú",
+            "state": "Cusco",
+            "county": "Urubamba",
+            "city": "Machu Picchu",
+            "street": "Camino Huayna Picchu",
+            "postalCode": "08680"
+        },
+        "position": { "lat": -13.15921, "lng": -72.54586 },
+        "access": [{ "lat": -13.15921, "lng": -72.54574 }],
+        "distance": 436,
+        "categories": [
+            { "id": "100-1000-0000", "name": "Restaurante", "primary": true }
+        ],
+        "references": [
+            { "supplier": { "id": "tripadvisor" }, "id": "5002685" }
+        ],
+        "foodTypes": [
+            { "id": "400-000", "name": "Sudamericana", "primary": true },
+            { "id": "311-000", "name": "Española" },
+            { "id": "407-000", "name": "Peruana" }
+        ],
+        "contacts": [{ "phone": [{ "value": "+5184400060" }] }]
+    },
+    {
+        "title": "La Payacha",
+        "id": "here:pds:place:6046msmj-387a6febe86148429af0027b4f182809",
+        "language": "en",
+        "ontologyId": "here:cm:ontology:restaurant",
+        "resultType": "place",
+        "address": {
+            "label": "La Payacha, Carretera Hiram Bingham, 08680 Machu Picchu, Perú",
+            "countryCode": "PER",
+            "countryName": "Perú",
+            "state": "Cusco",
+            "county": "Urubamba",
+            "city": "Machu Picchu",
+            "street": "Carretera Hiram Bingham",
+            "postalCode": "08680"
+        },
+        "position": { "lat": -13.16513, "lng": -72.54133 },
+        "access": [{ "lat": -13.16517, "lng": -72.54135 }],
+        "distance": 471,
+        "categories": [
+            { "id": "100-1000-0000", "name": "Restaurante", "primary": true }
+        ],
+        "references": [
+            { "supplier": { "id": "tripadvisor" }, "id": "6114819" }
+        ],
+        "foodTypes": [
+            { "id": "400-000", "name": "Sudamericana", "primary": true },
+            { "id": "407-000", "name": "Peruana" }
+        ]
+    },
+    {
+        "title": "Tinkuy",
+        "id": "here:pds:place:6046msmj-a625047fa81c46bca264ba06ebe4cf80",
+        "language": "es",
+        "ontologyId": "here:cm:ontology:restaurant",
+        "resultType": "place",
+        "address": {
+            "label": "Tinkuy, Carretera Hiram Bingham, 08680 Machu Picchu, Perú",
+            "countryCode": "PER",
+            "countryName": "Perú",
+            "state": "Cusco",
+            "county": "Urubamba",
+            "city": "Machu Picchu",
+            "street": "Carretera Hiram Bingham",
+            "postalCode": "08680"
+        },
+        "position": { "lat": -13.16527, "lng": -72.53852 },
+        "access": [{ "lat": -13.16527, "lng": -72.53852 }],
+        "distance": 756,
+        "categories": [
+            { "id": "100-1000-0000", "name": "Restaurante", "primary": true }
+        ],
+        "contacts": [{ "phone": [{ "value": "+51984816956" }] }]
+    },
+    {
+        "title": "Ayasqa",
+        "id": "here:pds:place:6046msmj-fceb38758d183be81592ce61066a8b37",
+        "language": "es",
+        "ontologyId": "here:cm:ontology:restaurant",
+        "resultType": "place",
+        "address": {
+            "label": "Ayasqa, 08680 Machu Picchu, Perú",
+            "countryCode": "PER",
+            "countryName": "Perú",
+            "state": "Cusco",
+            "county": "Urubamba",
+            "city": "Machu Picchu",
+            "postalCode": "08680"
+        },
+        "position": { "lat": -13.15769, "lng": -72.5317 },
+        "access": [{ "lat": -13.15769, "lng": -72.5317 }],
+        "distance": 1572,
+        "categories": [
+            { "id": "100-1000-0000", "name": "Restaurante", "primary": true }
+        ]
+    },
+    {
+        "title": "Mama Angelica",
+        "id": "here:pds:place:604aabd1-9b51fe97a2f20de7bd7d5939e93b47ca",
+        "language": "en",
+        "ontologyId": "here:cm:ontology:restaurant",
+        "resultType": "place",
+        "address": {
+            "label": "Mama Angelica, Camino Hidroelectrica-Aguas Calientes, 08680 Machu Picchu, Perú",
+            "countryCode": "PER",
+            "countryName": "Perú",
+            "state": "Cusco",
+            "county": "Urubamba",
+            "city": "Machu Picchu",
+            "street": "Camino Hidroelectrica-Aguas Calientes",
+            "postalCode": "08680"
+        },
+        "position": { "lat": -13.14926, "lng": -72.53811 },
+        "access": [{ "lat": -13.1493, "lng": -72.53811 }],
+        "distance": 1713,
+        "categories": [
+            { "id": "100-1000-0000", "name": "Restaurante", "primary": true }
+        ],
+        "references": [
+            { "supplier": { "id": "tripadvisor" }, "id": "4107617" }
+        ],
+        "foodTypes": [
+            { "id": "800-083", "name": "Natural/Sana", "primary": true },
+            { "id": "400-000", "name": "Sudamericana" },
+            { "id": "800-080", "name": "Sopa" }
+        ],
+        "contacts": [
+            {
+                "phone": [{ "value": "+51940188155" }],
+                "www": [
+                    {
+                        "value": "http://www.facebook.com/mamaangelicarestaurant"
+                    }
+                ]
+            }
+        ],
+        "openingHours": [
+            {
+                "text": ["Mon-Sun: 07:00 - 20:00"],
+                "isOpen": true,
+                "structured": [
+                    {
+                        "start": "T070000",
+                        "duration": "PT13H00M",
+                        "recurrence": "FREQ:DAILY;BYDAY:MO,TU,WE,TH,FR,SA,SU"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Amantes de la Gastronomía",
+        "id": "here:pds:place:6046msmh-f6f34def0390430d90010c2480680529",
+        "language": "en",
+        "ontologyId": "here:cm:ontology:restaurant",
+        "resultType": "place",
+        "address": {
+            "label": "Amantes de la Gastronomía, Camino Hidroelectrica-Aguas Calientes, 08680 Machu Picchu, Perú",
+            "countryCode": "PER",
+            "countryName": "Perú",
+            "state": "Cusco",
+            "county": "Urubamba",
+            "city": "Machu Picchu",
+            "street": "Camino Hidroelectrica-Aguas Calientes",
+            "postalCode": "08680"
+        },
+        "position": { "lat": -13.14978, "lng": -72.55394 },
+        "access": [{ "lat": -13.14981, "lng": -72.55396 }],
+        "distance": 1759,
+        "categories": [
+            { "id": "100-1000-0000", "name": "Restaurante", "primary": true }
+        ],
+        "contacts": [{ "phone": [{ "value": "+51941254662" }] }]
+    },
+    {
+        "title": "Pipi's",
+        "id": "here:pds:place:6046msmh-afc6494ade9648bb8dc399177f40ef48",
+        "language": "en",
+        "ontologyId": "here:cm:ontology:restaurant",
+        "resultType": "place",
+        "address": {
+            "label": "Pipi's, Camino Hidroelectrica-Aguas Calientes, 08680 Machu Picchu, Perú",
+            "countryCode": "PER",
+            "countryName": "Perú",
+            "state": "Cusco",
+            "county": "Urubamba",
+            "city": "Machu Picchu",
+            "street": "Camino Hidroelectrica-Aguas Calientes",
+            "postalCode": "08680"
+        },
+        "position": { "lat": -13.14978, "lng": -72.55394 },
+        "access": [{ "lat": -13.14981, "lng": -72.55396 }],
+        "distance": 1759,
+        "categories": [
+            { "id": "100-1000-0009", "name": "Comida rápida", "primary": true }
+        ],
+        "references": [
+            { "supplier": { "id": "tripadvisor" }, "id": "6702476" }
+        ],
+        "foodTypes": [
+            { "id": "400-000", "name": "Sudamericana", "primary": true },
+            { "id": "407-000", "name": "Peruana" },
+            { "id": "800-064", "name": "Internacional" }
+        ],
+        "contacts": [{ "phone": [{ "value": "+51958199023" }] }]
+    },
+    {
+        "title": "Restaurant las Rocas Sagradas",
+        "id": "here:pds:place:6046msmh-4a02853f68dc4e2489d88837efccbddf",
+        "language": "en",
+        "ontologyId": "here:cm:ontology:restaurant",
+        "resultType": "place",
+        "address": {
+            "label": "Restaurant las Rocas Sagradas, Camino Hidroelectrica-Aguas Calientes, 08680 Machu Picchu, Perú",
+            "countryCode": "PER",
+            "countryName": "Perú",
+            "state": "Cusco",
+            "county": "Urubamba",
+            "city": "Machu Picchu",
+            "street": "Camino Hidroelectrica-Aguas Calientes",
+            "postalCode": "08680"
+        },
+        "position": { "lat": -13.14978, "lng": -72.55394 },
+        "access": [{ "lat": -13.14981, "lng": -72.55396 }],
+        "distance": 1759,
+        "categories": [
+            { "id": "100-1000-0000", "name": "Restaurante", "primary": true }
+        ],
+        "references": [
+            { "supplier": { "id": "tripadvisor" }, "id": "4788754" }
+        ],
+        "foodTypes": [
+            { "id": "400-000", "name": "Sudamericana", "primary": true },
+            { "id": "800-057", "name": "Pizza" }
+        ],
+        "contacts": [{ "phone": [{ "value": "+51973184063" }] }],
+        "openingHours": [
+            {
+                "text": ["Mon-Sun: 10:00 - 21:00"],
+                "isOpen": true,
+                "structured": [
+                    {
+                        "start": "T100000",
+                        "duration": "PT11H00M",
+                        "recurrence": "FREQ:DAILY;BYDAY:MO,TU,WE,TH,FR,SA,SU"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "title": "El Baylon",
+        "id": "here:pds:place:6046msmh-f344cf7875df2d92520b01badbaa574a",
+        "language": "es",
+        "ontologyId": "here:cm:ontology:restaurant",
+        "resultType": "place",
+        "address": {
+            "label": "El Baylon, 08680 Machu Picchu, Perú",
+            "countryCode": "PER",
+            "countryName": "Perú",
+            "state": "Cusco",
+            "county": "Urubamba",
+            "city": "Machu Picchu",
+            "postalCode": "08680"
+        },
+        "position": { "lat": -13.17482, "lng": -72.55665 },
+        "access": [{ "lat": -13.17482, "lng": -72.55665 }],
+        "distance": 1806,
+        "categories": [
+            { "id": "100-1000-0000", "name": "Restaurante", "primary": true }
+        ],
+        "foodTypes": [{ "id": "407-000", "name": "Peruana", "primary": true }]
+    },
+    {
+        "title": "El Dragón del Marquez",
+        "id": "here:pds:place:604d408k-0bd8e094943d057698fc419d484ac27a",
+        "language": "es",
+        "ontologyId": "here:cm:ontology:restaurant",
+        "resultType": "place",
+        "address": {
+            "label": "El Dragón del Marquez, Avenida Hermanos Ayar, 08681 Machu Picchu, Perú",
+            "countryCode": "PER",
+            "countryName": "Perú",
+            "state": "Cusco",
+            "county": "Urubamba",
+            "city": "Machu Picchu",
+            "street": "Avenida Hermanos Ayar",
+            "postalCode": "08681"
+        },
+        "position": { "lat": -13.15439, "lng": -72.52825 },
+        "access": [{ "lat": -13.15427, "lng": -72.5283 }],
+        "distance": 2067,
+        "categories": [
+            { "id": "100-1000-0000", "name": "Restaurante", "primary": true }
+        ],
+        "references": [
+            { "supplier": { "id": "tripadvisor" }, "id": "12490496" }
+        ],
+        "foodTypes": [{ "id": "201-000", "name": "China", "primary": true }],
+        "contacts": [
+            {
+                "phone": [{ "value": "+51984911911" }],
+                "www": [
+                    {
+                        "value": "http://www.facebook.com/ElDragondeMarquezCusco"
+                    }
+                ]
+            }
+        ],
+        "openingHours": [
+            {
+                "text": ["lun.-dom.: 11:00 - 23:00"],
+                "isOpen": true,
+                "structured": [
+                    {
+                        "start": "T110000",
+                        "duration": "PT12H00M",
+                        "recurrence": "FREQ:DAILY;BYDAY:MO,TU,WE,TH,FR,SA,SU"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Aiko",
+        "id": "here:pds:place:604aabd1-cb188c83ff8703ea8f5ca2f42ebc701a",
+        "language": "en",
+        "ontologyId": "here:cm:ontology:restaurant",
+        "resultType": "place",
+        "address": {
+            "label": "Aiko, Avenida Hermanos Ayar, 08681 Machu Picchu, Perú",
+            "countryCode": "PER",
+            "countryName": "Perú",
+            "state": "Cusco",
+            "county": "Urubamba",
+            "city": "Machu Picchu",
+            "street": "Avenida Hermanos Ayar",
+            "postalCode": "08681"
+        },
+        "position": { "lat": -13.15439, "lng": -72.52825 },
+        "access": [{ "lat": -13.15427, "lng": -72.5283 }],
+        "distance": 2067,
+        "categories": [
+            { "id": "100-1000-0000", "name": "Restaurante", "primary": true }
+        ],
+        "references": [
+            { "supplier": { "id": "tripadvisor" }, "id": "5002688" }
+        ],
+        "contacts": [{ "phone": [{ "value": "+5184211001" }] }]
+    },
+    {
+        "title": "Qunuq Restaurant",
+        "id": "here:pds:place:6046msmj-e852852a31d148ec81a3032dd21cd1e8",
+        "language": "es",
+        "ontologyId": "here:cm:ontology:restaurant",
+        "resultType": "place",
+        "address": {
+            "label": "Qunuq Restaurant, Avenida Hermanos Ayar, 08681 Machu Picchu, Perú",
+            "countryCode": "PER",
+            "countryName": "Perú",
+            "state": "Cusco",
+            "county": "Urubamba",
+            "city": "Machu Picchu",
+            "street": "Avenida Hermanos Ayar",
+            "postalCode": "08681"
+        },
+        "position": { "lat": -13.15439, "lng": -72.52825 },
+        "access": [{ "lat": -13.15427, "lng": -72.5283 }],
+        "distance": 2067,
+        "categories": [
+            { "id": "100-1000-0000", "name": "Restaurante", "primary": true }
+        ],
+        "contacts": [
+            {
+                "phone": [{ "value": "+5184211059" }],
+                "www": [{ "value": "http://machupicchuhotels-sumaq.com" }]
+            }
+        ],
+        "openingHours": [
+            {
+                "text": ["lun.-dom.: 05:30 - 22:00"],
+                "isOpen": true,
+                "structured": [
+                    {
+                        "start": "T053000",
+                        "duration": "PT16H30M",
+                        "recurrence": "FREQ:DAILY;BYDAY:MO,TU,WE,TH,FR,SA,SU"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Qunuq",
+        "id": "here:pds:place:6046msmj-5da6b7e36ccf4da9817c05975934c4ea",
+        "language": "es",
+        "ontologyId": "here:cm:ontology:restaurant",
+        "resultType": "place",
+        "address": {
+            "label": "Qunuq, Avenida Hermanos Ayar, 08681 Machu Picchu, Perú",
+            "countryCode": "PER",
+            "countryName": "Perú",
+            "state": "Cusco",
+            "county": "Urubamba",
+            "city": "Machu Picchu",
+            "street": "Avenida Hermanos Ayar",
+            "postalCode": "08681"
+        },
+        "position": { "lat": -13.15439, "lng": -72.52825 },
+        "access": [{ "lat": -13.15427, "lng": -72.5283 }],
+        "distance": 2067,
+        "categories": [
+            { "id": "100-1000-0000", "name": "Restaurante", "primary": true }
+        ],
+        "references": [
+            { "supplier": { "id": "tripadvisor" }, "id": "12333335" }
+        ],
+        "foodTypes": [
+            { "id": "407-000", "name": "Peruana", "primary": true },
+            { "id": "311-000", "name": "Española" },
+            { "id": "400-000", "name": "Sudamericana" },
+            { "id": "403-000", "name": "Latinoamericana" }
+        ],
+        "contacts": [
+            {
+                "phone": [{ "value": "+5114457828" }],
+                "www": [
+                    {
+                        "value": "https://www.machupicchuhotels-sumaq.com/restaurants.html"
+                    }
+                ]
+            }
+        ],
+        "openingHours": [
+            {
+                "text": ["lun.-dom.: 05:30 - 22:00"],
+                "isOpen": true,
+                "structured": [
+                    {
+                        "start": "T053000",
+                        "duration": "PT16H30M",
+                        "recurrence": "FREQ:DAILY;BYDAY:MO,TU,WE,TH,FR,SA,SU"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Allpa Restaurante",
+        "id": "here:pds:place:6046msmj-489a35f46a814b53aac9ea9eb8855e8e",
+        "language": "es",
+        "ontologyId": "here:cm:ontology:restaurant",
+        "resultType": "place",
+        "address": {
+            "label": "Allpa Restaurante, Avenida Hermanos Ayar, 08681 Machu Picchu, Perú",
+            "countryCode": "PER",
+            "countryName": "Perú",
+            "state": "Cusco",
+            "county": "Urubamba",
+            "city": "Machu Picchu",
+            "street": "Avenida Hermanos Ayar",
+            "postalCode": "08681"
+        },
+        "position": { "lat": -13.15439, "lng": -72.52825 },
+        "access": [{ "lat": -13.15427, "lng": -72.5283 }],
+        "distance": 2067,
+        "categories": [
+            { "id": "100-1000-0000", "name": "Restaurante", "primary": true },
+            { "id": "200-2000-0011", "name": "Bar o pub" }
+        ],
+        "references": [
+            { "supplier": { "id": "tripadvisor" }, "id": "6997942" }
+        ],
+        "foodTypes": [
+            { "id": "400-000", "name": "Sudamericana", "primary": true },
+            { "id": "407-000", "name": "Peruana" }
+        ],
+        "contacts": [{ "phone": [{ "value": "+5184603118" }] }],
+        "openingHours": [
+            {
+                "text": ["mar.-dom.: 12:00 - 15:00, 18:00 - 21:00"],
+                "isOpen": true,
+                "structured": [
+                    {
+                        "start": "T120000",
+                        "duration": "PT03H00M",
+                        "recurrence": "FREQ:DAILY;BYDAY:TU,WE,TH,FR,SA,SU"
+                    },
+                    {
+                        "start": "T180000",
+                        "duration": "PT03H00M",
+                        "recurrence": "FREQ:DAILY;BYDAY:TU,WE,TH,FR,SA,SU"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Unu -at Sumak",
+        "id": "here:pds:place:6046msmj-18e19145dd1217e2191b2983b5f1909f",
+        "language": "es",
+        "ontologyId": "here:cm:ontology:restaurant",
+        "resultType": "place",
+        "address": {
+            "label": "Unu -at Sumak, Avenida Hermanos Ayar, 08681 Machu Picchu, Perú",
+            "countryCode": "PER",
+            "countryName": "Perú",
+            "state": "Cusco",
+            "county": "Urubamba",
+            "city": "Machu Picchu",
+            "street": "Avenida Hermanos Ayar",
+            "postalCode": "08681"
+        },
+        "position": { "lat": -13.15439, "lng": -72.52825 },
+        "access": [{ "lat": -13.15427, "lng": -72.5283 }],
+        "distance": 2067,
+        "categories": [
+            { "id": "100-1000-0000", "name": "Restaurante", "primary": true }
+        ],
+        "foodTypes": [{ "id": "407-000", "name": "Peruana", "primary": true }]
+    }
+]
