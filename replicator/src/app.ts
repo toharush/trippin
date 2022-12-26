@@ -1,10 +1,7 @@
 import { TrippinReplicator } from "./replicators/trippinReplicator/trippingReplicator";
-import { closeBrowser, getBrowser } from "./utils/browser/browser";
-import { hereApi } from "./utils/api";
+import { getBrowser } from "./utils/browser/browser";
+import logger from "./utils/logger/logger";
 
 (async() => {
-        const replicator = new TrippinReplicator(await getBrowser(), await hereApi());
-        const res = await replicator.getInfo({q: 'restaurant', at: "-8.07994,54.3802",  limit: 1});
-        console.log(await res)
-        await closeBrowser();
+        new TrippinReplicator(await getBrowser(), {q: 'restaurant', at: "51.5045072,-0.1320145,17",  limit: 1}, logger);
 })()

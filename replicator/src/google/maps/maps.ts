@@ -1,51 +1,57 @@
-import { Browser, Page } from "puppeteer";
+import { Page } from "puppeteer";
 import { DiscoverResponse, GoogleScraper } from "../../utils/here-api/app";
-import { GoogleScraperInput } from "../../utils/webScraper/app";
+import { GoogleGenericScraper } from "../../utils/webScraper/app";
+import { Logger } from "winston";
 
 
-export const getMapsScraper = (Browser: Browser): GoogleScraperInput => {
-    return {
-        type: GoogleScraper.MAPS,
-        page: Browser.newPage(),
-        searchTags: {
-            byClass: [
-                {
+export class GoolgeMapsScraper extends GoogleGenericScraper {
+    constructor(page: Promise<Page>, logger: Logger) {
+        super({
+            type: GoogleScraper.MAPS,
+            page: page, 
+            searchTags: {
+                byClass: [{
                     key: "nikud",
                     value: ".fontDisplayLarge",
-                },
-            ],
-        },
-        _loadItemPage: loadItemPage,
-          filterData: (item: DiscoverResponse) => ({
-            ...item,
-            google: {
-                ...item.google,
-                [GoogleScraper.SEARCH]: {
-                    ...item.google?.[GoogleScraper.SEARCH],
-                    test: "test"
-                }
-            }        
-        })
+                }]
+            }
+        }, logger);
     }
-}
 
-const loadItemPage = async (page: Page, item: DiscoverResponse): Promise<boolean> => {
-    if (item.address?.label) {
-        try {
-            const searchInput = await page.waitForSelector("#searchboxinput");
-            await searchInput?.click({ clickCount: 3 });
-            await searchInput?.press("Backspace");
+    async loadItemPage<T>(item: T): Promise<boolean> {
+        const page = await this._page;
+        const label = (item as DiscoverResponse).address?.label;
+        if (label) {
+            try {
+                const searchInput = await page.waitForSelector("#searchboxinput");
+                await searchInput?.click({ clickCount: 3 });
+                await searchInput?.press("Backspace");
 
-            await searchInput?.click();
-            await searchInput?.type(item.address?.label);
-            await page.keyboard.press("Enter");
-            await page.waitForSelector(".fontDisplayLarge", { timeout: 5000 });
+                await searchInput?.click();
+                await searchInput?.type(label);
+                await page.keyboard.press("Enter");
+                await page.waitForSelector(".fontDisplayLarge", { timeout: 5000 });
+                // const data = await page.$$(".C7xf8b");
 
-            return true;
-        } catch {
+                // for (let i = 0; i < data.length; i++) {
+                //     const img = await data[i].$eval('div', el => el.getAttribute('jsinstance'));
+                //     const d = await data[i].$$('div');
+                //     for (let j = 0; j < d.length; j++) {
+                //         const img = await d[i].$eval('.g2BVhd.eoFzo', el => el.getAttribute('jsinstance'));
+                //         console.log(img)
+                //     }
+                //     console.log(img);
+                // }
+
+                // console.log(data) 
+
+                return true;
+            } catch (err){
+                this._logger.error(err);
+                return false;
+            }
+        } else {
             return false;
         }
-    } else {
-        return false;
     }
 }
