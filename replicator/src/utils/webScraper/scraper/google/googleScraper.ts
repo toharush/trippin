@@ -3,8 +3,8 @@ import { GenericScraper } from "../../scraper/genericScraper/genericScraper";
 import { GoogleScraper, GoogleScraperUrl } from "../../../here-api/app";
 import { SearchTags } from "../../app";
 import { Logger } from "winston";
-import { upsert_google } from "../../../../controllers/here";
-import { GoogleDatabaseInput } from "../../../../models/google";
+import { upsert_google } from "../../../../controllers/google";
+import { GoogleDatabase } from "../../../../interface/google";
 
 export interface GoogleScraperInput {
     browser: Browser;
@@ -26,7 +26,7 @@ export class GoogleGenericScraper extends GenericScraper {
         for(let index = 0; index < items.length; index++){
             if(this.loadItemPage && await this.loadItemPage(page, items[index])) {
                 const res = await this.pageSelector(page);
-                let obj: GoogleDatabaseInput = {
+                let obj: GoogleDatabase = {
                     placeId: items[index].id
                 }
                 await setTimeout(() => {}, 1000);

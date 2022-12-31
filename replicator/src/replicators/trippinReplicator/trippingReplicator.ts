@@ -2,7 +2,7 @@ import { GenericReplicator } from "../../utils/genericReplicator/genericReplicat
 import { DiscoverRequest, DiscoverResponse, HereApis } from "../../utils/here-api/app";
 import { hereApi } from "../../utils/api";
 import { Logger } from "winston";
-import { insert_place } from "../../controllers/here";
+import { insert_place } from "../../controllers/place";
 
 export class TrippinReplicator extends GenericReplicator {
     private _hereApi: HereApis;
