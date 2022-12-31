@@ -20,6 +20,7 @@ export interface DiscoverResponse {
     id: string;
     resultType: string;
     position: Position;
+    ontologyId?: string;
     language?: string;
     address?: Address;
     access?: Position[];
@@ -31,5 +32,6 @@ export interface DiscoverResponse {
     openingHours?: any[];
     payment?: Payment[];
     chain?: any[];
-    google?: GoogleResult
+    google?: GoogleResult;
+    data_version?: string;
 }

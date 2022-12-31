@@ -1,26 +1,22 @@
-import puppeteer, { Browser } from "puppeteer";
-import { getMapsScraper } from "../../google/maps/maps";
 import { GenericReplicator } from "../../utils/genericReplicator/genericReplicator";
-import { GoogleGenericScraper } from "../../utils/webScraper/app";
 import { DiscoverRequest, DiscoverResponse, HereApis } from "../../utils/here-api/app";
-import { getSearchScraper } from "../../google/search/search";
+import { hereApi } from "../../utils/api";
+import { Logger } from "winston";
+import { insert_place } from "../../controllers/place";
 
-export class TrippinReplicator implements GenericReplicator {
-    _googleMapsEngine: GoogleGenericScraper;
-    _googleSearchEngine: GoogleGenericScraper;
-    _browser: Browser;
-    _hereApi: HereApis;
+export class TrippinReplicator extends GenericReplicator {
+    private _hereApi: HereApis;
 
-    constructor(browser: Browser, hereApi: HereApis) {
-        this._browser = browser;
-        this._googleMapsEngine = new GoogleGenericScraper(getMapsScraper(this._browser));
-        this._googleSearchEngine = new GoogleGenericScraper(getSearchScraper(this._browser));
-        this._hereApi = hereApi;
+    constructor(options: DiscoverRequest[], logger: Logger, requiredParams: string[] = ['q']) {
+        super(logger);
+        this._hereApi = hereApi();
+        options.map(option => this.start(option, requiredParams))
     }
 
-    async getInfo(options: DiscoverRequest, requiredParams?: string[]): Promise<DiscoverResponse[]> {
-        let items = await this._hereApi.discover(options, requiredParams);
-        await Promise.all([this._googleMapsEngine.run(items), this._googleSearchEngine.run(items)]);
-        return items;
+    protected async start(options: DiscoverRequest, requiredParams: string[]): Promise<void> {
+        const items: DiscoverResponse[] = (await this._hereApi.discover(options, requiredParams));
+        for(let item of items) {
+            await insert_place(item);
+        }
     }
 }
