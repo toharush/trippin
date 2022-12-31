@@ -1,10 +1,7 @@
-import { Client, Pool } from 'pg';
+import { Pool } from 'pg';
 import dotenv from 'dotenv';
 
 dotenv.config();
-
-export const schema = process.env.DB_SCHEMA || 'public';
-
 export const enum QueryResult {
   FIELD_NOT_FOUND = -2,
   COLUMN_NOT_FOUND = -1
