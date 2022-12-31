@@ -1,34 +1,34 @@
-import { Page } from "puppeteer";
-import { DiscoverResponse, GoogleScraper, GoogleScraperUrl } from "../../../here-api/app";
+import { Browser, Page } from "puppeteer";
+import { GoogleScraper } from "../../../here-api/app";
 import { GoogleScraperInput, SearchTags } from "../../app";
-import { filterData } from "../../../here-api/utils/filterData/filterData";
 import { Logger } from "winston";
+import { EvaluateFunc } from "puppeteer";
 
-export abstract class GenericScraper extends filterData {
+export abstract class GenericScraper  {
     protected _type: GoogleScraper;
-    protected _page: Promise<Page>;
-    private _searchTags: SearchTags;
+    protected _browser: Browser;
     protected _logger: Logger;
+    private _searchTags: SearchTags;
 
     constructor(googleScraperMapsInput: GoogleScraperInput, logger: Logger) {
-        super();
         this._logger = logger;
         this._type = googleScraperMapsInput.type;
-        this._page = googleScraperMapsInput.page;
+        this._browser = googleScraperMapsInput.browser;
         this._searchTags = googleScraperMapsInput.searchTags;
     }
     
-    async loadItemPage?<T>(item: T): Promise<boolean>;
+    async loadItemPage?<T>(page: Page, item: T): Promise<boolean>;
 
-    abstract run?<T extends DiscoverResponse[]>(items: T): Promise<void>;
+    filterData<T>(item: T) {return {...item} }
 
-    async pageSelector(): Promise<any> {
-        const page = await this._page;
+    abstract run?<T extends any[]>(items: T): Promise<void>;
+
+    async pageSelector(page: Page): Promise<any> {
         return new Promise<any>(async(resolve, reject) => {
                 let res: any = {}
                 try {
                     for(let searchClass of this._searchTags.byClass ?? []) {
-                        res[searchClass.key] = await this.filterResByClass(searchClass.value, page);
+                        res[searchClass.key] = await this.filterResByClass(searchClass.value, page, searchClass.callback);
                     };
                 } catch (err) {
                     this._logger.error(err);
@@ -38,9 +38,9 @@ export abstract class GenericScraper extends filterData {
             });
     }
 
-    async filterResByClass(className: string, page: Page) {
+    async filterResByClass(className: string, page: Page, callback: EvaluateFunc<any> = (text: Element) => text.textContent) {
         try {
-            return await page.$eval(className, text => text.textContent);
+            return await page.$eval(className, callback);
         } catch (err) { 
             this._logger.error(err);
             return undefined;

@@ -1,24 +1,13 @@
-import { Browser } from "puppeteer";
-import { GoogleGenericScraper } from "../webScraper/app";
-import { DiscoverRequest, DiscoverResponse } from "../here-api/app";
-import { GoolgeMapsScraper } from "../../google/maps/maps";
-import { GoolgeSearchScraper } from "../../google/search/search";
-import { filterData } from "../here-api/utils/filterData/filterData";
+import { DiscoverRequest } from "../here-api/app";
 import { Logger } from "winston";
 
-export abstract class GenericReplicator extends filterData {
-    protected _googleMapsEngine: GoogleGenericScraper;
-    protected _googleSearchEngine: GoogleGenericScraper;
-    protected _browser: Browser;
+export abstract class GenericReplicator {
     protected _logger: Logger;
 
-    constructor(browser: Browser, logger: Logger){
-        super();
-        this._browser = browser;
+    constructor(logger: Logger){
         this._logger = logger;
-        this._googleMapsEngine = new GoolgeMapsScraper(this._browser.newPage(), this._logger);
-        this._googleSearchEngine = new GoolgeSearchScraper(this._browser.newPage(), this._logger);
     }
-    
+
+    filterData<T>(item: T) {return {...item} }
     protected abstract start(options: DiscoverRequest, requiredParams?: string[]): Promise<void>;
 }
