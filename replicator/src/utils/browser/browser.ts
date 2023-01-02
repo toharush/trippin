@@ -1,5 +1,3 @@
-import puppeteer, { Browser } from "puppeteer";
-let browser: Browser;
+import puppeteer from "puppeteer";
 
-export const getBrowser = async(headless: boolean = false) => browser ? browser : browser = await puppeteer.launch({ headless: headless, args: ["--disable-setuid-sandbox"], ignoreHTTPSErrors: true,});
-export const closeBrowser = async() => await browser.close();
+export const getBrowser = async(headless: boolean = false) => await puppeteer.launch({ headless: headless, args: ["--disable-setuid-sandbox"], ignoreHTTPSErrors: true });

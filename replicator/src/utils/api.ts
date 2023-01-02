@@ -2,9 +2,10 @@ import { HereApis } from '../utils/here-api/app';
 import dotenv from 'dotenv';
 
 dotenv.config();
-export const hereApi = (url?: string, apiKey?: string) => {
+
+export const hereApi = () => {
     return new HereApis({
-        apiKey: apiKey || process.env.HERE_API_KEY || '',
-        url: url || process.env.HERE_URL?.toString() || '',
+        apiKey:  process.env.HERE_API_KEY || '',
+        url: process.env.HERE_URL?.toString() || '',
     });
 };
