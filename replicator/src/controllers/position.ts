@@ -1,11 +1,15 @@
-import { insert_position, get_position_id as get_position_id_db } from "../models/position";
+import { get_position_id, upsert_position as upsert_position_db } from "../models/position";
 
-export const get_position_id = async(lat: number, lng: number): Promise<number> => {
-    const res = await get_position_id_db(lat, lng);
-
-    if(res < 0){
-        return await insert_position(lat, lng);
-    } 
-
-    return res;
+export const upsert_position = async(lat: number, lng: number): Promise<number> => {
+    const pos = await get_position_id({
+        lat: lat,
+        lng: lng
+    });
+    if(pos > 0) return pos;
+    else {
+        return await upsert_position_db({
+            lat: lat,
+            lng: lng
+        });
+    }
 }

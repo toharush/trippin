@@ -1,7 +1,6 @@
-export interface GoogleDatabase {
-    placeId: string;
+export interface Google {
+    place_id: string;
     rate?: number;
     spend?: string;
-    created_at?: Date;
     updated_at?: Date;
 }

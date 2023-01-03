@@ -5,13 +5,13 @@ CREATE TABLE IF NOT EXISTS ${schema}.${TABLES.ADDRESS}
 (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT ${increase} START ${start_value} MINVALUE ${min_value} MAXVALUE ${max_value} CACHE ${cache} ),
     label text COLLATE pg_catalog."default",
-    "countryCode" text COLLATE pg_catalog."default",
-    "countryName" text COLLATE pg_catalog."default",
+    "country_code" text COLLATE pg_catalog."default",
+    "country_name" text COLLATE pg_catalog."default",
     state text COLLATE pg_catalog."default",
     city text COLLATE pg_catalog."default",
     district text COLLATE pg_catalog."default",
     street text COLLATE pg_catalog."default",
-    "postalCode" text COLLATE pg_catalog."default",
+    "postal_code" text COLLATE pg_catalog."default",
     CONSTRAINT address_pkey PRIMARY KEY (id)
 )
 

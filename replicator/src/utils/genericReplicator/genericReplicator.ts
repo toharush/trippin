@@ -1,4 +1,4 @@
-import { DiscoverRequest } from "../here-api/app";
+import { HereRequest, DiscoverResponse } from "../here-api/app";
 import { Logger } from "winston";
 
 export abstract class GenericReplicator {
@@ -8,6 +8,6 @@ export abstract class GenericReplicator {
         this._logger = logger;
     }
 
-    filterData<T>(item: T) {return {...item} }
-    protected abstract start(options: DiscoverRequest, requiredParams?: string[]): Promise<void>;
+    protected filterData?(item: DiscoverResponse, options?: HereRequest) :Promise<DiscoverResponse> | DiscoverResponse;
+    protected abstract start(options: HereRequest, requiredParams?: string[]): Promise<void>;
 }

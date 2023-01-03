@@ -1,12 +1,18 @@
-import { get_address_id_by_label, insert_address } from "../models/address";
+import { Address } from "../interface/address";
+import { upsert_address } from "../models/address";
 
+export const get_address = async(label: string, countryCode: string | null, countryName: string | null, state: string | null, city: string | null, district: string | null, street: string | null, postalCode: string | null): Promise<number> => {
+    let address: Partial<Address> = {
+        label: label,
+    }
 
-export const get_address_id = async(label: string, countryCode: string | null, countryName: string | null, state: string | null, city: string | null, district: string | null, street: string | null, postalCode: string | null): Promise<number> => {
-    const res = await get_address_id_by_label(label);
+    if(countryCode) address.country_code = countryCode;
+    if(countryName) address.country_name = countryName;
+    if(state) address.state = state;
+    if(city) address.city = city;
+    if(district) address.district = district;
+    if(street) address.street = street;
+    if(postalCode) address.postal_code = postalCode;
 
-    if(res < 0){
-        return await insert_address(label, countryCode, countryName, state, city, district, street, postalCode);
-    } 
-
-    return res;
+    return await upsert_address(address);
 }

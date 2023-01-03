@@ -1,33 +1,32 @@
-import { DiscoverRequest, DiscoverResponse, GlobalOptions, buildReqUri } from '../../app';
-import axios from 'axios';
-import hash from "object-hash";
+import { HereRequest, DiscoverResponse, GlobalOptions, buildReqUri, RateLimitError } from '../../app';
+import axios, { AxiosError } from 'axios';
+import logger from '../../../logger/logger';
 
-export class discover {
+export class Discover {
     private _options: GlobalOptions;
     
     constructor(options: GlobalOptions) {
         this._options = options;
     }
 
-    async discover(
-        options: DiscoverRequest,
+    discover = async(
+        options: HereRequest,
         requiredParams: string[] = ['q']
-    ): Promise<DiscoverResponse[]> {
+    ): Promise<DiscoverResponse[]> => {
         try {
             const uri = `${buildReqUri(
+                'discover',
                 this._options,
                 options,
-                requiredParams,
-                '/v1/discover'
+                requiredParams
             )}`;
-            return await (await axios.get(uri)).data.items.map((item: DiscoverResponse) => ({
-                ...item,
-                id: `${item.id.substring(item.id.lastIndexOf(":") + 1)}:${options.q}`,
-                ontologyId: item.ontologyId?.substring(item.ontologyId?.lastIndexOf(":") + 1) || item.ontologyId || options.q,
-                data_version: hash.sha1(item)
-            }))
+            return await (await axios.get(uri)).data.items;
         } catch (err) {
-            throw err;
+            if ((err as AxiosError)?.isAxiosError && (err as AxiosError).response?.status == 429) {
+                throw new RateLimitError("Rate limit exeeded", 1000, 0, (new Date()).setDate(new Date().getDate()));
+            } 
+            logger.error(err);
+            return [];
         }
     }
 }

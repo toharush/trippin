@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 export const enum QueryResult {
+  EMPTY_PARAMS = -3,
   FIELD_NOT_FOUND = -2,
   COLUMN_NOT_FOUND = -1
 }

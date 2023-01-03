@@ -1,4 +1,4 @@
-export interface DiscoverRequest {
+export interface HereRequest {
     q: string;
     at?: string;
     in?: string;

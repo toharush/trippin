@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS ${schema}.${TABLES.CATEGORY}
 (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT ${increase} START ${start_value} MINVALUE ${min_value} MAXVALUE ${max_value} CACHE ${cache} ),
     name text COLLATE pg_catalog."default" NOT NULL,
+    is_primary boolean NOT NULL,
     CONSTRAINT category_pkey PRIMARY KEY (id)
 )
 

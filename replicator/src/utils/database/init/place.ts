@@ -8,23 +8,22 @@ CREATE TABLE IF NOT EXISTS ${schema}.${TABLES.PLACE}
     type text COLLATE pg_catalog."default" NOT NULL,
     open_hours jsonb,
     data_version text COLLATE pg_catalog."default" NOT NULL,
-    created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    "positionId" integer,
-    "categoryId" integer,
-    "addressId" integer,
+    "position_id" integer,
+    "category_id" integer,
+    "address_id" integer,
     CONSTRAINT place_pkey PRIMARY KEY (id),
-    CONSTRAINT "addressId" FOREIGN KEY ("addressId")
+    CONSTRAINT "address_id" FOREIGN KEY ("address_id")
         REFERENCES ${schema}.${TABLES.ADDRESS} (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
         NOT VALID,
-    CONSTRAINT "categoryId" FOREIGN KEY ("categoryId")
+    CONSTRAINT "category_id" FOREIGN KEY ("category_id")
         REFERENCES ${schema}.${TABLES.CATEGORY} (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
         NOT VALID,
-    CONSTRAINT "positionId" FOREIGN KEY ("positionId")
+    CONSTRAINT "position_id" FOREIGN KEY ("position_id")
         REFERENCES ${schema}.${TABLES.POSITION} (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION

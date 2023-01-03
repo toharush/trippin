@@ -1,6 +1,5 @@
 import { Browser, Page } from "puppeteer";
-import { DiscoverResponse, GoogleScraper } from "../../../utils/here-api/app";
-import { GoogleGenericScraper } from "../../../utils/webScraper/app";
+import { GoogleGenericScraper, GoogleScraper } from "../../../utils/webScraper/app";
 import { Logger } from "winston";
 
 export class GoolgeSearchScraper extends GoogleGenericScraper {

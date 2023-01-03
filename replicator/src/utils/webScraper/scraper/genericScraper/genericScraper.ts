@@ -1,5 +1,5 @@
 import { Browser, Page } from "puppeteer";
-import { GoogleScraper } from "../../../here-api/app";
+import { GoogleScraper } from "../interface/google";
 import { GoogleScraperInput, SearchTags } from "../../app";
 import { Logger } from "winston";
 import { EvaluateFunc } from "puppeteer";
@@ -19,11 +19,11 @@ export abstract class GenericScraper  {
     
     async loadItemPage?<T>(page: Page, item: T): Promise<boolean>;
 
-    filterData<T>(item: T) {return {...item} }
+    filterData?<T>(item: T): Promise<T> | T;
 
-    abstract run?<T extends any[]>(items: T): Promise<void>;
+    run?<T extends any[]>(items: T): Promise<void>;
 
-    async pageSelector(page: Page): Promise<any> {
+    pageSelector = async(page: Page): Promise<any> =>{
         return new Promise<any>(async(resolve, reject) => {
                 let res: any = {}
                 try {
@@ -38,7 +38,7 @@ export abstract class GenericScraper  {
             });
     }
 
-    async filterResByClass(className: string, page: Page, callback: EvaluateFunc<any> = (text: Element) => text.textContent) {
+    filterResByClass = async(className: string, page: Page, callback: EvaluateFunc<any> = (text: Element) => text.textContent) => {
         try {
             return await page.$eval(className, callback);
         } catch (err) { 

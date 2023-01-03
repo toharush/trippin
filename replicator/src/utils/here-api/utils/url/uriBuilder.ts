@@ -1,15 +1,13 @@
-import { DiscoverRequest, GlobalOptions } from '../../app';
+import { HereRequest, GlobalOptions, SerivceTypes } from '../../app';
 
 export const buildReqUri = (
+    service: SerivceTypes, 
     options: GlobalOptions,
-    req: DiscoverRequest,
+    req: Partial<HereRequest>,
     requiredParams: string[],
-    subPath: string = ''
 ): string => {
-    let uri = '';
+    let uri = `${options.url.replace('service', service)}/v1/${service}?`;
     let parsedObj = jsonParser(req);
-
-    uri += options.url + subPath + '?';
 
     requiredParams?.map((key) => {
         if (!parsedObj[key]) {

@@ -1,6 +1,6 @@
 export * from "./api/global/headers";
 
-export * from "./api/discover/request";
+export * from "./api/request/request";
 export * from "./api/discover/response";
 
 export * from "./general/address/address";
