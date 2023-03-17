@@ -16,7 +16,7 @@ export default function GridComponent() {
 
     return (
       <Box sx={{ flexGrow:1 }}>
-        <Grid container spacing={3}>
+        <Grid container>
           <Grid xs={4}>
             <SideBar></SideBar>
           </Grid>
