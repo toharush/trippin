@@ -2,6 +2,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
 import { makeStyles } from '@material-ui/core/styles';
 import SideBar from '../SideBar/SideBar';
+import Map from '../Map/Map';
 
 export default function GridComponent() {
 
@@ -20,6 +21,7 @@ export default function GridComponent() {
             <SideBar></SideBar>
           </Grid>
           <Grid xs={8}>
+            <Map></Map>
           </Grid>
         </Grid>
       </Box>
