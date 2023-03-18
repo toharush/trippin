@@ -21,7 +21,8 @@ return (
     {
         !isCategoryOpen && <KeyboardArrowRightIcon onClick={handleClick}></KeyboardArrowRightIcon>
     } 
-    {   isCategoryOpen && 
+    {   
+        isCategoryOpen && 
         <KeyboardArrowDownIcon onClick={handleClick}></KeyboardArrowDownIcon>     
     }       
     <text className={classes.title}>{title}</text>

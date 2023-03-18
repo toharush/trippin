@@ -4,23 +4,32 @@ import { useStyles } from './TravelsCategoryComponentStyle';
 import Dropdown from '../Dropdown/Dropdown';
 import CategoriesGallery from '../CategoriesGallery/CategoriesGallery';
 import { useState } from 'react';
+import ActivitiesGallery from '../ActivitiesGallery/ActivitiesGallery';
 
 
 export default function TravelsCategoryComponent() {
 
-const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
+const [isActivitiesOpen, setIsActivitiesOpen] = useState(false);
 
-const handleClick = () => {
-    setIsCategoryOpen(!isCategoryOpen);
-}    
+const handleCategoriesClick = () => {
+  setIsCategoriesOpen(!isCategoriesOpen);
+}   
+
+const handleActivitiesClick = () => {
+  setIsActivitiesOpen(!isActivitiesOpen);
+}
 
 const classes = useStyles();
-const title="Travel's Categories";
+const categoriesTitle="Travel's Categories";
+const activitiesTitle="Selected Activities";
 
   return (
     <Box>
-        <Dropdown handleClick={handleClick} isCategoryOpen={isCategoryOpen} title={title}></Dropdown>
-        { isCategoryOpen && <CategoriesGallery></CategoriesGallery> }
+      <Dropdown handleClick={handleCategoriesClick} isCategoryOpen={isCategoriesOpen} title={categoriesTitle}></Dropdown>
+      {isCategoriesOpen && <CategoriesGallery></CategoriesGallery> }
+      <Dropdown handleClick={handleActivitiesClick} isCategoryOpen={isActivitiesOpen} title={activitiesTitle}></Dropdown>
+        {isActivitiesOpen && <ActivitiesGallery></ActivitiesGallery>}
     </Box>
   );
 }

@@ -9,10 +9,11 @@ export const useStyles = makeStyles({
     login: {
       color:'#86EAF0',
       padding:'2%',
-      position:'relative'
+      position:'relative',
+      cursor: 'pointer',
     },
     icon: {
-      fontSize:'30'
+      fontSize:'30',
     },
     logo: {
       textAlign:'center',

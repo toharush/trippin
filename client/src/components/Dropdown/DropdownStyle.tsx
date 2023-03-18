@@ -4,7 +4,8 @@ export const useStyles = makeStyles({
     root: {
         color:"#86EAF0",
         position: "relative",
-        padding: "3%"
+        padding: "3%",
+        cursor: 'pointer',
     },
     title: {
         position:"absolute"
