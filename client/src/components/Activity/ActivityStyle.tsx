@@ -23,14 +23,17 @@ export const useStyles = makeStyles({
         paddingLeft: '3%',
         bottom: '0',
     },
-    icon: {
+    button: {
         position: 'absolute',
-        right: '2%',
-        top: '1%',
+        right: '2% !important',
+        top: '5% !important',
         backgroundColor: 'transparent',
         border: 'none',
         color: '#9d9a9a',
-        fontSize: '30',
         cursor: 'pointer',
+    },
+    icon: {
+        fontSize: '100% !important',
+
     }
 });
