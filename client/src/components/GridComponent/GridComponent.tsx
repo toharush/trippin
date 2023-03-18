@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 export default function GridComponent() {
 
-const [isActivitiesOpen, setIsActivitiesOpen] = useState(true);
+const [isActivitiesOpen, setIsActivitiesOpen] = useState(false);
 
 const handleClick = () => {
   setIsActivitiesOpen(!isActivitiesOpen);

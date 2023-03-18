@@ -15,6 +15,7 @@ export const useStyles = makeStyles({
         color:"#86EAF0",
         fontSize:"13px",
         position:"absolute",
+        marginTop:"13%",
         width:"5px"
     },
 });

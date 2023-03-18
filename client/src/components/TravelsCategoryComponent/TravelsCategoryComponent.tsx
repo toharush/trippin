@@ -5,22 +5,21 @@ import Dropdown from '../Dropdown/Dropdown';
 import CategoriesGallery from '../CategoriesGallery/CategoriesGallery';
 import { useState } from 'react';
 
-
 export default function TravelsCategoryComponent() {
 
-const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
 
-const handleClick = () => {
-    setIsCategoryOpen(!isCategoryOpen);
-}    
+const handleCategoriesClick = () => {
+  setIsCategoriesOpen(!isCategoriesOpen);
+}   
 
 const classes = useStyles();
-const title="Travel's Categories";
+const categoriesTitle="Travel's Categories";
 
   return (
     <Box>
-        <Dropdown handleClick={handleClick} isCategoryOpen={isCategoryOpen} title={title}></Dropdown>
-        { isCategoryOpen && <CategoriesGallery></CategoriesGallery> }
+      <Dropdown handleClick={handleCategoriesClick} isCategoryOpen={isCategoriesOpen} title={categoriesTitle}></Dropdown>
+      {isCategoriesOpen && <CategoriesGallery></CategoriesGallery> }
     </Box>
   );
 }

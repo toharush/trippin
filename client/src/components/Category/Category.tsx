@@ -47,7 +47,7 @@ const IconComponent = iconMapping[name];
     <Box className={classes.root}>
       <Grid container spacing={3}>
         <Grid xs={2} sm={1} md={2}>
-          <Stack spacing={3}>
+          <Stack spacing={4}>
             <div className={classes.icon}>{IconComponent}</div>
             <text className={classes.text}>{name}</text>
           </Stack>
