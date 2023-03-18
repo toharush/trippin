@@ -17,7 +17,7 @@ const handleClick = () => {
       <Box sx={{ flexGrow:1 }}>
         <Grid container>
           <Grid xs={4}>
-            <SideBar></SideBar>
+            <SideBar handleActivityClick={handleClick}></SideBar>
           </Grid>
           { isActivitiesOpen &&
             <Grid xs={3}>

@@ -6,7 +6,11 @@ import { useStyles } from './SideBarStyle';
 import TravelsCategoryComponent from '../TravelsCategoryComponent/TravelsCategoryComponent';
 import SelectedActivitiesComponent from '../SelectedActivitiesComponent/SelectedActivitiesComponent';
 
-export default function SideBar() {
+interface props {
+  handleActivityClick: () => void;
+}
+
+export default function SideBar({handleActivityClick}:props) {
 
 const classes = useStyles();
 
@@ -17,7 +21,7 @@ const classes = useStyles();
          <text className={classes.text}>Login</text>
       </Box>
       <TravelsCategoryComponent></TravelsCategoryComponent>
-      <SelectedActivitiesComponent></SelectedActivitiesComponent>
+      <SelectedActivitiesComponent handleActivityClick={handleActivityClick}></SelectedActivitiesComponent>
       <Box className={classes.logo}>
         <img src='logo.png' className={classes.img}></img>  
       </Box>

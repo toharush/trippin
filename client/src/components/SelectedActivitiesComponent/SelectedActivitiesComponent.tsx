@@ -5,13 +5,18 @@ import Dropdown from '../Dropdown/Dropdown';
 import { useState } from 'react';
 import ActivitiesGallery from '../ActivitiesGallery/ActivitiesGallery';
 
+interface props {
+    handleActivityClick: () => void;
+}
 
-export default function SelectedActivitiesComponent() {
+
+export default function SelectedActivitiesComponent({handleActivityClick}:props) {
 
     const [isActivitiesOpen, setIsActivitiesOpen] = useState(false);
 
     const handleActivitiesClick = () => {
         setIsActivitiesOpen(!isActivitiesOpen);
+        handleActivityClick();
     }
 
     const classes = useStyles();
