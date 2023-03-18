@@ -15,10 +15,11 @@ const handleClick = () => {
 }    
 
 const classes = useStyles();
+const title="Travel's Categories";
 
   return (
     <Box>
-        <Dropdown handleClick={handleClick} isCategoryOpen={isCategoryOpen}></Dropdown>
+        <Dropdown handleClick={handleClick} isCategoryOpen={isCategoryOpen} title={title}></Dropdown>
         { isCategoryOpen && <CategoriesGallery></CategoriesGallery> }
     </Box>
   );

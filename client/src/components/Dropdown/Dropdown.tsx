@@ -9,9 +9,10 @@ import CategoriesGallery from '../CategoriesGallery/CategoriesGallery';
 interface props {
     handleClick: () => void;
     isCategoryOpen: boolean;
+    title:string;
 }
 
-export default function Dropdown({handleClick,isCategoryOpen}:props) {
+export default function Dropdown({handleClick,isCategoryOpen,title}:props) {
 
 const classes = useStyles();
 
@@ -23,7 +24,7 @@ return (
     {   isCategoryOpen && 
         <KeyboardArrowDownIcon onClick={handleClick}></KeyboardArrowDownIcon>     
     }       
-    <text className={classes.title}>Travel's Categories</text>
+    <text className={classes.title}>{title}</text>
 </Box>
 
 );
