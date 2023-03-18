@@ -17,13 +17,13 @@ export default function Dropdown({handleClick,isCategoryOpen,title}:props) {
 const classes = useStyles();
 
 return (
-<Box className={classes.root}>
+<Box className={classes.root} onClick={handleClick}>
     {
-        !isCategoryOpen && <KeyboardArrowRightIcon onClick={handleClick}></KeyboardArrowRightIcon>
+        !isCategoryOpen && <KeyboardArrowRightIcon></KeyboardArrowRightIcon>
     } 
     {   
         isCategoryOpen && 
-        <KeyboardArrowDownIcon onClick={handleClick}></KeyboardArrowDownIcon>     
+        <KeyboardArrowDownIcon></KeyboardArrowDownIcon>     
     }       
     <text className={classes.title}>{title}</text>
 </Box>

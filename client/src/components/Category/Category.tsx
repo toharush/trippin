@@ -12,6 +12,7 @@ import Slider from '@mui/material/Slider';
 import { useStyles } from './CategoryStyle';
 import Grid from '@mui/system/Unstable_Grid/Grid';
 import { JSXElement } from '@babel/types';
+import { Stack } from '@mui/system';
 
 interface props {
   name: string
@@ -44,12 +45,14 @@ const IconComponent = iconMapping[name];
 
   return (
     <Box className={classes.root}>
-      <Grid container spacing={2}>
-        <Grid xs={2}>
-          <div className={classes.icon}>{IconComponent}</div>
-          <text className={classes.text}>{name}</text>
+      <Grid container spacing={3}>
+        <Grid xs={2} sm={1} md={2}>
+          <Stack spacing={4}>
+            <div className={classes.icon}>{IconComponent}</div>
+            <text className={classes.text}>{name}</text>
+          </Stack>
         </Grid>
-        <Grid xs={8}>
+        <Grid xs={8} sm={9} md={8}>
           <Slider
             aria-label="Temperature"
             defaultValue={5}

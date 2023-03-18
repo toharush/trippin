@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 export default function TravelsCategoryComponent() {
 
-const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
+const [isCategoriesOpen, setIsCategoriesOpen] = useState(true);
 
 const handleCategoriesClick = () => {
   setIsCategoriesOpen(!isCategoriesOpen);
