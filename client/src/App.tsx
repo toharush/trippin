@@ -1,10 +1,18 @@
-import React from 'react';
-import GridComponent from './components/GridComponent/GridComponent';
-import SideBar from './components/SideBar/SideBar';
+import { useEffect } from "react";
+import GridComponent from "./components/GridComponent/GridComponent";
+import { useActivities } from "./hooks";
 
 function App() {
+  const { fetchActivities } = useActivities();
+
+  useEffect(() => {
+    fetchActivities();
+  }, []);
+
   return (
-    <GridComponent></GridComponent>
+    <>
+      <GridComponent />
+    </>
   );
 }
 
