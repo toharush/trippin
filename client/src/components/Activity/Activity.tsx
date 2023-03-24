@@ -11,7 +11,7 @@ export default function Activity(activity: activity) {
     <Box className={classes.row}>
       <Grid container>
         <Grid xs={4}>
-          <img className={classes.img} src={activity?.imageUrl} alt=""></img>
+          <img className={classes.img} src={activity?.imageUrl} alt="" />
         </Grid>
         <Grid xs={8}>
           <p className={classes.text}>{activity.title}</p>
