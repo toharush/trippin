@@ -1,4 +1,4 @@
-import { schema, TABLES } from "../config";
+import { schema, TABLES, user } from "../config";
 
 export const create_extra_categories = `
 CREATE TABLE IF NOT EXISTS ${schema}.${TABLES.EXTRA_CATEGORIES}
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS ${schema}.${TABLES.EXTRA_CATEGORIES}
 TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS ${schema}.${TABLES.EXTRA_CATEGORIES}
-    OWNER to ${schema};
+    OWNER to ${user};
 `;
 
 export const drop_extra_categories = `DROP TABLE IF EXISTS ${schema}.${TABLES.EXTRA_CATEGORIES}`;

@@ -4,6 +4,7 @@ dotenv.config();
 
 export const schema = process.env.DB_SCHEMA || 'public';
 export const table = process.env.DB_TABLE || 'trippin';
+export const user = process.env.DB_USER || 'postgres';
 export const start_value = 1;
 export const min_value = 1;
 export const cache = 1;

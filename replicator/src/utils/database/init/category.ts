@@ -1,4 +1,13 @@
-import { cache, increase, max_value, min_value, start_value, schema, TABLES } from "../config";
+import {
+  cache,
+  increase,
+  max_value,
+  min_value,
+  start_value,
+  schema,
+  TABLES,
+  user,
+} from "../config";
 
 export const create_category = `
 CREATE TABLE IF NOT EXISTS ${schema}.${TABLES.CATEGORY}
@@ -11,7 +20,7 @@ CREATE TABLE IF NOT EXISTS ${schema}.${TABLES.CATEGORY}
 TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS ${schema}.${TABLES.CATEGORY}
-    OWNER to ${schema};
+    OWNER to ${user};
 `;
 
 export const drop_category = `DROP TABLE IF EXISTS ${schema}.${TABLES.CATEGORY}`;

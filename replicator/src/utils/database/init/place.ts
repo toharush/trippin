@@ -1,4 +1,4 @@
-import { schema, TABLES } from "../config";
+import { schema, TABLES, user } from "../config";
 
 export const create_place = `
 CREATE TABLE IF NOT EXISTS ${schema}.${TABLES.PLACE}
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS ${schema}.${TABLES.PLACE}
 TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS ${schema}.${TABLES.PLACE}
-    OWNER to ${schema};
+    OWNER to ${user};
 `;
 
 export const drop_place = `DROP TABLE IF EXISTS ${schema}.${TABLES.PLACE}`;

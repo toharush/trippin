@@ -1,22 +1,30 @@
 import { Box } from "@mui/system";
 import Grid from "@mui/system/Unstable_Grid/Grid";
-import { useStyles } from "./ActivityStyle";
 import ClearIcon from "@mui/icons-material/Clear";
 import { Activity as activity } from "../../interfaces";
+import "./Activity.css";
+import { useActivities } from "../../hooks";
 
 export default function Activity(activity: activity) {
-  const classes = useStyles();
+  const { addSelectedActivity } = useActivities();
+
+  const handleChangeSelectedActivities = () => {
+    addSelectedActivity(activity);
+  };
 
   return (
-    <Box className={classes.row}>
+    <Box className="row">
       <Grid container>
         <Grid xs={4}>
-          <img className={classes.img} src={activity?.imageUrl} alt="" />
+          <img className="img" src={activity?.imageUrl} alt="" />
         </Grid>
         <Grid xs={8}>
-          <p className={classes.text}>{activity.title}</p>
-          <button className={classes.button}>
-            <ClearIcon className={classes.icon} />
+          <button onClick={handleChangeSelectedActivities}>
+            {activity?.isSelected ? "Remove" : "Add"}
+          </button>
+          <p className="text">{activity.title}</p>
+          <button className="button">
+            <ClearIcon className="icon" />
           </button>
         </Grid>
       </Grid>

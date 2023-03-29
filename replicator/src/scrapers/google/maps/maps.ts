@@ -30,7 +30,7 @@ export class GoolgeMapsScraper extends GoogleGenericScraper {
                 await searchInput?.click();
                 await searchInput?.type(label);
                 await page.keyboard.press("Enter");
-                await page.waitForSelector(".fontDisplayLarge", { timeout: 5000 });
+                await page.waitForSelector(".fontDisplayLarge", { timeout: 20000 });
 
                 return true;
             } catch (err){

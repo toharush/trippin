@@ -28,7 +28,7 @@ export class GoolgeSearchScraper extends GoogleGenericScraper {
                 await searchInput?.click();
                 await searchInput?.type(label);
                 await page.keyboard.press('Enter');
-                await page.waitForSelector(".ffc9Ud", {timeout: 5000});
+                await page.waitForSelector(".ffc9Ud", {timeout: 20000});
 
                 return true;
             } catch (err) {

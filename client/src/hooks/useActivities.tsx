@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { Activity } from "../interfaces";
-import { isEmpty } from "lodash";
+import { isEmpty, union, uniqBy } from "lodash";
 import {
   fetchAllActivities,
   selectAllActivities,
@@ -18,7 +18,7 @@ const useActivities = () => {
     await dispatch(fetchAllActivities());
   };
 
-  const selectActivity = async (activity: Activity) => {
+  const addSelectedActivity = async (activity: Activity) => {
     await dispatch(setSelectedActivities([activity]));
   };
 
@@ -33,7 +33,7 @@ const useActivities = () => {
   return {
     activities,
     selectedActivities,
-    selectActivity,
+    addSelectedActivity,
     fetchActivities,
     searchActivity,
   };

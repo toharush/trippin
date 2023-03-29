@@ -1,4 +1,4 @@
-import { cache, increase, max_value, min_value, schema, start_value, TABLES } from "../config";
+import { cache, increase, max_value, min_value, schema, start_value, TABLES, user } from "../config";
 
 export const create_address = `
 CREATE TABLE IF NOT EXISTS ${schema}.${TABLES.ADDRESS}
@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS ${schema}.${TABLES.ADDRESS}
 TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS ${schema}.${TABLES.ADDRESS}
-    OWNER to ${schema};
+    OWNER to ${user};
 `;
 
 export const drop_address = `DROP TABLE IF EXISTS ${schema}.${TABLES.ADDRESS}`;

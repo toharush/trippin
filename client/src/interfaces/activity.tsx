@@ -9,4 +9,5 @@ export default interface Activity {
     address: any;
     position: any;
     imageUrl?: string;
+    isSelected?: boolean
 }

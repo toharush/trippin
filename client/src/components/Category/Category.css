@@ -1,0 +1,16 @@
+.category-root {
+  color: white;
+  position: relative;
+  margin-left: 9%;
+}
+.category-icon {
+  position: absolute;
+  margin-inline: 1%;
+}
+.category-name {
+  color: #86eaf0;
+  font-size: 13px;
+  position: absolute;
+  margin-top: 13%;
+  width: 5px;
+}

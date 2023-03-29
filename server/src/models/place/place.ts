@@ -18,6 +18,7 @@ const Place = new GraphQLObjectType({
             type: extraCategories,
             extensions: {
                 joinMonster: {
+                    ignoreAll: true,
                     sqlBatch: {
                         thisKey: 'place_id',
                         parentKey: 'id',
@@ -29,6 +30,7 @@ const Place = new GraphQLObjectType({
             type: category,
             extensions: {
                 joinMonster: {
+                    ignoreAll: true,
                     sqlBatch: {
                         thisKey: 'id',
                         parentKey: 'category_id',
@@ -40,6 +42,7 @@ const Place = new GraphQLObjectType({
             type: google,
             extensions: {
                 joinMonster: {
+                    ignoreAll: true,
                     sqlBatch: {
                         thisKey: 'place_id',
                         parentKey: 'id',
@@ -51,6 +54,7 @@ const Place = new GraphQLObjectType({
             type: address,
             extensions: {
                 joinMonster: {
+                    ignoreAll: true,
                     sqlBatch: {
                         thisKey: 'id',
                         parentKey: 'address_id',
@@ -62,6 +66,7 @@ const Place = new GraphQLObjectType({
             type: position,
             extensions: {
                 joinMonster: {
+                    ignoreAll: true,
                     sqlBatch: {
                         thisKey: 'id',
                         parentKey: 'position_id',

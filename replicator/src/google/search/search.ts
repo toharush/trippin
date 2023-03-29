@@ -39,7 +39,7 @@ const loadItemPage = async (page: Page, item: DiscoverResponse): Promise<boolean
             await searchInput?.click();
             await searchInput?.type(item.address.label);
             await page.keyboard.press('Enter');
-            await page.waitForSelector(".ffc9Ud", {timeout: 5000});
+            await page.waitForSelector(".ffc9Ud", {timeout: 20000});
             return true;
         } catch {
             return false;

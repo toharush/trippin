@@ -1,29 +1,26 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Unstable_Grid2';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { useStyles } from './SideBarStyle';
-import TravelsCategoryComponent from '../TravelsCategoryComponent/TravelsCategoryComponent';
-import SelectedActivitiesComponent from '../SelectedActivitiesComponent/SelectedActivitiesComponent';
+import Box from "@mui/material/Box";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import TravelsCategoryComponent from "../TravelsCategoryComponent/TravelsCategoryComponent";
+import SelectedActivitiesComponent from "../SelectedActivitiesComponent/SelectedActivitiesComponent";
+import "./SideBar.css";
 
 interface props {
   handleActivityClick: () => void;
 }
 
-export default function SideBar({handleActivityClick}:props) {
-
-const classes = useStyles();
-
+export default function SideBar({ handleActivityClick }: props) {
   return (
-    <Box className={classes.sidebar}>
-      <Box className={classes.login}>
-         <AccountCircleIcon className={classes.icon}></AccountCircleIcon>
-         <text className={classes.text}>Login</text>
+    <Box className="main-sidebar">
+      <Box className="sidebar-login">
+        <AccountCircleIcon className="sidebar-icon"></AccountCircleIcon>
+        <text className="sidebar-text">Login</text>
       </Box>
       <TravelsCategoryComponent></TravelsCategoryComponent>
-      <SelectedActivitiesComponent handleActivityClick={handleActivityClick}></SelectedActivitiesComponent>
-      <Box className={classes.logo}>
-        <img src='logo.png' className={classes.img}></img>  
+      <SelectedActivitiesComponent
+        handleActivityClick={handleActivityClick}
+      ></SelectedActivitiesComponent>
+      <Box className="sidebar-logo">
+        <img src="logo.png" className="sidebar-img"></img>
       </Box>
     </Box>
   );

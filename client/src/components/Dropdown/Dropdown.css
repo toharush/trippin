@@ -1,0 +1,9 @@
+.dropdown-root {
+  color: #86EAF0;
+  position: relative;
+  padding: 3%;
+  cursor: pointer;
+}
+.dropdown-title {
+  position: absolute;
+}

@@ -1,4 +1,4 @@
-import { schema, TABLES } from "../config";
+import { schema, TABLES, user } from "../config";
 
 export const create_google = `
 CREATE TABLE IF NOT EXISTS ${schema}.${TABLES.GOOGLE}
@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS ${schema}.${TABLES.GOOGLE}
 TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS ${schema}.${TABLES.GOOGLE}
-    OWNER to ${schema};
+    OWNER to ${user};
 `;
 
 export const drop_google = `DROP TABLE IF EXISTS ${schema}.${TABLES.GOOGLE}`;

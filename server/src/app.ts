@@ -15,11 +15,7 @@ import cors from 'cors';
 import { Client } from 'pg';
 
 const client = new Client({
-    host: '192.168.31.45',
-    port: 8888,
-    user: 'trippin',
-    password: 'Aa123456',
-    database: 'trippin',
+    connectionString: process.env.DATABASE_URL
 });
 client.connect();
 
