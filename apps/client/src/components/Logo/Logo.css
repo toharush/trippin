@@ -5,9 +5,7 @@
 }
 
 .sidebar-img {
-  width: 10%;
-  height: auto;
-  margin-left: 11.5%;
-  position: fixed;
-  bottom: 1px;
+  margin-top: -6px;
+  width: 45px;
+  height: 70px;
 }
