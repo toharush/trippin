@@ -1,0 +1,21 @@
+.category-root {
+  color: white;
+  position: relative;
+  width: 45%;
+  display: flex;
+  margin-left: 5%;
+  flex-direction: column;
+  flex-wrap: wrap;
+  padding-bottom: 5%;
+}
+.category-icon {
+  position: absolute;
+  margin-inline: 1%;
+}
+.category-name {
+  color: #86eaf0;
+  font-size: 13px;
+  position: absolute;
+  margin-top: 13%;
+  width: 5px;
+}

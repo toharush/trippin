@@ -1,0 +1,21 @@
+.main-sidebar {
+  background-color: #3e3e3e;
+  position: relative;
+  max-width: 33%;
+  min-width: 33%;
+  width: 33%;
+  min-height: 100vh;
+}
+
+.sidebar-icon {
+  font-size: 30;
+}
+
+.sidebar-text {
+  position: absolute;
+  margin-inline: 1%;
+}
+.sidebar-img {
+  width: 35%;
+  height: auto;
+}
