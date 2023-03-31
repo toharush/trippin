@@ -13,7 +13,10 @@
   overflow-y: scroll;
   scroll-behavior: smooth;
   position: absolute;
-  width: 100%;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {

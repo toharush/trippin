@@ -25,7 +25,7 @@ const SideBarContainer = () => {
               title="Selected Activities"
             />
             {isActivitiesOpen ? (
-              <ActivitiesGallery selectedActivities={selectedActivities} />
+              <ActivitiesGallery selectedActivities={selectedActivities} max={1} />
             ) : null}
             <Logo />
           </>
