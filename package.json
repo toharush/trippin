@@ -10,6 +10,8 @@
   "main": "index.js",
   "scripts": {
     "start": "npm run start --workspace=apps/client & npm run start --workspace=apps/server",
+    "start:server": "npm run start --workspace=apps/server",
+    "start:client": "npm run start --workspace=apps/client",
     "start:replicator": "npm run start --workspace=apps/replicator"
   },
   "author": "",
