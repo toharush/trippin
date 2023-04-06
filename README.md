@@ -1,4 +1,7 @@
 # trippin
+
+on the main path.
+
 trippin server
 ----
 ```
