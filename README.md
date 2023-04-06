@@ -1,12 +1,12 @@
 # trippin
 trippin server
 ----
-read server README additionally.
+$ npm i
+$ npm run start:server
 
 ```
-$ cd ./server
 $ npm i
-$ npm start || npm run start:dev || npm run start:debug
+$ npm start
 ```
 
 Here Docs
