@@ -1,0 +1,6 @@
+.categories-list {
+    margin-top: 3%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}

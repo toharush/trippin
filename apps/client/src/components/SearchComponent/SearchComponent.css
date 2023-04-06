@@ -1,0 +1,27 @@
+.conainer {
+  min-height: 100%;
+}
+.search {
+  width: 94%;
+  background-color: white;
+  border-radius: 8;
+  margin: 4% 0% 1% 3%;
+  position: relative;
+}
+.search input {
+  color: #282828;
+}
+
+.search
+  input
+  .muioutlinedinput-root
+  .mui-focused
+  .muioutlinedinput-notchedoutline {
+  border-color: #34d2eb;
+  border-width: 2px;
+}
+
+.result {
+  height: 93.5%;
+  width: 100%;
+}

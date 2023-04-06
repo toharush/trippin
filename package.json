@@ -1,0 +1,24 @@
+{
+  "name": "trippin",
+  "workspaces": [
+    "apps/server",
+    "apps/client",
+    "apps/replicator"
+  ],
+  "description": "trippin",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run start --workspace=apps/client & npm run start --workspace=apps/server",
+    "start:server": "npm run start --workspace=apps/server",
+    "start:client": "npm run start --workspace=apps/client",
+    "start:replicator": "npm run start --workspace=apps/replicator"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^18.15.11",
+    "graphql": "^15.8.0",
+    "react-perfect-scrollbar": "^1.5.8"
+  }
+}

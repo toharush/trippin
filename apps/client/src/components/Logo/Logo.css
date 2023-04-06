@@ -1,0 +1,11 @@
+.sidebar-logo {
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+}
+
+.sidebar-img {
+  margin-top: -6px;
+  width: 45px;
+  height: 70px;
+}
