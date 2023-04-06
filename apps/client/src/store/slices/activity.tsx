@@ -44,6 +44,12 @@ const stores = createSlice({
         state.loading = false;
       }
     );
+    builder.addCase(fetchAllActivities.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(fetchAllActivities.rejected, (state, action) => {
+      state.loading = false;
+    });
   },
 });
 

@@ -7,18 +7,22 @@ import Dropdown from "../../components/Dropdown/Dropdown";
 import ActivitiesGallery from "../../components/ActivitiesGallery/ActivitiesGallery";
 import { useActivities } from "../../hooks";
 import AppStepper from "../../components/Stepper/Stepper";
-
+import Loader from "../../components/loader/Loader";
 const SideBarContainer = () => {
   const { selectedActivities } = useActivities();
   const [isActivitiesOpen, setIsActivitiesOpen] = useState(false);
+  const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
 
   const stepper = [
     {
-      label: "test",
+      label: "Categories",
       component: (
         <>
           <AuthHeader />
-          <TravelsCategoryComponent />
+          <TravelsCategoryComponent
+            isCategoriesOpen={isCategoriesOpen}
+            setIsCategoriesOpen={() => setIsCategoriesOpen(!isCategoriesOpen)}
+          />
           <Dropdown
             handleClick={() => setIsActivitiesOpen(!isActivitiesOpen)}
             isCategoryOpen={isActivitiesOpen}
@@ -33,29 +37,6 @@ const SideBarContainer = () => {
         </>
       ),
     },
-    {
-      label: "test2",
-      component: (
-        <>
-          <AuthHeader />
-          <TravelsCategoryComponent />
-          <Dropdown
-            handleClick={() => setIsActivitiesOpen(!isActivitiesOpen)}
-            isCategoryOpen={isActivitiesOpen}
-            title="Selected Activities"
-          />
-          {isActivitiesOpen ? (
-            <ActivitiesGallery
-              selectedActivities={selectedActivities}
-              max={1}
-            />
-          ) : null}
-        </>
-      ),
-    },
-    {
-      label: "test2",
-    }
   ];
 
   return (
@@ -64,7 +45,7 @@ const SideBarContainer = () => {
         ChildComponent={
           <>
             {stepper[0].component}
-            <AppStepper labels={stepper.map(step => step.label)} />
+            <AppStepper labels={stepper.map((step) => step.label)} />
           </>
         }
       />
