@@ -10,4 +10,5 @@ export abstract class GenericReplicator {
 
     filterData<T>(item: T) {return {...item} }
     protected abstract start(options: DiscoverRequest, requiredParams?: string[]): Promise<void>;
+    protected abstract save(): Promise<void>;
 }

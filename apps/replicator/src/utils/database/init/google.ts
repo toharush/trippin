@@ -3,12 +3,13 @@ import { schema, TABLES, user } from "../config";
 export const create_google = `
 CREATE TABLE IF NOT EXISTS ${schema}.${TABLES.GOOGLE}
 (
-    "placeId" text COLLATE pg_catalog."default" NOT NULL,
+    "place_id" text COLLATE pg_catalog."default" NOT NULL,
     rate double precision,
     spend text COLLATE pg_catalog."default",
+    image_url text COLLATE pg_catalog."default",
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    CONSTRAINT "placeId" FOREIGN KEY ("placeId")
+    CONSTRAINT "place_id" FOREIGN KEY ("place_id")
         REFERENCES ${schema}.${TABLES.PLACE} (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION

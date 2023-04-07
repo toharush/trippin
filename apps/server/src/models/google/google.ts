@@ -6,6 +6,7 @@ const google = new GraphQLObjectType({
     fields: () => ({
         spend: { type: GraphQLString },
         rate: { type: GraphQLFloat },
+        image_url: { type: GraphQLString },
     }),
     extensions: {
         joinMonster: {

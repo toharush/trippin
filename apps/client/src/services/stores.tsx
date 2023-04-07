@@ -45,6 +45,7 @@ const getAllActivities = async () => {
       google {
         spend
         rate
+        image_url
       }
       open_hours {
         text
