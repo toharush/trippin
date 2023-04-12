@@ -43,7 +43,7 @@ export default function ActivitiesGallery({ selectedActivities, max }: props) {
             style={{
               width: "20%",
               margin: "auto",
-              textAlign: "center"
+              textAlign: "center",
             }}
           >
             <MoreHorizIcon />

@@ -13,7 +13,7 @@ const address = new GraphQLObjectType({
         city: { type: GraphQLString },
         district: { type: GraphQLString },
         street: { type: GraphQLString },
-        postal_code: { type: GraphQLInt },
+        postal_code: { type: GraphQLString },
         presets: {
             type: Presets,
             resolve: presets,

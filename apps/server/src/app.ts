@@ -15,7 +15,7 @@ import cors from 'cors';
 import { Client } from 'pg';
 
 const client = new Client({
-    connectionString: process.env.DATABASE_URL
+    connectionString: process.env.DATABASE_URL,
 });
 client.connect();
 
@@ -33,6 +33,7 @@ const QueryRoot = new GraphQLObjectType({
             type: GraphQLList(Place),
             resolve: (parent, args, context, resolveInfo) => {
                 return joinMonster.default(resolveInfo, {}, (sql: any) => {
+                    console.log(sql);
                     return client.query(sql);
                 });
             },

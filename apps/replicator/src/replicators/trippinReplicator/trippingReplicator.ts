@@ -19,4 +19,8 @@ export class TrippinReplicator extends GenericReplicator {
             await insert_place(item);
         }
     }
+
+    protected async save(): Promise<void> {
+        
+    }
 }

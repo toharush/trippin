@@ -17,16 +17,13 @@ const Presets = new GraphQLObjectType({
 
 export default Presets;
 
-export const presets = (address: any) => {
-    console.log(address);
-    return {
-        museums: address.id,
-        resturants: address.id,
-        sport: address.id,
-        shopping: address.id,
-        nature: address.id,
-        atractions: address.id,
-        night_life: address.id,
-        shows_Concerts: address.id,
-    };
-};
+export const presets = (address: any) => ({
+    museums: address.id,
+    resturants: address.id,
+    sport: address.id,
+    shopping: address.id,
+    nature: address.id,
+    atractions: address.id,
+    night_life: address.id,
+    shows_Concerts: address.id,
+});
