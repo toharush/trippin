@@ -31,9 +31,10 @@ export class GoolgePhotosScraper extends GoogleGenericScraper {
       let obj: GoogleDatabase = {
         place_id: item.id,
       };
-      const res = (await google.scrape(`${label}`))[1];
+      const res = await google.scrape(`${label}`);
       await setTimeout(() => {}, 1000);
-      res?.url && (obj.image_url = res.url);
+      res?.map((item) => !item.url.includes("fbsbx"));
+      res[0]?.url && (obj.image_url = res[0].url);
       await upsert_google(obj);
     }
   }

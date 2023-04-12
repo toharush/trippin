@@ -4,6 +4,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import { Activity as activity } from "../../../../../interfaces";
 import "./Activity.css";
 import { useActivities } from "../../hooks";
+import MissingPlaceImage from "../MissingPlaceImage/MissingPlaceImage";
 
 interface ActivityProps {
   activity: activity;
@@ -22,11 +23,15 @@ export default function Activity({ activity, isSelected }: ActivityProps) {
   return (
     <div className="max-h-400 md:max-h-none md:max-h-200 flex flex-row bg-white rounded-lg p-4 shadow-lg m-3">
       <div className="w-1/3">
-        <img
-          src={activity.google.image_url}
-          alt={activity.title}
-          className="h-full w-full object-cover rounded-lg"
-        />
+        {Boolean(activity?.google?.image_url) ? (
+          <img
+            src={activity.google.image_url}
+            alt={activity.title}
+            className="h-full w-full object-cover rounded-lg"
+          />
+        ) : (
+          <MissingPlaceImage label={activity.title} />
+        )}
       </div>
 
       <div className="flex flex-col justify-between ml-4 w-2/3">
