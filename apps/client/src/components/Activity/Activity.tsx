@@ -1,6 +1,3 @@
-import { Box } from "@mui/system";
-import Grid from "@mui/system/Unstable_Grid/Grid";
-import ClearIcon from "@mui/icons-material/Clear";
 import { Activity as activity } from "../../../../../interfaces";
 import "./Activity.css";
 import { useActivities } from "../../hooks";
