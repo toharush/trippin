@@ -33,7 +33,6 @@ const QueryRoot = new GraphQLObjectType({
             type: GraphQLList(Place),
             resolve: (parent, args, context, resolveInfo) => {
                 return joinMonster.default(resolveInfo, {}, (sql: any) => {
-                    console.log(sql);
                     return client.query(sql);
                 });
             },

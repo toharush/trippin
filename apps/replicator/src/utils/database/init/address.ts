@@ -21,7 +21,8 @@ CREATE TABLE IF NOT EXISTS ${schema}.${TABLES.ADDRESS}
     district text COLLATE pg_catalog."default",
     street text COLLATE pg_catalog."default",
     "postal_code" text COLLATE pg_catalog."default",
-    CONSTRAINT address_pkey PRIMARY KEY (id)
+    CONSTRAINT address_pkey PRIMARY KEY (id),
+    CONSTRAINT label_unique UNIQUE (label)
 )
 
 TABLESPACE pg_default;

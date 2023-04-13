@@ -2,7 +2,8 @@ import {
   get_places as get_places_db,
   get_place_by_id,
   get_place_count as get_place_count_db,
-  insert_place as insert_place_db,
+  upsert_place_db_props,
+  upsert_place_db,
 } from "../models/place";
 import hash from "object-hash";
 import { DiscoverResponse } from "../utils/here-api/app";
@@ -38,21 +39,18 @@ export const insert_place = async (item: DiscoverResponse) => {
         item.address.postalCode || null
       )
     : null;
-  let place = await get_place_by_id(item.id);
-
-  if (place < 0) {
-    place = await insert_place_db(
-      item.id,
-      item.title,
-      item.resultType,
-      item.openingHours ? JSON.stringify(item.openingHours) : null,
-      item.data_version || hash.sha1(item),
-      new Date(),
-      pos ? pos : null,
-      category ? category : null,
-      address
-    );
-  }
+  let place = await upsert_place_db({
+    id: item.id,
+    title: item.title,
+    type: item.resultType,
+    open_hours: item.openingHours ? JSON.stringify(item.openingHours) : null,
+    data_version: item.data_version || hash.sha1(item),
+    created_at: new Date(),
+    updated_at: new Date(),
+    position_id: pos ? pos : null,
+    category_id: category ? category : null,
+    address_id: address,
+  });
 
   for (let cat of item.categories ?? []) {
     set_categories(cat.name, item.id, cat.primary);

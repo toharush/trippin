@@ -2,13 +2,14 @@ import { QueryResult } from "../utils/database/client";
 import { schema, TABLES } from "../utils/database/config";
 import { query } from "./query";
 
-export const insert_categories = async (
+export const upsert_categories_db = async (
   place_id: string,
   category_id: number,
   primary: boolean
 ) => {
   return await query(
-    `INSERT INTO ${schema}.${TABLES.EXTRA_CATEGORIES}("place_id", "category_id", "primary") VALUES ($1, $2, $3)`,
+    `INSERT INTO ${schema}.${TABLES.EXTRA_CATEGORIES}("place_id", "category_id", "primary") VALUES ($1, $2, $3) 
+    ON CONFLICT ("place_id", "category_id") DO UPDATE SET "primary"=EXCLUDED."primary" RETURNING *`,
     [place_id, category_id, primary]
   );
 };

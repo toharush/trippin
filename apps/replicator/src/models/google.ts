@@ -3,7 +3,7 @@ import { QueryResult } from "../utils/database/client";
 import { schema, TABLES } from "../utils/database/config";
 import { GoogleDatabase } from "../interface/google";
 
-export const insert_google = async (googleDatabaseInput: GoogleDatabase) => {
+export const upsert_google_db = async (googleDatabaseInput: GoogleDatabase) => {
   googleDatabaseInput.created_at = new Date();
   googleDatabaseInput.updated_at = new Date();
 

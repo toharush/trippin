@@ -26,31 +26,40 @@ export const get_place_count = async (): Promise<number> => {
   }
   return QueryResult.COLUMN_NOT_FOUND;
 };
-
-export const insert_place = async (
-  id: string,
-  title: string,
-  type: string,
-  open_hours: any | null,
-  data_version: string,
-  created_at: Date,
-  position_id: number | null,
-  category_id: number | null,
-  address: number | null
-) => {
+export interface upsert_place_db_props {
+  id: string;
+  title: string;
+  type: string;
+  open_hours: any | null;
+  data_version: string;
+  created_at: Date;
+  updated_at: Date;
+  position_id: number | null;
+  category_id: number | null;
+  address_id: number | null;
+}
+export const upsert_place_db = async (props: upsert_place_db_props) => {
   return await (
     await query(
-      `INSERT INTO ${schema}.${TABLES.PLACE}(id, title, type, open_hours, data_version, created_at, updated_at, "position_id", "category_id", "address_id") VALUES ($1, $2, $3, $4, $5, $6, $6, $7, $8, $9) RETURNING id`,
+      `INSERT INTO ${schema}.${TABLES.PLACE}
+      (id, title, type, open_hours, data_version, created_at, updated_at, "position_id", "category_id", "address_id")
+       VALUES ($1, $2, $3, $4, $5, $6, $6, $7, $8, $9) 
+       ON CONFLICT ("id") 
+       DO UPDATE SET 
+       ${Object.keys(props)
+         .filter((key) => key != "id" && key != "created_at")
+         .map((key: string) => `${key}=EXCLUDED.${key} `)}
+       RETURNING id`,
       [
-        id,
-        title,
-        type,
-        open_hours,
-        data_version,
-        created_at,
-        position_id,
-        category_id,
-        address,
+        props.id,
+        props.title,
+        props.type,
+        props.open_hours,
+        props.data_version,
+        props.created_at,
+        props.position_id,
+        props.category_id,
+        props.address_id,
       ]
     )
   ).rows[0]?.id;

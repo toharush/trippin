@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { startTransition, useState } from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { useActivities } from "../../hooks";
@@ -18,8 +18,9 @@ export default function SearchComponent({ title }: props) {
 
   const handleChangeValue = (e: any) => {
     setValue(e.target.value);
-    setFilteredActivies(searchActivity(value));
-    console.log(filteredActivities);
+    startTransition(() => {
+      setFilteredActivies(searchActivity(value));
+    });
   };
 
   return (

@@ -2,10 +2,10 @@ import { QueryResult } from "../utils/database/client";
 import { schema, TABLES } from "../utils/database/config";
 import { query } from "./query";
 
-export const insert_category = async (name: string): Promise<number> => {
+export const upsert_category_db = async (name: string): Promise<number> => {
   return await (
     await query(
-      `INSERT INTO ${schema}.${TABLES.CATEGORY}(name) VALUES ($1) RETURNING id`,
+      `INSERT INTO ${schema}.${TABLES.CATEGORY}(name) VALUES ($1) ON CONFLICT (name) DO UPDATE SET name = EXCLUDED.name RETURNING *`,
       [name]
     )
   ).rows[0]?.id;

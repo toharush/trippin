@@ -2,7 +2,7 @@ import { QueryResult } from "../utils/database/client";
 import { schema, TABLES } from "../utils/database/config";
 import { query } from "./query";
 
-export const insert_address = async (
+export const upsert_address_db = async (
   label: string,
   country_code: string | null,
   country_name: string | null,
@@ -14,7 +14,9 @@ export const insert_address = async (
 ): Promise<number> => {
   return await (
     await query(
-      `INSERT INTO ${schema}.${TABLES.ADDRESS}(label, "country_code", "country_name", state, city, district, street, "postal_code") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id`,
+      `INSERT INTO ${schema}.${TABLES.ADDRESS}
+      (label, "country_code", "country_name", state, city, district, street, "postal_code") 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8) ON CONFLICT (label) DO UPDATE SET district=EXCLUDED.district RETURNING id`,
       [
         label,
         country_code,

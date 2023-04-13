@@ -1,11 +1,4 @@
-import { get_category_by_name, insert_category } from "../models/category";
+import { get_category_by_name, upsert_category_db } from "../models/category";
 
-export const get_category_id = async(name: string): Promise<number> => {
-    const res = await get_category_by_name(name);
-
-    if(res < 0){
-        return await insert_category(name);
-    } 
-
-    return res;
-}
+export const get_category_id = async (name: string): Promise<number> =>
+  await upsert_category_db(name);

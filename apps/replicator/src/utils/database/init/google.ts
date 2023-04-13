@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS ${schema}.${TABLES.GOOGLE}
     image_url text COLLATE pg_catalog."default",
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
+    CONSTRAINT gplace_pkey PRIMARY KEY ("place_id"),
     CONSTRAINT "place_id" FOREIGN KEY ("place_id")
         REFERENCES ${schema}.${TABLES.PLACE} (id) MATCH SIMPLE
         ON UPDATE NO ACTION

@@ -15,8 +15,6 @@ export default function Activity({ activity, isSelected }: ActivityProps) {
     setSelectActivity(activity);
   };
 
-  console.log(activity);
-
   return (
     <div className="max-h-400 md:max-h-none md:max-h-200 flex flex-row bg-white rounded-lg p-4 shadow-lg m-3">
       <div className="w-1/3">
