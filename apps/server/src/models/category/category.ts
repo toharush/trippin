@@ -1,7 +1,7 @@
 import { GraphQLObjectType, GraphQLString } from 'graphql';
 import { GraphQLBoolean, GraphQLInt } from 'graphql/type';
 
-const category = new GraphQLObjectType({
+const Category = new GraphQLObjectType({
     name: 'category',
     fields: () => ({
         id: { type: GraphQLInt },
@@ -16,4 +16,4 @@ const category = new GraphQLObjectType({
     },
 });
 
-export default category;
+export default Category;

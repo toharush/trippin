@@ -1,7 +1,7 @@
 import { GraphQLObjectType, GraphQLString } from 'graphql';
 import { GraphQLFloat } from 'graphql/type';
 
-const google = new GraphQLObjectType({
+const Google = new GraphQLObjectType({
     name: 'google',
     fields: () => ({
         spend: { type: GraphQLString },
@@ -16,4 +16,4 @@ const google = new GraphQLObjectType({
     },
 });
 
-export default google;
+export default Google;
