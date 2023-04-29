@@ -1,6 +1,6 @@
 import { GraphQLObjectType, GraphQLFloat } from 'graphql';
 
-const position = new GraphQLObjectType({
+const Position = new GraphQLObjectType({
     name: 'position',
     fields: () => ({
         id: { type: GraphQLFloat },
@@ -15,4 +15,4 @@ const position = new GraphQLObjectType({
     },
 });
 
-export default position;
+export default Position;

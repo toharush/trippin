@@ -2,7 +2,7 @@ import { GraphQLObjectType, GraphQLString } from 'graphql';
 import { GraphQLInt } from 'graphql/type';
 import Presets, { presets } from './presets';
 
-const address = new GraphQLObjectType({
+const Address = new GraphQLObjectType({
     name: 'address',
     fields: () => ({
         id: { type: GraphQLInt },
@@ -33,4 +33,4 @@ const address = new GraphQLObjectType({
     },
 });
 
-export default address;
+export default Address;
