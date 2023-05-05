@@ -13,7 +13,7 @@ export enum GoogleScraper {
 }
 
 export const GoogleScraperUrl  = {
-    [GoogleScraper.MAPS]: "https://maps.google.com",
+    [GoogleScraper.MAPS]: "https://google.com/maps/search",
     [GoogleScraper.SEARCH]: "https://google.com",
     [GoogleScraper.PHOTOS]: "https://google.com/imghp"
 }

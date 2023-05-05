@@ -18,7 +18,13 @@ export class GoogleGenericScraper extends GenericScraper {
   }
 
   async run(
-    items: { id: string; address_id: number; label: string }[]
+    items: {
+      id: string;
+      address_id: number;
+      label: string;
+      lng: number;
+      lat: number;
+    }[]
   ): Promise<void> {
     this._logger.info(
       `stating to replicate (${items.length} items in ${this._type} mode)`

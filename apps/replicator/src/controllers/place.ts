@@ -13,13 +13,11 @@ import { set_categories } from "./extra_categories";
 import { get_position_id } from "./position";
 
 export const get_places = async (limit: number, offset: number = 0) => {
-  const res = await get_places_db(limit, limit * offset);
-  return res;
+  return await get_places_db(limit, limit * offset);
 };
 
 export const get_place_count = async () => {
-  const res = await get_place_count_db();
-  return res;
+  return await get_place_count_db();
 };
 
 export const insert_place = async (item: DiscoverResponse) => {

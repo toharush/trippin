@@ -44,9 +44,25 @@ const QueryRoot = new GraphQLObjectType({
             },
             extensions: {
                 joinMonster: {
-                    where: (placeTable, args, context) => {
-                        return `${placeTable}.id = ${args.id}`;
-                    },
+                    where: (placeTable, args, context) =>
+                        `${placeTable}.id = ${args.id}`,
+                },
+            },
+            resolve: (parent, args, context, resolveInfo) => {
+                return joinMonster.default(resolveInfo, {}, (sql: any) => {
+                    return client.query(sql);
+                });
+            },
+        },
+        placeByTitle: {
+            type: Place,
+            args: {
+                title: { type: new GraphQLNonNull(GraphQLString) },
+            },
+            extensions: {
+                joinMonster: {
+                    where: (placeTable, args, context) =>
+                        `${placeTable}.title = ${args.title}`,
                 },
             },
             resolve: (parent, args, context, resolveInfo) => {
@@ -63,7 +79,7 @@ app.use(
     '/api/v1',
     graphqlHTTP({
         schema: schema,
-        graphiql: false,
+        graphiql: true,
     })
 );
 app.use('/api/v1', mainRouter);

@@ -1,14 +1,23 @@
 import { QueryResult } from "../utils/database/client";
 import { schema, TABLES } from "../utils/database/config";
+import { Position } from "../utils/here-api/app";
 import { query } from "./query";
 
 export const get_places = async (
   limit: number,
   offset: number
-): Promise<{ id: string; address_id: number; label: string }[]> => {
+): Promise<{
+  id: string;
+  address_id: number;
+  label: string;
+  lat: number;
+  lng: number;
+}[]> => {
   return await (
     await query(
-      `SELECT id, "address_id", (SELECT "label" FROM ${schema}.${TABLES.ADDRESS} WHERE address."id" = "address_id") as label 
+      `SELECT id, "address_id", (SELECT "label" FROM ${schema}.${TABLES.ADDRESS} WHERE address."id" = "address_id") as label,
+      (SELECT "lat" FROM ${schema}.${TABLES.POSITION} WHERE position."id" = "position_id") as lat,
+      (SELECT "lng" FROM ${schema}.${TABLES.POSITION} WHERE position."id" = "position_id") as lng 
     FROM ${schema}.${TABLES.PLACE} ORDER BY place."updated_at" LIMIT $1 OFFSET $2;`,
       [limit, offset]
     )
