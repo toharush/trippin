@@ -7,4 +7,10 @@ export interface MarkerPoint {
     location: [number, number];
     icon?: Icon;
     component: any;
+    data: any;
+}
+
+export enum Types {
+    "popup",
+    "marker"
 }
