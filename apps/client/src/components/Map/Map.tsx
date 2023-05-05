@@ -1,7 +1,14 @@
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  LayersControl,
+} from "react-leaflet";
 import { Icon } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "./Map.css";
+import FloatingCategories from "../../container/FloatingCategories/FloatingCategories";
 
 export default function Map() {
   const startPosition: [number, number] = [51.50853, -0.12574];
@@ -17,7 +24,8 @@ export default function Map() {
     <MapContainer
       center={startPosition}
       zoom={6}
-      scrollWheelZoom={true}
+      scrollWheelZoom={false}
+      zoomControl={false}
       style={{
         width: "67%",
       }}
@@ -26,6 +34,11 @@ export default function Map() {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright"> OpenStreetMap </a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
+
+      <LayersControl>
+        <FloatingCategories />
+      </LayersControl>
+
       <Marker position={startPosition} icon={blackIcon}>
         <Popup>{startPositionName}</Popup>
       </Marker>

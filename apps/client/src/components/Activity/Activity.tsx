@@ -34,7 +34,7 @@ export default function Activity({ activity, isSelected }: ActivityProps) {
       <div className="flex flex-col justify-between ml-4 w-2/3">
         <div>
           <h2 className="text-xl font-semibold">{activity.title}</h2>
-          <p className="text-gray-500 mt-2">{activity.type}</p>
+          <p className="text-gray-500 mt-2">{activity.category?.name}</p>
         </div>
 
         <button

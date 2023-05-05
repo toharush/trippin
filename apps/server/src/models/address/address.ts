@@ -1,5 +1,6 @@
 import { GraphQLObjectType, GraphQLString } from 'graphql';
 import { GraphQLInt } from 'graphql/type';
+import { schema, TABLES } from '../../../../../utils';
 import Presets, { presets } from './presets';
 
 const Address = new GraphQLObjectType({
@@ -27,7 +28,7 @@ const Address = new GraphQLObjectType({
     }),
     extensions: {
         joinMonster: {
-            sqlTable: 'address',
+            sqlTable: `${schema}.${TABLES.ADDRESS}`,
             uniqueKey: 'id',
         },
     },

@@ -5,12 +5,18 @@ import { fetchAllActivities } from "../middlewares";
 interface ActivityState {
   activities: Activity[] | null;
   selectedActivities: Activity[];
+  filters: {
+    category: string | null;
+  };
   loading: boolean;
 }
 
 const initialState: ActivityState = {
   activities: null,
   selectedActivities: [],
+  filters: {
+    category: null,
+  },
   loading: false,
 };
 
@@ -35,6 +41,13 @@ const stores = createSlice({
         state.activities = [...state.activities!, action.payload];
       }
     },
+    setCatehoryFilter: (state, action: PayloadAction<string | null>) => ({
+      ...state,
+      filters: {
+        ...state.filters,
+        category: action.payload
+      }
+    })
   },
   extraReducers: (builder) => {
     builder.addCase(
@@ -53,5 +66,5 @@ const stores = createSlice({
   },
 });
 
-export const { setSelectedActivities } = stores.actions;
+export const { setSelectedActivities, setCatehoryFilter } = stores.actions;
 export default stores.reducer;
