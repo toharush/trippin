@@ -53,7 +53,11 @@ const useActivities = () => {
   };
 
   const setFilter = async (filter: string) => {
-    await dispatch(setCatehoryFilter(filter));
+    let newFilter = null;
+    if(filter !== filters.category) {
+      newFilter = filter;
+    }
+    await dispatch(setCatehoryFilter(newFilter));
     await search();
   };
 

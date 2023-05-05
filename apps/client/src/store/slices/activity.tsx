@@ -41,7 +41,7 @@ const stores = createSlice({
         state.activities = [...state.activities!, action.payload];
       }
     },
-    setCatehoryFilter: (state, action: PayloadAction<string>) => ({
+    setCatehoryFilter: (state, action: PayloadAction<string | null>) => ({
       ...state,
       filters: {
         ...state.filters,

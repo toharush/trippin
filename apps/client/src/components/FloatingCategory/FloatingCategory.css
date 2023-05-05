@@ -1,9 +1,9 @@
 .floatingCategory {
-  width: 100px !important;
+  /* width: 100px !important; */
   height: 35px !important;
   margin-left: 10px !important;
 }
 
 .selectedFloatingCategory {
-    background-color: blue !important;
+    background-color: #86EAF0 !important;
 }
