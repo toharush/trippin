@@ -16,13 +16,6 @@ import { AddMarkerPoint, RemoveMarkerPoint } from "../store/slices/map";
 const useMapDrawer = () => {
   const dispatch = useAppDispatch();
 
-  const markerIconPng = require("./bluePin.png");
-  const blueIcon = new Icon({
-    iconUrl: markerIconPng,
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-  });
-
   const markers = useSelector(selectMarkerPoints);
   const addMarker = async (markerPoint: MarkerPoint) => {
     await dispatch(AddMarkerPoint(markerPoint));
@@ -31,26 +24,9 @@ const useMapDrawer = () => {
     await dispatch(RemoveMarkerPoint(id));
   };
 
-  const addMarkerPoint = (obj: {
-    id: string;
-    type: "popup" | "marker";
-    name: string;
-    location: [number, number];
-    icon?: Icon;
-  }) => {
-    const newObj = {
-      ...obj,
-      component:
-        obj.type === "popup" ? (
-          <Marker position={obj.location} icon={blueIcon}>
-            <Popup>{obj.name}</Popup>
-          </Marker>
-        ) : (
-          <Marker position={obj.location} icon={blueIcon}></Marker>
-        ),
-    };
+  const addMarkerPoint = (obj: MarkerPoint) => {
     // @ts-ignore
-    addMarker(newObj);
+    addMarker(obj);
   };
   const removeMarkerPoint = (id: string) => {
     removeMarker(id);
