@@ -14,23 +14,8 @@ import useMapDrawer from "../../hooks/useMapDrawer";
 import { useActivities } from "../../hooks";
 
 export default function Map() {
-  const { selectedActivities } = useActivities();
   const { markers, addMarkerPoint } = useMapDrawer();
   const startPosition: [number, number] = [51.50853, -0.12574];
-
-  useEffect(() => {
-    selectedActivities?.map((selectedActivity) =>
-      addMarkerPoint({
-        id: selectedActivity.id,
-        name: selectedActivity.title,
-        location: [
-          selectedActivity.position.lat,
-          selectedActivity.position.lng,
-        ],
-        type: "popup",
-      })
-    );
-  }, [selectedActivities]);
 
   const markerIconPng = require("./bluePin.png");
   const blackIcon = new Icon({
