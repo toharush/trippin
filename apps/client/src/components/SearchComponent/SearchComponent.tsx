@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { useActivities } from "../../hooks";
@@ -10,17 +10,21 @@ interface props {
   title: string;
 }
 export default function SearchComponent({ title }: props) {
-  const [value, setValue] = useState("");
-  const [filteredActivities, setFilteredActivies] = useState<
-    activity[] | undefined
-  >([]);
-  const { searchActivity } = useActivities();
+  const value = useRef<HTMLInputElement>(null)
+  const {
+    searchActivity,
+    searchResults,
+    filters,
+    selectedActivities,
+  } = useActivities();
 
-  const handleChangeValue = (e: any) => {
-    setValue(e.target.value);
-    setFilteredActivies(searchActivity(value));
-    console.log(filteredActivities);
-  };
+  const handleSearch = () => {
+    searchActivity(value?.current?.value);
+  }
+
+  useEffect(() => {
+    handleSearch();
+  }, [filters, value.current?.value, selectedActivities]);
 
   return (
     <>
@@ -43,12 +47,12 @@ export default function SearchComponent({ title }: props) {
           type="text"
           aria-label="Filter projects"
           placeholder="Filter projects..."
-          value={value}
-          onChange={handleChangeValue}
+          ref={value}
+          onChange={handleSearch}
         />
       </form>
       <div className="result scroller">
-        {filteredActivities?.map((activity) => (
+        {searchResults?.map((activity) => (
           <Activity activity={activity} />
         ))}
       </div>

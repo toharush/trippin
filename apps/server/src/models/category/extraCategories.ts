@@ -1,5 +1,6 @@
 import { GraphQLObjectType, GraphQLString } from 'graphql';
 import { GraphQLList, GraphQLInt } from 'graphql/type';
+import { schema, TABLES } from '../../../../../utils';
 import category from './category';
 
 const extraCategories = new GraphQLObjectType({
@@ -21,7 +22,7 @@ const extraCategories = new GraphQLObjectType({
     }),
     extensions: {
         joinMonster: {
-            sqlTable: 'extra_categories',
+            sqlTable: `${schema}.${TABLES.EXTRA_CATEGORIES}`,
             uniqueKey: ['place_id', 'category_id'],
         },
     },

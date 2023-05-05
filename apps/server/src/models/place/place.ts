@@ -1,5 +1,6 @@
 import { GraphQLObjectType, GraphQLString } from 'graphql';
 import { GraphQLList } from 'graphql/type';
+import { schema, TABLES } from '../../../../../utils';
 import address from '../address/address';
 import category from '../category/category';
 import extraCategories from '../category/extraCategories';
@@ -18,7 +19,7 @@ const Place = new GraphQLObjectType({
             type: extraCategories,
             extensions: {
                 joinMonster: {
-                    ignoreAll: true,
+                    ignoreAll: false,
                     sqlBatch: {
                         thisKey: 'place_id',
                         parentKey: 'id',
@@ -76,7 +77,7 @@ const Place = new GraphQLObjectType({
     }),
     extensions: {
         joinMonster: {
-            sqlTable: 'place',
+            sqlTable: `${schema}.${TABLES.PLACE}`,
             uniqueKey: 'id',
         },
     },

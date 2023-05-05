@@ -1,4 +1,5 @@
 import { GraphQLObjectType, GraphQLFloat } from 'graphql';
+import { schema, TABLES } from '../../../../../utils';
 
 const Position = new GraphQLObjectType({
     name: 'position',
@@ -9,7 +10,7 @@ const Position = new GraphQLObjectType({
     }),
     extensions: {
         joinMonster: {
-            sqlTable: 'position',
+            sqlTable: `${schema}.${TABLES.POSITION}`,
             uniqueKey: 'id',
         },
     },

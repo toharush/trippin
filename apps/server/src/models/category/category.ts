@@ -1,5 +1,6 @@
 import { GraphQLObjectType, GraphQLString } from 'graphql';
 import { GraphQLBoolean, GraphQLInt } from 'graphql/type';
+import { schema, TABLES } from '../../../../../utils';
 
 const Category = new GraphQLObjectType({
     name: 'category',
@@ -10,7 +11,7 @@ const Category = new GraphQLObjectType({
     }),
     extensions: {
         joinMonster: {
-            sqlTable: 'category',
+            sqlTable: `${schema}.${TABLES.CATEGORY}`,
             uniqueKey: 'id',
         },
     },
