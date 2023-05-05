@@ -4,7 +4,7 @@ import "./FloatingCategories.css";
 
 const FloatingCategories = () => {
   const { setFilter, filters } = useActivities();
-  const categories = ["restaurant", "bar"];
+  const categories = ["restaurant", "bar", "museums","night club"];
 
   return (
     <div className="categoryControl">

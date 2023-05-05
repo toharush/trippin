@@ -43,7 +43,10 @@ const useActivities = () => {
       val = activities?.filter(
         (activity) =>
           selectedActivities.filter((act) => act.id != activity.id) &&
-          activity.category?.name?.includes(filters.category) &&
+          (isEmpty(filters.category) ||
+            activity.category?.name
+              ?.toLowerCase()
+              .includes(filters.category)) &&
           activity.title.toUpperCase().includes(searchString.toUpperCase())
       );
     }
@@ -54,7 +57,7 @@ const useActivities = () => {
 
   const setFilter = async (filter: string) => {
     let newFilter = null;
-    if(filter !== filters.category) {
+    if (filter !== filters.category) {
       newFilter = filter;
     }
     await dispatch(setCatehoryFilter(newFilter));
