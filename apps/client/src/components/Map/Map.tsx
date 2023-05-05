@@ -8,7 +8,6 @@ import {
 import { Icon } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "./Map.css";
-import FloatingCategory from "../FloatingCategory/FloatingCategory";
 import FloatingCategories from "../../container/FloatingCategories/FloatingCategories";
 
 export default function Map() {

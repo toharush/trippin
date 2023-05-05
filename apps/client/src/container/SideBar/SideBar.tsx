@@ -7,8 +7,7 @@ import Dropdown from "../../components/Dropdown/Dropdown";
 import ActivitiesGallery from "../../components/ActivitiesGallery/ActivitiesGallery";
 import { useActivities } from "../../hooks";
 import AppStepper from "../../components/Stepper/Stepper";
-import Loader from "../../components/loader/Loader";
-import FloatingCategory from "../../components/FloatingCategory/FloatingCategory";
+
 const SideBarContainer = () => {
   const { selectedActivities } = useActivities();
   const [isActivitiesOpen, setIsActivitiesOpen] = useState(false);

@@ -1,8 +1,5 @@
 import { useRef, useEffect } from "react";
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
 import { useActivities } from "../../hooks";
-import { Activity as activity } from "../../../../../interfaces";
 import Activity from "../Activity/Activity";
 import "./SearchComponent.css";
 
