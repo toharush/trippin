@@ -52,7 +52,6 @@ const useActivities = () => {
     }
     // @ts-ignore
     await setSearchResults(val);
-    console.log(filters.category);
   };
 
   const setFilter = async (filter: string) => {
