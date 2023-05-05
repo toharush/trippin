@@ -9,10 +9,14 @@ interface ActivityProps {
 }
 
 export default function Activity({ activity, isSelected }: ActivityProps) {
-  const { setSelectActivity } = useActivities();
+  const { addSelectedActivity, removeSelectedActivity } = useActivities();
 
-  const handleChangeSelectedActivities = () => {
-    setSelectActivity(activity);
+  const handleAddSelectedActivity = () => {
+    addSelectedActivity(activity);
+  };
+
+  const handleRemoveSelectedActivity = () => {
+    removeSelectedActivity(activity);
   };
 
   console.log(activity);
@@ -39,7 +43,11 @@ export default function Activity({ activity, isSelected }: ActivityProps) {
 
         <button
           className="bg-main text-white font-bold py-2 px-4 rounded"
-          onClick={handleChangeSelectedActivities}
+          onClick={
+            isSelected
+              ? handleRemoveSelectedActivity
+              : handleAddSelectedActivity
+          }
         >
           {isSelected ? `Remove` : `Add`}
         </button>

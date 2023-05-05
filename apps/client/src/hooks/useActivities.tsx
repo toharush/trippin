@@ -14,11 +14,9 @@ import {
 } from "../store/slices/activity";
 import { useState } from "react";
 import useMapDrawer from "./useMapDrawer";
-import { RemoveMarkerPoint } from "../store/slices/map";
 
 const useActivities = () => {
-
-  const { addMarkerPoint } = useMapDrawer();
+  const { addMarkerPoint, removeMarkerPoint } = useMapDrawer();
   const dispatch = useAppDispatch();
   const selectedActivities = useSelector(selectSelectedActivities);
   const activities = useSelector(selectAllActivities);
@@ -30,13 +28,18 @@ const useActivities = () => {
     await dispatch(fetchAllActivities());
   };
 
-  const setSelectActivity = async (activity: Activity) => {
-    if (activities?.find(act => act.id !== activity.id)) {
-      await RemoveMarkerPoint(activity.id);
-    }
-    else {
-      await addMarkerPoint({ id: activity.id, type: "popup", name: activity.title, location: [activity.position.lat, activity.position.lng] })
-    }
+  const removeSelectedActivity = async (activity: Activity) => {
+    await removeMarkerPoint(activity.id);
+    await dispatch(setSelectedActivities(activity));
+  };
+
+  const addSelectedActivity = async (activity: Activity) => {
+    await addMarkerPoint({
+      id: activity.id,
+      type: "popup",
+      name: activity.title,
+      location: [activity.position.lat, activity.position.lng],
+    });
     await dispatch(setSelectedActivities(activity));
   };
 
@@ -76,7 +79,8 @@ const useActivities = () => {
   return {
     activities,
     selectedActivities,
-    setSelectActivity,
+    addSelectedActivity,
+    removeSelectedActivity,
     fetchActivities,
     searchActivity,
     setFilter,
