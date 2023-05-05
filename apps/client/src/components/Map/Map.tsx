@@ -8,11 +8,30 @@ import {
 import { Icon } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "./Map.css";
+import { useEffect } from "react";
 import FloatingCategories from "../../container/FloatingCategories/FloatingCategories";
+import useMapDrawer from "../../hooks/useMapDrawer";
+import { useActivities } from "../../hooks";
 
 export default function Map() {
+  const { selectedActivities } = useActivities();
+  const { markers, addMarkerPoint } = useMapDrawer();
   const startPosition: [number, number] = [51.50853, -0.12574];
-  const startPositionName = "London";
+
+  useEffect(() => {
+    selectedActivities?.map((selectedActivity) =>
+      addMarkerPoint({
+        id: selectedActivity.id,
+        name: selectedActivity.title,
+        location: [
+          selectedActivity.position.lat,
+          selectedActivity.position.lng,
+        ],
+        type: "popup",
+      })
+    );
+  }, [selectedActivities]);
+
   const markerIconPng = require("./bluePin.png");
   const blackIcon = new Icon({
     iconUrl: markerIconPng,
@@ -25,7 +44,7 @@ export default function Map() {
       center={startPosition}
       zoom={6}
       scrollWheelZoom={false}
-      zoomControl={false}
+      zoomControl={true}
       style={{
         width: "67%",
       }}
@@ -39,9 +58,7 @@ export default function Map() {
         <FloatingCategories />
       </LayersControl>
 
-      <Marker position={startPosition} icon={blackIcon}>
-        <Popup>{startPositionName}</Popup>
-      </Marker>
+      <div className="findMe">{markers.map((mark) => mark.component)}</div>
     </MapContainer>
   );
 }
