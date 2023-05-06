@@ -35,7 +35,7 @@ const MapItem = (props: MarkerPointProps) => {
       case EntityTypes.activity:
         return (
           <Popup>
-            <Activity activity={markerPoint.data} minimized={true} />
+            <Activity activity={markerPoint.data} minimized={true} isSelected={true} />
           </Popup>
         );
     }
