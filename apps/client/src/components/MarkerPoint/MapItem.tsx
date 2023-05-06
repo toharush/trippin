@@ -29,14 +29,15 @@ const MapItem = (props: MarkerPointProps) => {
   const getIcon = () => {};
 
   const getComponet = () => {
-    if (markerPoint.type === EntityTypes.popup) {
-      return <Popup>{markerPoint.name}</Popup>;
-    } else if (markerPoint.type === EntityTypes.activity) {
-      return (
-        <Popup>
-          <Activity activity={markerPoint.data} minimized={true} />
-        </Popup>
-      );
+    switch (markerPoint.type) {
+      case EntityTypes.popup:
+        return <Popup>{markerPoint.name}</Popup>;
+      case EntityTypes.activity:
+        return (
+          <Popup>
+            <Activity activity={markerPoint.data} minimized={true} />
+          </Popup>
+        );
     }
   };
 
