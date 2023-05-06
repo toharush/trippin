@@ -18,5 +18,5 @@ import logger from "./utils/logger/logger";
         new TrippinReplicator([{q: 'bar', at: "33.6,-92.665",  limit: 100},
                                 {q: 'place', at: "33.6,-92.665",  limit: 100},
                                 {q: 'restaurant', at: "33.6,-92.665",  limit: 100}], logger);
-        new GoogleScraper(await getBrowser(), logger, 10)
+        new GoogleScraper(await getBrowser(true), logger, 10)
 })();

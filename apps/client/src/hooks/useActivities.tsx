@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { Activity } from "../../../../interfaces";
+import { Activity, EntityTypes } from "../interfaces";
 import { isEmpty } from "lodash";
 import {
   fetchAllActivities,
@@ -13,8 +13,10 @@ import {
   setSelectedActivities,
 } from "../store/slices/activity";
 import { useState } from "react";
+import useMapDrawer from "./useMapDrawer";
 
 const useActivities = () => {
+  const { addMarkerPoint, removeMarkerPoint } = useMapDrawer();
   const dispatch = useAppDispatch();
   const selectedActivities = useSelector(selectSelectedActivities);
   const activities = useSelector(selectAllActivities);
@@ -26,7 +28,19 @@ const useActivities = () => {
     await dispatch(fetchAllActivities());
   };
 
-  const setSelectActivity = async (activity: Activity) => {
+  const removeSelectedActivity = async (activity: Activity) => {
+    await removeMarkerPoint(activity.id);
+    await dispatch(setSelectedActivities(activity));
+  };
+
+  const addSelectedActivity = async (activity: Activity) => {
+    await addMarkerPoint({
+      id: activity.id,
+      type: EntityTypes.activity,
+      name: activity.title,
+      location: [activity.position?.lat, activity.position?.lng],
+      data: activity,
+    });
     await dispatch(setSelectedActivities(activity));
   };
 
@@ -66,7 +80,8 @@ const useActivities = () => {
   return {
     activities,
     selectedActivities,
-    setSelectActivity,
+    addSelectedActivity,
+    removeSelectedActivity,
     fetchActivities,
     searchActivity,
     setFilter,

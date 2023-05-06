@@ -7,48 +7,34 @@ import {
   LayersControl,
 } from "react-leaflet";
 import { Icon } from "leaflet";
+import { MarkerPoint } from "../../../../interfaces/markerPoint";
+import { useSelector } from "react-redux";
+import { selectMarkerPoints } from "../store/selectors/map";
+import { useAppDispatch } from "../store";
+import { AddMarkerPoint, RemoveMarkerPoint } from "../store/slices/map";
 
 const useMapDrawer = () => {
-  const markerIconPng = require("./bluePin.png");
-  const blackIcon = new Icon({
-    iconUrl: markerIconPng,
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-  });
-  const [markers, setMarker] = useState<
-    {
-      id: string;
-      name: string;
-      type: "popup" | "marker";
-      location: [number, number];
-      icon?: Icon;
-      component: any;
-    }[]
-  >([]);
-  const addMarkerPoint = (obj: {
-    id: string;
-    type: "popup" | "marker";
-    name: string;
-    location: [number, number];
-    icon?: Icon;
-  }) => {
-    const newObj = {
-      ...obj,
-      component:
-        obj.type === "popup" ? (
-          <Marker position={obj.location} icon={blackIcon}>
-            <Popup>{obj.name}</Popup>
-          </Marker>
-        ) : (
-          <Marker position={obj.location} icon={blackIcon}></Marker>
-        ),
-    };
+  const dispatch = useAppDispatch();
+
+  const markers = useSelector(selectMarkerPoints);
+  const addMarker = async (markerPoint: MarkerPoint) => {
+    await dispatch(AddMarkerPoint(markerPoint));
+  };
+  const removeMarker = async (id: string) => {
+    await dispatch(RemoveMarkerPoint(id));
+  };
+
+  const addMarkerPoint = (obj: MarkerPoint) => {
     // @ts-ignore
-    setMarker([...markers, newObj]);
+    addMarker(obj);
+  };
+  const removeMarkerPoint = (id: string) => {
+    removeMarker(id);
   };
   return {
     markers,
     addMarkerPoint,
+    removeMarkerPoint,
   };
 };
 

@@ -16,6 +16,7 @@ const SideBarContainer = () => {
   const [isActivitiesOpen, setIsActivitiesOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
 
+
   const stepper = [
     {
       label: "Categories",
