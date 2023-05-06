@@ -36,7 +36,7 @@ const useActivities = () => {
   const addSelectedActivity = async (activity: Activity) => {
     await addMarkerPoint({
       id: activity.id,
-      type: EntityTypes.popup,
+      type: EntityTypes.activity,
       name: activity.title,
       location: [activity.position?.lat, activity.position?.lng],
       data: activity,

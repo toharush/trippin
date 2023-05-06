@@ -6,9 +6,10 @@ import MissingPlaceImage from "../MissingPlaceImage/MissingPlaceImage";
 interface ActivityProps {
   activity: activity;
   isSelected?: boolean;
+  minimized?: boolean;
 }
 
-export default function Activity({ activity, isSelected }: ActivityProps) {
+export default function Activity({ activity, isSelected, minimized }: ActivityProps) {
   const { addSelectedActivity, removeSelectedActivity } = useActivities();
 
   const handleAddSelectedActivity = () => {
@@ -19,10 +20,8 @@ export default function Activity({ activity, isSelected }: ActivityProps) {
     removeSelectedActivity(activity);
   };
 
-  console.log(activity);
-
   return (
-    <div className="max-h-400 md:max-h-none md:max-h-200 flex flex-row bg-white rounded-lg p-4 shadow-lg m-3">
+    <div className={minimized ? "max-h-400 md:max-h-none md:max-h-200 flex flex-row" : "max-h-400 md:max-h-none md:max-h-200 flex flex-row bg-white rounded-lg p-4 shadow-lg m-3"}>
       <div className="w-1/3">
         {Boolean(activity?.google?.image_url) ? (
           <img
@@ -40,17 +39,18 @@ export default function Activity({ activity, isSelected }: ActivityProps) {
           <h2 className="text-xl font-semibold">{activity.title}</h2>
           <p className="text-gray-500 mt-2">{activity.category?.name}</p>
         </div>
-
-        <button
-          className="bg-main text-white font-bold py-2 px-4 rounded"
-          onClick={
-            isSelected
-              ? handleRemoveSelectedActivity
-              : handleAddSelectedActivity
-          }
-        >
-          {isSelected ? `Remove` : `Add`}
-        </button>
+        {minimized ?? (
+          <button
+            className="bg-main text-white font-bold py-2 px-4 rounded"
+            onClick={
+              isSelected
+                ? handleRemoveSelectedActivity
+                : handleAddSelectedActivity
+            }
+          >
+            {isSelected ? `Remove` : `Add`}
+          </button>
+        )}
       </div>
     </div>
   );

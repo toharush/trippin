@@ -3,6 +3,7 @@ import { Icon } from "leaflet";
 export enum EntityTypes {
   "popup",
   "marker",
+  "activity"
 }
 
 export interface MarkerPoint {

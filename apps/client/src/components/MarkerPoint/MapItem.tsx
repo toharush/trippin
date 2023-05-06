@@ -9,6 +9,7 @@ import { Icon } from "leaflet";
 import { useState } from "react";
 import { EntityTypes, MarkerPoint } from "../../interfaces";
 import { useEffect } from "react";
+import Activity from "../Activity/Activity";
 
 const markerIconPng = require("./bluePin.png");
 
@@ -25,19 +26,23 @@ const MapItem = (props: MarkerPointProps) => {
   const [comp, setComp] = useState<any>();
   const [icon, setIcon] = useState<any>(blueIcon);
   const { markerPoint } = props;
-  const getIcon = () => {
-    
-  };
+  const getIcon = () => {};
 
   const getComponet = () => {
     if (markerPoint.type === EntityTypes.popup) {
-      setComp(<Popup>{markerPoint.name}</Popup>);
+      return <Popup>{markerPoint.name}</Popup>;
+    } else if (markerPoint.type === EntityTypes.activity) {
+      return (
+        <Popup>
+          <Activity activity={markerPoint.data} minimized={true} />
+        </Popup>
+      );
     }
   };
 
   useEffect(() => {
     getIcon();
-    getComponet();
+    setComp(getComponet());
   }, [markerPoint]);
 
   return (
