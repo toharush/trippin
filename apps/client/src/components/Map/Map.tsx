@@ -7,12 +7,12 @@ import MapItem from "../MarkerPoint/MapItem";
 
 export default function Map() {
   const { markers } = useMapDrawer();
-  const startPosition: [number, number] = [51.50853, -0.12574];
+  const startPosition: [number, number] = [37.53044, -95.65938];
 
   return (
     <MapContainer
       center={startPosition}
-      zoom={6}
+      zoom={4}
       scrollWheelZoom={false}
       zoomControl={true}
       style={{

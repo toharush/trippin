@@ -1,12 +1,3 @@
-import { useState } from "react";
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  LayersControl,
-} from "react-leaflet";
-import { Icon } from "leaflet";
 import { MarkerPoint } from "../../../../interfaces/markerPoint";
 import { useSelector } from "react-redux";
 import { selectMarkerPoints } from "../store/selectors/map";
