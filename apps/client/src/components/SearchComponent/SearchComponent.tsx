@@ -1,13 +1,17 @@
-import { useRef, useEffect } from "react";
-import { useActivities } from "../../hooks";
+import { useRef, useEffect, Ref, ForwardedRef } from "react";
+import { useActivities, useDestinations } from "../../hooks";
 import Activity from "../Activity/Activity";
+import Destination from "../Destination/Destination";
 import "./SearchComponent.css";
 
 interface props {
   title: string;
+  searchingDests: boolean;
+  handleSearch: ()=> void;
+  searchResultsDests: any[];
+  value: React.RefObject<HTMLInputElement>;
 }
-export default function SearchComponent({ title }: props) {
-  const value = useRef<HTMLInputElement>(null)
+export default function SearchComponent({ title,searchingDests,handleSearch, searchResultsDests, value}: props) {
   const {
     searchActivity,
     searchResults,
@@ -15,12 +19,12 @@ export default function SearchComponent({ title }: props) {
     selectedActivities,
   } = useActivities();
 
-  const handleSearch = () => {
+  const handleActivitySearch = () => {
     searchActivity(value?.current?.value);
   }
 
   useEffect(() => {
-    handleSearch();
+    handleActivitySearch();
   }, [filters, value.current?.value, selectedActivities]);
 
   return (
@@ -43,16 +47,19 @@ export default function SearchComponent({ title }: props) {
           className="focus:ring-2 focus:ring-blue-500 focus:outline-none appearance-none w-full text-sm leading-6 text-slate-900 placeholder-slate-400 rounded-md py-2 pl-10 ring-1 ring-slate-200 shadow-sm"
           type="text"
           aria-label="Filter projects"
-          placeholder="Filter projects..."
+          placeholder={title}
           ref={value}
-          onChange={handleSearch}
+          onChange={!searchingDests ? handleActivitySearch : handleSearch}
         />
       </form>
+      {! searchingDests ? 
       <div className="result scroller">
         {searchResults?.map((activity) => (
           <Activity activity={activity} />
         ))}
-      </div>
+      </div> :
+       <div>{searchResultsDests.map((dest)=>(<Destination position={dest?.location} name={dest?.name}></Destination>))}</div>
+      }
     </>
   );
 }
