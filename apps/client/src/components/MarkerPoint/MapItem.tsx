@@ -1,32 +1,46 @@
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  LayersControl,
-} from "react-leaflet";
-import { Icon } from "leaflet";
+import { Marker, Popup } from "react-leaflet";
+import { Icon, PointTuple, IconOptions } from "leaflet";
 import { useState } from "react";
 import { EntityTypes, MarkerPoint } from "../../interfaces";
 import { useEffect } from "react";
 import Activity from "../Activity/Activity";
 
-const markerIconPng = require("./bluePin.png");
+const basicPin = require("./pins/basic.png");
+const restaurantPin = require("./pins/restaurant.png");
+const barPin = require("./pins/bar.png");
 
-export const blueIcon = new Icon({
-  iconUrl: markerIconPng,
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-});
+const iconSize: PointTuple = [25, 41];
+const iconAnchor: PointTuple = [12, 41];
 
 interface MarkerPointProps {
   markerPoint: MarkerPoint;
 }
 const MapItem = (props: MarkerPointProps) => {
-  const [comp, setComp] = useState<any>();
-  const [icon, setIcon] = useState<any>(blueIcon);
   const { markerPoint } = props;
-  const getIcon = () => {};
+  const [comp, setComp] = useState<JSX.Element>();
+  const [icon, setIcon] = useState<IconOptions>({
+    iconUrl: basicPin,
+    iconSize: iconSize,
+    iconAnchor: iconAnchor,
+  });
+
+  const getIcon = (): IconOptions => {
+    switch (markerPoint.type) {
+      case EntityTypes.activity: {
+        let newIconOptions: IconOptions = icon;
+        if (markerPoint.data.category.name.toLowerCase().includes("bar")) {
+          newIconOptions.iconUrl = barPin;
+        } else if (
+          markerPoint.data.category.name.toLowerCase().includes("restaurant")
+        ) {
+          newIconOptions.iconUrl = restaurantPin;
+        }
+        return newIconOptions;
+      }
+      default:
+        return icon;
+    }
+  };
 
   const getComponet = () => {
     switch (markerPoint.type) {
@@ -35,19 +49,23 @@ const MapItem = (props: MarkerPointProps) => {
       case EntityTypes.activity:
         return (
           <Popup>
-            <Activity activity={markerPoint.data} minimized={true} isSelected={true} />
+            <Activity
+              activity={markerPoint.data}
+              minimized={true}
+              isSelected={true}
+            />
           </Popup>
         );
     }
   };
 
   useEffect(() => {
-    getIcon();
+    setIcon(getIcon());
     setComp(getComponet());
   }, [markerPoint]);
 
   return (
-    <Marker position={markerPoint.location} icon={icon}>
+    <Marker position={markerPoint.location} icon={new Icon(icon)}>
       {comp}
     </Marker>
   );
