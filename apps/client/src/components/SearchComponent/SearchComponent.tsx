@@ -3,16 +3,22 @@ import { useActivities, useDestinations } from "../../hooks";
 import Activity from "../Activity/Activity";
 import Destination from "../Destination/Destination";
 import "./SearchComponent.css";
-import List from '@mui/material/List';
+import List from "@mui/material/List";
 
 interface props {
   title: string;
   searchingDests: boolean;
-  handleSearch: ()=> void;
+  handleSearch: () => void;
   searchResultsDests: any[];
   value: React.RefObject<HTMLInputElement>;
 }
-export default function SearchComponent({ title,searchingDests,handleSearch, searchResultsDests, value}: props) {
+export default function SearchComponent({
+  title,
+  searchingDests,
+  handleSearch,
+  searchResultsDests,
+  value,
+}: props) {
   const {
     searchActivity,
     searchResults,
@@ -22,7 +28,7 @@ export default function SearchComponent({ title,searchingDests,handleSearch, sea
 
   const handleActivitySearch = () => {
     searchActivity(value?.current?.value);
-  }
+  };
 
   useEffect(() => {
     handleActivitySearch();
@@ -53,14 +59,26 @@ export default function SearchComponent({ title,searchingDests,handleSearch, sea
           onChange={!searchingDests ? handleActivitySearch : handleSearch}
         />
       </form>
-      {! searchingDests ? 
-      <div className="result scroller">
-        {searchResults?.map((activity) => (
-          <Activity activity={activity} />
-        ))}
-      </div> :
-       <List id="list" dense sx={{ width: '100%', overflow:'auto', maxHeight:300}}>{searchResultsDests.map((dest)=>(<Destination position={dest?.location} name={dest?.name}></Destination>))}</List>
-      }
+      {!searchingDests ? (
+        <div className="result scroller">
+          {searchResults?.map((activity) => (
+            <Activity activity={activity} />
+          ))}
+        </div>
+      ) : (
+        <List
+          id="list"
+          dense
+          sx={{ width: "100%", overflow: "auto", maxHeight: 300 }}
+        >
+          {searchResultsDests.map((dest) => (
+            <Destination
+              position={dest?.location}
+              name={dest?.name}
+            ></Destination>
+          ))}
+        </List>
+      )}
     </>
   );
 }

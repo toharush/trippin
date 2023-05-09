@@ -3,11 +3,19 @@ import { MarkerPoint } from "../../interfaces";
 
 interface MapState {
   markerPoints: MarkerPoint[];
+  flyTo: {
+    latlng: [number, number];
+    zoom: number;
+  };
   loading: boolean;
 }
 
 const initialState: MapState = {
   markerPoints: [],
+  flyTo: {
+    latlng: [56.6, 56.8],
+    zoom: 4,
+  },
   loading: false,
 };
 
@@ -27,8 +35,15 @@ const stores = createSlice({
         ),
       };
     },
+    SetFlyTo: (
+      state,
+      action: PayloadAction<{
+        latlng: [number, number];
+        zoom: number;
+      }>
+    ) => ({ ...state, flyTo: action.payload }),
   },
 });
 
-export const { AddMarkerPoint, RemoveMarkerPoint } = stores.actions;
+export const { AddMarkerPoint, RemoveMarkerPoint, SetFlyTo } = stores.actions;
 export default stores.reducer;

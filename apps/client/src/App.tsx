@@ -6,23 +6,25 @@ import "./App.css";
 import { useSelector } from "react-redux";
 import { selectIsAppInitilized } from "./store/selectors/global";
 import Splash from "./container/Splash/Splash";
-import MapContainer from "./container/Map/Map";
+import { MapContainer } from "react-leaflet";
+import MapBody from "./container/Map/Map";
 
 function App() {
   const isAppLoaded = useSelector(selectIsAppInitilized);
   const { fetchActivities } = useActivities();
-  const mapRef = useRef();
+  const startPosition: [number, number] = [37.53044, -95.65938];
 
   useEffect(() => {
     fetchActivities();
-    console.log(mapRef);
-  }, [mapRef]);
+  }, []);
 
   if (!isAppLoaded) return <Splash />;
   return (
     <div className="App">
-      <SideBarContainer/>
-      <MapContainer/>
+      <SideBarContainer />
+      <Map>
+        <MapBody />
+      </Map>
     </div>
   );
 }

@@ -1,25 +1,26 @@
 import { LayersControl, TileLayer, useMap } from "react-leaflet";
-import Map from "../../components/Map/Map";
+import { useEffect } from "react";
 import MapItem from "../../components/MarkerPoint/MapItem";
 import useMapDrawer from "../../hooks/useMapDrawer";
 import DestintionsSearch from "../DestinationsSearch/DestinationsSearch";
 import FloatingCategories from "../FloatingCategories/FloatingCategories";
 
-const MapContainer = () => {
-  const { markers } = useMapDrawer();
+const MapBody = () => {
+  const map = useMap();
+  const { markers, flyTo } = useMapDrawer();
+
+  useEffect(() => {
+    map.flyTo(flyTo.latlng, flyTo.zoom);
+  }, [flyTo]);
 
   return (
-    <Map>
+    <>
       <div className="leaflet-control">
         <DestintionsSearch
           title="Search for destinations .."
           searchingDests={true}
         ></DestintionsSearch>
       </div>
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright"> OpenStreetMap </a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
 
       <LayersControl>
         <FloatingCategories />
@@ -27,8 +28,8 @@ const MapContainer = () => {
       {markers.map((mark) => (
         <MapItem markerPoint={mark} />
       ))}
-    </Map>
+    </>
   );
 };
 
-export default MapContainer;
+export default MapBody;
