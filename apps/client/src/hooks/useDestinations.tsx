@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { isEmpty } from "lodash";
+import { isEmpty, map, uniqBy } from "lodash";
 import useActivities from "./useActivities";
+import L from 'leaflet';
+import { useMap } from "react-leaflet";
 
 const useDestinations = () => {
 
@@ -8,14 +10,10 @@ const useDestinations = () => {
     const [searchResultsDests, setSearchResults] = useState<any[]>([]);
     const { activities } = useActivities();
 
-    const destinations= [
-
-    {   name: "Miami",
-        location: [25.77094535177296, -80.19650278592586] as [number,number]
-    },
-    {   name: "Orlando",
-        location: [28.428319906031717, -81.3133388296368] as [number,number]
-    }];
+    const destinations = uniqBy(map(activities, (activity)=> ({
+      name: activity.address.city,
+      location: [activity.position.lat,activity.position.lng]
+    })),'name');
    
     const searchDestination = async (name: string | undefined) => {
         const newName = name ?? "";

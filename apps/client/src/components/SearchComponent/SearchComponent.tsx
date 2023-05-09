@@ -59,7 +59,7 @@ export default function SearchComponent({ title,searchingDests,handleSearch, sea
           <Activity activity={activity} />
         ))}
       </div> :
-       <List dense sx={{ width: '100%', bgcolor:"transparent"}}>{searchResultsDests.map((dest)=>(<Destination position={dest?.location} name={dest?.name}></Destination>))}</List>
+       <List id="list" dense sx={{ width: '100%', overflow:'auto', maxHeight:300}}>{searchResultsDests.map((dest)=>(<Destination position={dest?.location} name={dest?.name}></Destination>))}</List>
       }
     </>
   );

@@ -14,11 +14,12 @@ export default function Map() {
     <MapContainer
       center={startPosition}
       zoom={6}
-      scrollWheelZoom={true}
+      scrollWheelZoom={false}
       zoomControl={false}
       style={{
         width: "67%",
       }}
+      id="map"
     >
       <div className="leaflet-control">
       <DestintionsSearch title="Search for destinations .." searchingDests={true}></DestintionsSearch>
