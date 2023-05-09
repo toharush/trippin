@@ -9,10 +9,10 @@ interface props {
 
 export default function Destination({ name,position }: props) {
 
-    const map = useMap();
-    const handleFlyTo =()=> {
-      map.flyTo(position,8);
-    }
+  const map = useMap();
+  const handleFlyTo =()=> {
+    map.flyTo(position,8);
+  }
 
   return (
   <ListItem key={name}>

@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { Activity } from "../../../../interfaces";
+import { Activity, EntityTypes } from "../interfaces";
 import { isEmpty } from "lodash";
 import {
   fetchAllActivities,
@@ -36,9 +36,10 @@ const useActivities = () => {
   const addSelectedActivity = async (activity: Activity) => {
     await addMarkerPoint({
       id: activity.id,
-      type: "popup",
+      type: EntityTypes.activity,
       name: activity.title,
-      location: [activity.position.lat, activity.position.lng],
+      location: [activity.position?.lat, activity.position?.lng],
+      data: activity,
     });
     await dispatch(setSelectedActivities(activity));
   };

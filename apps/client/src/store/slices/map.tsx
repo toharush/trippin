@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { MarkerPoint } from "../../../../../interfaces/markerPoint";
+import { MarkerPoint } from "../../interfaces";
 
 interface MapState {
   markerPoints: MarkerPoint[];
