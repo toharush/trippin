@@ -3,6 +3,7 @@ import { useActivities, useDestinations } from "../../hooks";
 import Activity from "../Activity/Activity";
 import Destination from "../Destination/Destination";
 import "./SearchComponent.css";
+import List from '@mui/material/List';
 
 interface props {
   title: string;
@@ -58,7 +59,7 @@ export default function SearchComponent({ title,searchingDests,handleSearch, sea
           <Activity activity={activity} />
         ))}
       </div> :
-       <div>{searchResultsDests.map((dest)=>(<Destination position={dest?.location} name={dest?.name}></Destination>))}</div>
+       <List dense sx={{ width: '100%', bgcolor:"transparent"}}>{searchResultsDests.map((dest)=>(<Destination position={dest?.location} name={dest?.name}></Destination>))}</List>
       }
     </>
   );

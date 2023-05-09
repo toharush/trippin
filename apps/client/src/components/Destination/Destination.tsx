@@ -1,5 +1,6 @@
 import "./Destination.css";
 import { useMap } from "react-leaflet";
+import { ListItem, ListItemButton, ListItemAvatar, Avatar, ListItemText} from "@mui/material";
 
 interface props {
   name: string;
@@ -14,18 +15,16 @@ export default function Destination({ name,position }: props) {
     }
 
   return (
-    <div className="max-h-400 md:max-h-none md:max-h-200 flex flex-row bg-white rounded-lg p-4 shadow-lg m-3">
-    <div className="flex flex-col justify-between ml-4 w-2/3">
-      <div>
-        <h2 className="text-xl font-semibold">{name}</h2>
-      </div>
-
-      <button
-        className="bg-main text-white font-bold py-2 px-4 rounded"
-        onClick={handleFlyTo}
-      > Go
-      </button>
-    </div>
-  </div>
+  <ListItem key={name}>
+      <ListItemButton onClick={handleFlyTo} sx={{backgroundColor:"whitesmoke", '&:hover':{backgroundColor:"rgba(0, 0, 0, .2)"}, borderRadius:"5px"}}>
+        <ListItemAvatar>
+          <Avatar
+            alt={name}
+            src={`/static/images/avatar/${name + 1}.jpg`}
+          />
+        </ListItemAvatar>
+        <ListItemText primary={name} />
+      </ListItemButton>
+  </ListItem>
   );
 }

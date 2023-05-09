@@ -55,7 +55,7 @@ const Place = new GraphQLObjectType({
             type: address,
             extensions: {
                 joinMonster: {
-                    ignoreAll: true,
+                    ignoreAll: false,
                     sqlBatch: {
                         thisKey: 'id',
                         parentKey: 'address_id',
