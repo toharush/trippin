@@ -19,7 +19,7 @@ const Place = new GraphQLObjectType({
             type: extraCategories,
             extensions: {
                 joinMonster: {
-                    ignoreAll: false,
+                    ignoreAll: true,
                     sqlBatch: {
                         thisKey: 'place_id',
                         parentKey: 'id',
@@ -43,7 +43,7 @@ const Place = new GraphQLObjectType({
             type: google,
             extensions: {
                 joinMonster: {
-                    ignoreAll: false,
+                    ignoreAll: true,
                     sqlBatch: {
                         thisKey: 'place_id',
                         parentKey: 'id',

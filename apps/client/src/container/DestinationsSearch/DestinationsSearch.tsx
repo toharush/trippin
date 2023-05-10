@@ -3,6 +3,7 @@ import { useDestinations } from "../../hooks";
 import { List } from "@mui/material";
 import Destination from "../../components/Destination/Destination";
 import Search from "../../components/SearchComponent/SearchComponent";
+import DestinationContainer from "../Destination/Destination";
 
 export default function DestintionsSearch() {
   const value = useRef<HTMLInputElement>(null);
@@ -30,7 +31,7 @@ export default function DestintionsSearch() {
         sx={{ width: "100%", overflow: "auto", maxHeight: 300 }}
       >
         {searchResultsDests.map((dest) => (
-          <Destination position={dest?.location} name={dest?.name} />
+          <DestinationContainer position={dest?.location} name={dest?.name} />
         ))}
       </List>
     </>

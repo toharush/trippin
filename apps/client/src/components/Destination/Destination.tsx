@@ -6,18 +6,14 @@ import {
   Avatar,
   ListItemText,
 } from "@mui/material";
-import { useMapDrawer } from "../../hooks";
 
 interface props {
   name: string;
-  position: [number, number];
+  handleFlyTo: ()=>void;
 }
 
-export default function Destination({ name, position }: props) {
-  const { setFlyTo } = useMapDrawer();
-  const handleFlyTo = () => setFlyTo(position, 8);
-
-  return (
+export default function Destination({ name, handleFlyTo}: props) {
+return (
     <ListItem key={name}>
       <ListItemButton
         onClick={handleFlyTo}
