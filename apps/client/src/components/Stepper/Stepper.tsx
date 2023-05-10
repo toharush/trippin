@@ -4,12 +4,13 @@ import "./Stepper.css";
 
 interface StepperProps {
   labels: string[];
+  activeStep: number;
 }
 
-const AppStepper = ({ labels }: StepperProps) => {
+const AppStepper = ({ labels, activeStep }: StepperProps) => {
   return (
     <div className="stepper-bottom">
-      <Stepper activeStep={1} alternativeLabel>
+      <Stepper activeStep={activeStep} alternativeLabel>
         {labels.map((label, index) => (
           <Step key={label}>
             <StepLabel>{label}</StepLabel>

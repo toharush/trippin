@@ -2,9 +2,9 @@ import { ReactElement } from "react";
 import "./SideBar.css";
 
 interface props {
-  ChildComponent?: ReactElement;
+  children?: ReactElement;
 }
 
-export default function SideBar({ ChildComponent }: props) {
-  return <div className="main-sidebar">{ChildComponent}</div>;
+export default function SideBar({ children }: props) {
+  return <div className="main-sidebar">{children}</div>;
 }
