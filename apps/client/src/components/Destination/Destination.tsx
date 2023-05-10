@@ -1,5 +1,4 @@
 import "./Destination.css";
-import { useMap } from "react-leaflet";
 import {
   ListItem,
   ListItemButton,
@@ -7,7 +6,7 @@ import {
   Avatar,
   ListItemText,
 } from "@mui/material";
-import useMapDrawer from "../../hooks/useMapDrawer";
+import { useMapDrawer } from "../../hooks";
 
 interface props {
   name: string;

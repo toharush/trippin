@@ -1,35 +1,30 @@
-import { LayersControl, TileLayer, useMap } from "react-leaflet";
-import { useEffect } from "react";
-import MapItem from "../../components/MarkerPoint/MapItem";
-import useMapDrawer from "../../hooks/useMapDrawer";
-import DestintionsSearch from "../DestinationsSearch/DestinationsSearch";
-import FloatingCategories from "../FloatingCategories/FloatingCategories";
+import { MapContainer, TileLayer } from "react-leaflet";
+import { ReactElement } from "react";
+import "leaflet/dist/leaflet.css";
+import "./Map.css";
 
-const MapBody = () => {
-  const map = useMap();
-  const { markers, flyTo } = useMapDrawer();
-
-  useEffect(() => {
-    map.flyTo(flyTo.latlng, flyTo.zoom);
-  }, [flyTo]);
+interface MapsProps {
+  children: ReactElement;
+}
+export default function Map({ children }: MapsProps) {
+  const startPosition: [number, number] = [37.53044, -95.65938];
 
   return (
-    <>
-      <div className="leaflet-control">
-        <DestintionsSearch
-          title="Search for destinations .."
-          searchingDests={true}
-        ></DestintionsSearch>
-      </div>
-
-      <LayersControl>
-        <FloatingCategories />
-      </LayersControl>
-      {markers.map((mark) => (
-        <MapItem markerPoint={mark} />
-      ))}
-    </>
+    <MapContainer
+      center={startPosition}
+      zoom={4}
+      scrollWheelZoom={false}
+      zoomControl={false}
+      style={{
+        width: "67%",
+      }}
+      id="map"
+    >
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright"> OpenStreetMap </a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      {children}
+    </MapContainer>
   );
-};
-
-export default MapBody;
+}
