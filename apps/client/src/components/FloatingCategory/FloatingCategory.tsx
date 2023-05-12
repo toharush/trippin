@@ -16,6 +16,7 @@ const FloatingCategory = (props: FloatingCategoryProps) => {
 
   return (
     <Fab
+      style={{backgroundColor:"white"}}
       variant="extended"
       onClick={clickFilter}
       className={
