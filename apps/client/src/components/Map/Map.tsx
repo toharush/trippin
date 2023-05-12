@@ -2,11 +2,8 @@ import { MapContainer, TileLayer, LayersControl } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "./Map.css";
 import FloatingCategories from "../../container/FloatingCategories/FloatingCategories";
-import useMapDrawer from "../../hooks/useMapDrawer";
-import MapItem from "../MarkerPoint/MapItem";
 
 export default function Map() {
-  const { markers } = useMapDrawer();
   const startPosition: [number, number] = [37.53044, -95.65938];
 
   return (
@@ -27,12 +24,6 @@ export default function Map() {
       <LayersControl>
         <FloatingCategories />
       </LayersControl>
-      {(markers.filter((marker) => marker.show === true)).map((mark) => (
-        <MapItem markerPoint={mark} />
-      ))}
-      {/* {markers.map((mark) => (
-        <MapItem markerPoint={mark} />
-      ))} */}
     </MapContainer>
   );
 }

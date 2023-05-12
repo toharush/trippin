@@ -4,7 +4,7 @@ import SideBar from "../../components/SideBar/SideBar";
 import TravelsCategoryComponent from "../../components/TravelsCategoryComponent/TravelsCategoryComponent";
 import Dropdown from "../../components/Dropdown/Dropdown";
 import ActivitiesGallery from "../../components/ActivitiesGallery/ActivitiesGallery";
-import { useActivities, useStepper } from "../../hooks";
+import { useActivities, useMapDrawer, useStepper } from "../../hooks";
 import AppStepper from "../../components/Stepper/Stepper";
 import { stepperValues } from "../../interfaces";
 import { Button } from "@mui/material";
@@ -12,6 +12,7 @@ import { Button } from "@mui/material";
 const SideBarContainer = () => {
   const { currentStep, stepUp, stepDown } = useStepper();
   const { selectedActivities } = useActivities();
+  const { hideSelectedActivities } = useMapDrawer();
   const [isActivitiesOpen, setIsActivitiesOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
 
@@ -50,6 +51,7 @@ const SideBarContainer = () => {
     if (stepper.length > currentStep + 1) {
       stepUp();
     }
+    hideSelectedActivities();
   };
 
   const previous = () => {

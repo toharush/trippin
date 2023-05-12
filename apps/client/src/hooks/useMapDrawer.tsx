@@ -5,13 +5,14 @@ import { useAppDispatch } from "../store";
 import {
   AddMarkerPointToSelectedActivities,
   RemoveMarkerPointFromSelectedActivities, 
+  HideAllSelectedActivitiesMarkers,
   SetFlyTo,
 } from "../store/slices/map";
 
 const useMapDrawer = () => {
   const dispatch = useAppDispatch();
   const flyTo = useSelector(selectFlyTo);
-  const markers = useSelector(selectActivitiesMarkerPoints);
+  const selectedActivitiesMarkers = useSelector(selectActivitiesMarkerPoints);
 
   const setFlyTo = (latlng: [number, number], zoom: number) => {
     dispatch(SetFlyTo({ latlng, zoom }));
@@ -22,12 +23,16 @@ const useMapDrawer = () => {
   const removeMarkerPoint = async (id: string) =>
     await dispatch(RemoveMarkerPointFromSelectedActivities(id));
 
+  const hideSelectedActivities = async () =>
+    await dispatch(HideAllSelectedActivitiesMarkers());
+
   return {
-    markers,
+    selectedActivitiesMarkers,
     flyTo,
     setFlyTo,
     addMarkerPoint,
     removeMarkerPoint,
+    hideSelectedActivities,
   };
 };
 

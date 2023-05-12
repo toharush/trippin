@@ -1,9 +1,9 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { MarkerPoint } from "../../interfaces";
+import { MarkerPoint, TotalRoute } from "../../interfaces";
 
 interface MapState {
   selectedActivitiesMarkerPoints: MarkerPoint[];
-  // routesMarkerPoints 
+  totalRoute: TotalRoute
   flyTo: {
     latlng: [number, number];
     zoom: number;
@@ -13,6 +13,7 @@ interface MapState {
 
 const initialState: MapState = {
   selectedActivitiesMarkerPoints: [],
+  totalRoute: [],
   flyTo: {
     latlng: [56.6, 56.8],
     zoom: 4,
@@ -41,7 +42,8 @@ const stores = createSlice({
         ...state,
         selectedActivitiesMarkerPoints: state.selectedActivitiesMarkerPoints.map(
           (samp) => {
-            return {...samp, show: false};
+            console.log("hide");
+            return { ...samp, show: false };
           })
       }
     },
@@ -55,8 +57,9 @@ const stores = createSlice({
   },
 });
 
-export const {  AddMarkerPointToSelectedActivities,
-                RemoveMarkerPointFromSelectedActivities,  
-                SetFlyTo }
-                 = stores.actions;
+export const { AddMarkerPointToSelectedActivities,
+  RemoveMarkerPointFromSelectedActivities,
+  HideAllSelectedActivitiesMarkers,
+  SetFlyTo }
+  = stores.actions;
 export default stores.reducer;

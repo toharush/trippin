@@ -10,7 +10,7 @@ import DestintionsSearch from "../DestinationsSearch/DestinationsSearch";
 
 const MapBody = () => {
   const map = useMap();
-  const { markers, flyTo } = useMapDrawer();
+  const { selectedActivitiesMarkers, flyTo } = useMapDrawer();
   const { currentStep } = useStepper();
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const MapBody = () => {
       <LayersControl>
         <FloatingCategories />
       </LayersControl>
-      {markers.map((mark) => (
+      {(selectedActivitiesMarkers.filter((marker) => marker.show === true)).map((mark) => (
         <MapItem markerPoint={mark} />
       ))}
     </>
