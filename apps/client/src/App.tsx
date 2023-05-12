@@ -1,15 +1,17 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useActivities } from "./hooks";
 import SideBarContainer from "./container/SideBar/SideBar";
-import Map from "./components/Map/Map";
+import Map from "./container/Map/Map";
 import "./App.css";
 import { useSelector } from "react-redux";
 import { selectIsAppInitilized } from "./store/selectors/global";
 import Splash from "./container/Splash/Splash";
+import MapBody from "./container/MapBody/MapBody";
 
 function App() {
   const isAppLoaded = useSelector(selectIsAppInitilized);
   const { fetchActivities } = useActivities();
+  const startPosition: [number, number] = [37.53044, -95.65938];
 
   useEffect(() => {
     fetchActivities();
@@ -19,7 +21,9 @@ function App() {
   return (
     <div className="App">
       <SideBarContainer />
-      <Map />
+      <Map>
+        <MapBody />
+      </Map>
     </div>
   );
 }

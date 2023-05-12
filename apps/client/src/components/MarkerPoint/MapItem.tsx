@@ -1,8 +1,5 @@
-import {
-  Marker,
-  Popup,
-} from "react-leaflet";
-import { Icon, PointTuple } from "leaflet";
+import { Marker, Popup } from "react-leaflet";
+import { Icon, PointTuple, IconOptions } from "leaflet";
 import { useState } from "react";
 import { EntityTypes, MarkerPoint } from "../../interfaces";
 import { useEffect } from "react";
@@ -15,45 +12,33 @@ const barPin = require("./pins/bar.png");
 const iconSize: PointTuple = [25, 41];
 const iconAnchor: PointTuple = [12, 41];
 
-export const basicIcon = new Icon({
-  iconUrl: basicPin,
-  iconSize: iconSize,
-  iconAnchor: iconAnchor,
-});
-
-export const restaurantIcon = new Icon({
-  iconUrl: restaurantPin,
-  iconSize: iconSize,
-  iconAnchor: iconAnchor,
-});
-
-export const barIcon = new Icon({
-  iconUrl: barPin,
-  iconSize: iconSize,
-  iconAnchor: iconAnchor,
-});
-
 interface MarkerPointProps {
   markerPoint: MarkerPoint;
 }
 const MapItem = (props: MarkerPointProps) => {
-  const [comp, setComp] = useState<any>();
-  const [icon, setIcon] = useState<any>(basicIcon);
   const { markerPoint } = props;
+  const [comp, setComp] = useState<JSX.Element>();
+  const [icon, setIcon] = useState<IconOptions>({
+    iconUrl: basicPin,
+    iconSize: iconSize,
+    iconAnchor: iconAnchor,
+  });
 
-  const getIcon = () => {
+  const getIcon = (): IconOptions => {
     switch (markerPoint.type) {
-      case EntityTypes.activity:
-        switch (markerPoint.data.category.name) {
-          case "bar_pub":
-            return barIcon;
-          case "Restaurant":
-            return restaurantIcon;
-          default:
-            return basicIcon;
+      case EntityTypes.activity: {
+        let newIconOptions: IconOptions = icon;
+        if (markerPoint.data.category.name.toLowerCase().includes("bar")) {
+          newIconOptions.iconUrl = barPin;
+        } else if (
+          markerPoint.data.category.name.toLowerCase().includes("restaurant")
+        ) {
+          newIconOptions.iconUrl = restaurantPin;
         }
+        return newIconOptions;
+      }
       default:
-        return basicIcon;
+        return icon;
     }
   };
 
@@ -64,36 +49,23 @@ const MapItem = (props: MarkerPointProps) => {
       case EntityTypes.activity:
         return (
           <Popup>
-            <Activity activity={markerPoint.data} minimized={true} isSelected={true} />
+            <Activity
+              activity={markerPoint.data}
+              minimized={true}
+              isSelected={true}
+            />
           </Popup>
         );
     }
   };
 
-  let returnValue;
-  const setReturnValue = () => {
-    if (markerPoint.show) {
-      returnValue = <Marker position={markerPoint.location} icon={icon}>
-        {comp}
-      </Marker>
-    }
-    else {
-      returnValue = null;
-    }
-  }
-
   useEffect(() => {
     setIcon(getIcon());
     setComp(getComponet());
-    // setReturnValue();
   }, [markerPoint]);
 
-
-
-  
-
   return (
-    <Marker position={markerPoint.location} icon={icon}>
+    <Marker position={markerPoint.location} icon={new Icon(icon)}>
       {comp}
     </Marker>  );
 };
