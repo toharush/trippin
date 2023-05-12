@@ -7,6 +7,8 @@ import ActivitiesSearch from "../ActivitiesSearch/ActivitiesSearch";
 import "./MapBody.css";
 import { MarkerPoint, stepperValues } from "../../interfaces";
 import DestintionsSearch from "../DestinationsSearch/DestinationsSearch";
+import { Polyline } from "leaflet";
+import L from 'leaflet';
 
 const MapBody = () => {
   const map = useMap();
@@ -15,10 +17,14 @@ const MapBody = () => {
 
   const filteredPoints = selectedDayRoutes.flatMap((dayRoute) =>
     dayRoute.route.filter((point) => point.show === true)
-);
+  );
+
+  const filteredPointsLocations: [number,number][] = filteredPoints.map((point)=> point.location);
+  const polyLine = L.polyline(filteredPointsLocations,{color:'black',weight:1,dashArray:'5,8'});
 
   useEffect(() => {
     map.flyTo(flyTo.latlng, flyTo.zoom);
+    polyLine.addTo(map);
   }, [flyTo]);
 
   return (
@@ -36,8 +42,7 @@ const MapBody = () => {
       ))}
       {(filteredPoints.map((point) => 
           <MapItem markerPoint={point} />
-      ))
-      }
+      ))}
     </>
   );
 };
