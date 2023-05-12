@@ -1,0 +1,42 @@
+.picker .MuiInputBase-input {
+    color: white;
+}
+
+.picker .MuiInput-underline:before {
+    border-bottom-color: white;
+}
+
+.picker .MuiPickersDay-daySelected {
+    background-color: white;
+    color: black;
+}
+
+.picker .MuiSvgIcon-root {
+    fill: white;
+}
+
+.picker .MuiOutlinedInput-notchedOutline {
+    border-color: white;
+}
+
+.picker .MuiInputLabel-root {
+    color: white;
+}
+
+.picker .MuiFormLabel-root-MuidInputLable-root.Mui-focused .MuiFormLabel-root {
+    color: white;
+}
+
+.picker .MuiFormLabel-root-MuiInputLabel-root.Mui-focused:hover {
+    color: white;
+}
+
+.picker .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+    border-color: white;
+    border-width: 2px;
+}
+
+
+.picker .css-1jy569b-MuiFormLabel-root-MuiInputLabel-root.Mui-focused {
+    color: var(--primary-color);
+}

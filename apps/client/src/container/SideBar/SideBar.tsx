@@ -8,6 +8,7 @@ import ActivitiesGallery from "../../components/ActivitiesGallery/ActivitiesGall
 import { useActivities } from "../../hooks";
 import AppStepper from "../../components/Stepper/Stepper";
 import useMapDrawer from "../../hooks/useMapDrawer";
+import DateRangePicker from "../../components/DateRangePicker/DateRangePicker";
 
 const SideBarContainer = () => {
   const startPosition: [number, number] = [51.50853, -0.12574];
@@ -23,6 +24,7 @@ const SideBarContainer = () => {
       component: (
         <>
           <AuthHeader />
+          <DateRangePicker />
           <TravelsCategoryComponent
             isCategoriesOpen={isCategoriesOpen}
             setIsCategoriesOpen={() => setIsCategoriesOpen(!isCategoriesOpen)}
