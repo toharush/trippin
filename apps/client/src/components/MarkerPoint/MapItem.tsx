@@ -67,8 +67,7 @@ const MapItem = (props: MarkerPointProps) => {
   return (
     <Marker position={markerPoint.location} icon={new Icon(icon)}>
       {comp}
-    </Marker>
-  );
+    </Marker>  );
 };
 
 export default MapItem;
