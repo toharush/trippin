@@ -31,7 +31,7 @@ const Place = new GraphQLObjectType({
             type: category,
             extensions: {
                 joinMonster: {
-                    ignoreAll: true,
+                    ignoreAll: false,
                     sqlBatch: {
                         thisKey: 'id',
                         parentKey: 'category_id',

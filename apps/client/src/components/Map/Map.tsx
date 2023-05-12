@@ -27,9 +27,12 @@ export default function Map() {
       <LayersControl>
         <FloatingCategories />
       </LayersControl>
-      {markers.map((mark) => (
+      {(markers.filter((marker) => marker.show === true)).map((mark) => (
         <MapItem markerPoint={mark} />
       ))}
+      {/* {markers.map((mark) => (
+        <MapItem markerPoint={mark} />
+      ))} */}
     </MapContainer>
   );
 }

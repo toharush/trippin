@@ -1,3 +1,3 @@
 import { RootState } from "../store";
 
-export const selectMarkerPoints = (state: RootState) => state.map.markerPoints;
+export const selectActivitiesMarkerPoints = (state: RootState) => state.map.selectedActivitiesMarkerPoints;

@@ -70,16 +70,32 @@ const MapItem = (props: MarkerPointProps) => {
     }
   };
 
+  let returnValue;
+  const setReturnValue = () => {
+    if (markerPoint.show) {
+      returnValue = <Marker position={markerPoint.location} icon={icon}>
+        {comp}
+      </Marker>
+    }
+    else {
+      returnValue = null;
+    }
+  }
+
   useEffect(() => {
     setIcon(getIcon());
     setComp(getComponet());
+    // setReturnValue();
   }, [markerPoint]);
+
+
+
+  
 
   return (
     <Marker position={markerPoint.location} icon={icon}>
       {comp}
-    </Marker>
-  );
+    </Marker>  );
 };
 
 export default MapItem;

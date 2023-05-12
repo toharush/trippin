@@ -39,6 +39,7 @@ const useActivities = () => {
       type: EntityTypes.activity,
       name: activity.title,
       location: [activity.position?.lat, activity.position?.lng],
+      show: true,
       data: activity,
     });
     await dispatch(setSelectedActivities(activity));
