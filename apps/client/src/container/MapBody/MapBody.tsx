@@ -5,13 +5,17 @@ import MapItem from "../../components/MarkerPoint/MapItem";
 import FloatingCategories from "../FloatingCategories/FloatingCategories";
 import ActivitiesSearch from "../ActivitiesSearch/ActivitiesSearch";
 import "./MapBody.css";
-import { stepperValues } from "../../interfaces";
+import { MarkerPoint, stepperValues } from "../../interfaces";
 import DestintionsSearch from "../DestinationsSearch/DestinationsSearch";
 
 const MapBody = () => {
   const map = useMap();
-  const { selectedActivitiesMarkers, flyTo } = useMapDrawer();
+  const { selectedActivitiesMarkers, flyTo, selectedDayRoutes } = useMapDrawer();
   const { currentStep } = useStepper();
+
+  const filteredPoints = selectedDayRoutes.flatMap((dayRoute) =>
+    dayRoute.route.filter((point) => point.show === true)
+);
 
   useEffect(() => {
     map.flyTo(flyTo.latlng, flyTo.zoom);
@@ -28,8 +32,12 @@ const MapBody = () => {
         <FloatingCategories />
       </LayersControl>
       {(selectedActivitiesMarkers.filter((marker) => marker.show === true)).map((mark) => (
-        <MapItem markerPoint={mark} />
+         <MapItem markerPoint={mark} />
       ))}
+      {(filteredPoints.map((point) => 
+          <MapItem markerPoint={point} />
+      ))
+      }
     </>
   );
 };

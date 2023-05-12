@@ -7,12 +7,12 @@ interface MapsProps {
   children: ReactElement;
 }
 export default function Map({ children }: MapsProps) {
-  const startPosition: [number, number] = [37.53044, -95.65938];
+  const startPosition: [number, number] = [31.787638330100435, 34.633258031660375];
 
   return (
     <MapContainer
       center={startPosition}
-      zoom={4}
+      zoom={5}
       scrollWheelZoom={false}
       zoomControl={false}
       style={{
