@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   firebaseSignIn,
   firebasecreateUser,
+  getCurrentUserFromFireBase,
   signOutFromFirebase,
 } from "../../services/firebase";
 
@@ -20,4 +21,9 @@ export const fetchSignUp = createAsyncThunk(
 export const fetchSignOut = createAsyncThunk(
   "authentication/SignOut",
   async (props) => await signOutFromFirebase()
+);
+
+export const fetchCurrentUser = createAsyncThunk(
+  "authentication/CurrentUser",
+  async (props) => await getCurrentUserFromFireBase()
 );

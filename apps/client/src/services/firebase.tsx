@@ -16,7 +16,7 @@ export const firebasecreateUser = (email: string, password: string) => {
 };
 
 export const getCurrentUserFromFireBase = async () => {
-  return (await auth.currentUser) ?? null;
+  return await auth.currentUser;
 };
 
 export const signOutFromFirebase = async () => {

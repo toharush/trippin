@@ -1,20 +1,23 @@
 import { Box } from "@mui/system";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import "./AuthHeader.css";
+import SharedContact from "../UserMenuComponent/UserMenuComponent";
+import { Avatar } from "@mui/material";
 
 interface AuthHeaderProps {
   onClick: Function;
-  userName: string | null | undefined;
 }
 const AuthHeader = (props: AuthHeaderProps) => {
-  const { onClick, userName } = props;
+  const { onClick } = props;
 
-  const handleOnClick = () => onClick();
+  const handleOnClick = () => {
+    onClick();
+  };
 
   return (
     <Box className="sidebar-login" onClick={handleOnClick}>
       <AccountCircleIcon className="sidebar-icon" />
-      <text className="sidebar-text">{userName ? userName : "Login"}</text>
+      <text className="sidebar-text">Login</text>
     </Box>
   );
 };

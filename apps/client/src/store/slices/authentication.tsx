@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { MarkerPoint } from "../../interfaces";
-import { fetchSignIn, fetchSignUp } from "../middlewares";
+import { fetchCurrentUser, fetchSignIn, fetchSignUp } from "../middlewares";
 import { User } from "firebase/auth";
 
 interface AuthenticationState {
@@ -20,6 +20,13 @@ const stores = createSlice({
   extraReducers: (builder) => {
     builder.addCase(
       fetchSignIn.fulfilled,
+      (state, action: PayloadAction<null | User>) => {
+        state.curerrentUser = action.payload;
+        state.loading = false;
+      }
+    );
+    builder.addCase(
+      fetchCurrentUser.fulfilled,
       (state, action: PayloadAction<null | User>) => {
         state.curerrentUser = action.payload;
         state.loading = false;
