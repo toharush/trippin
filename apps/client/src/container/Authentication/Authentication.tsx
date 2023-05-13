@@ -1,7 +1,7 @@
 import AuthHeader from "../../components/AuthHeader/AuthHeader";
 import SignIn from "../../components/SignIn/SignIn";
 import { useAuthentication } from "../../hooks";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AuthenticationForm from "../AuthenticationForm/AuthenticationForm";
 import SharedContact from "../../components/UserMenuComponent/UserMenuComponent";
 import UserMenu from "../UserMenu/UserMenu";
@@ -13,6 +13,10 @@ const Authentication = () => {
   const handleAuth = () => {
     setOpenAuth(!openAuth);
   };
+
+  useEffect(() => {
+    setOpenAuth(false);
+  }, [currentUser]);
 
   return (
     <>

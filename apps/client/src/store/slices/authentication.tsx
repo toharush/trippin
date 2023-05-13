@@ -1,6 +1,11 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { MarkerPoint } from "../../interfaces";
-import { fetchCurrentUser, fetchSignIn, fetchSignUp } from "../middlewares";
+import {
+  fetchCurrentUser,
+  fetchSignIn,
+  fetchSignOut,
+  fetchSignUp,
+} from "../middlewares";
 import { User } from "firebase/auth";
 
 interface AuthenticationState {
@@ -32,6 +37,10 @@ const stores = createSlice({
         state.loading = false;
       }
     );
+    builder.addCase(fetchSignOut.fulfilled, (state, action: PayloadAction) => {
+      state.curerrentUser = null;
+      state.loading = false;
+    });
     builder.addCase(fetchSignIn.pending, (state, action) => {
       state.loading = true;
     });

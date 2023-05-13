@@ -4,9 +4,7 @@ import { useState } from "react";
 import UserManagment from "../UserManagment/UserManagment";
 
 const UserMenu = () => {
-  const { users } = useTrip();
-
-  const { currentUser } = useAuthentication();
+  const { currentUser, SignOut } = useAuthentication();
   const [open, setOpen] = useState<boolean>(false);
   const handleClick = () => {
     setOpen(!open);
@@ -15,8 +13,9 @@ const UserMenu = () => {
   return (
     <>
       <UserMenuComponent
-        userNames={[currentUser!.email!, ...users.map((user) => user.email)]}
-        handleClick={handleClick}
+        title={currentUser!.email!}
+        handleSharedWith={handleClick}
+        handleLogOut={SignOut}
       />
       {open ? <UserManagment open={open} setOpen={handleClick} /> : null}
     </>
