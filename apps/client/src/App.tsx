@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import { useActivities } from "./hooks";
 import SideBarContainer from "./container/SideBar/SideBar";
 import Map from "./container/Map/Map";
@@ -11,13 +11,13 @@ import MapBody from "./container/MapBody/MapBody";
 function App() {
   const isAppLoaded = useSelector(selectIsAppInitilized);
   const { fetchActivities } = useActivities();
-  const startPosition: [number, number] = [37.53044, -95.65938];
 
   useEffect(() => {
     fetchActivities();
   }, []);
 
   if (!isAppLoaded) return <Splash />;
+
   return (
     <div className="App">
       <SideBarContainer />

@@ -23,7 +23,7 @@ const ActivitiesSearch = () => {
     <>
       <Search
         handleSearch={handleActivitySearch}
-        title="Search Activities"
+        title="Search for activities"
         value={value}
       />
 

@@ -3,19 +3,20 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import "./AuthHeader.css";
 
 interface AuthHeaderProps {
-  isLogin?: boolean;
+  onClick: Function;
+  userName: string | null | undefined;
 }
-const AuthHeader = ({ isLogin }: AuthHeaderProps) => {
-  if (isLogin) {
-    return <div>Hey</div>;
-  } else {
-    return (
-      <Box className="sidebar-login">
-        <AccountCircleIcon className="sidebar-icon" />
-        <text className="sidebar-text">Login</text>
-      </Box>
-    );
-  }
+const AuthHeader = (props: AuthHeaderProps) => {
+  const { onClick, userName } = props;
+
+  const handleOnClick = () => onClick();
+
+  return (
+    <Box className="sidebar-login" onClick={handleOnClick}>
+      <AccountCircleIcon className="sidebar-icon" />
+      <text className="sidebar-text">{userName ? userName : "Login"}</text>
+    </Box>
+  );
 };
 
 export default AuthHeader;
