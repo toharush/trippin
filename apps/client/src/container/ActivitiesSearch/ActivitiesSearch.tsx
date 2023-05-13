@@ -13,11 +13,7 @@ const ActivitiesSearch = () => {
     selectedActivities,
   } = useActivities();
 
-  const handleActivitySearch = () => {
-    console.log(value.current);
-
-    searchActivity(value.current?.value);
-  };
+  const handleActivitySearch = () => searchActivity(value.current?.value);
 
   useEffect(() => {
     handleActivitySearch();
