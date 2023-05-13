@@ -12,11 +12,9 @@ import UserMenu from "./container/UserMenu/UserMenu";
 function App() {
   const isAppLoaded = useSelector(selectIsAppInitilized);
   const { fetchActivities } = useActivities();
-  const { getCurrentUser } = useAuthentication();
 
   useEffect(() => {
     fetchActivities();
-    getCurrentUser();
   }, []);
 
   if (!isAppLoaded) return <Splash />;

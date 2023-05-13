@@ -21,34 +21,14 @@ const initialState: AuthenticationState = {
 const stores = createSlice({
   name: "authentication",
   initialState: initialState,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder.addCase(
-      fetchSignIn.fulfilled,
-      (state, action: PayloadAction<null | User>) => {
-        state.curerrentUser = action.payload;
-        state.loading = false;
-      }
-    );
-    builder.addCase(
-      fetchCurrentUser.fulfilled,
-      (state, action: PayloadAction<null | User>) => {
-        state.curerrentUser = action.payload;
-        state.loading = false;
-      }
-    );
-    builder.addCase(fetchSignOut.fulfilled, (state, action: PayloadAction) => {
-      state.curerrentUser = null;
-      state.loading = false;
-    });
-    builder.addCase(fetchSignIn.pending, (state, action) => {
-      state.loading = true;
-    });
-    builder.addCase(fetchSignIn.rejected, (state, action) => {
-      state.loading = false;
-    });
+  reducers: {
+    setUser: (state, action: PayloadAction<User | null>) => ({
+      ...state,
+      curerrentUser: action.payload,
+    }),
   },
+  extraReducers: (builder) => {},
 });
 
-export const {} = stores.actions;
+export const { setUser } = stores.actions;
 export default stores.reducer;
