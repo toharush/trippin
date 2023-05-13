@@ -1,6 +1,5 @@
 import { Dialog } from "@mui/material";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
-import { useTrip } from "../../hooks";
 
 const columns: GridColDef[] = [
   { field: "email", headerName: "Email", width: 500 },
@@ -8,7 +7,7 @@ const columns: GridColDef[] = [
 
 interface UserManagmentProps {}
 const UserManagment = (props: UserManagmentProps) => {
-  const { users } = useTrip();
+  const users = [{ id: 1, email: "test@gmail.com" }];
 
   return (
     <DataGrid

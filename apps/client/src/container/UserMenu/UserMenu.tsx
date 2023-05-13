@@ -1,8 +1,9 @@
 import UserMenuComponent from "../../components/UserMenuComponent/UserMenuComponent";
-import { useAuthentication, useTrip } from "../../hooks";
+import { useAuthentication } from "../../hooks";
 import { useState } from "react";
 import UserManagment from "../UserManagment/UserManagment";
 import { Dialog } from "@mui/material";
+import Profile from "../Profile/Profile";
 
 const UserMenu = () => {
   const { currentUser, SignOut } = useAuthentication();
@@ -33,7 +34,7 @@ const UserMenu = () => {
         {chosen === "usermanagment" ? <UserManagment /> : null}
         {chosen === "settings" ? <div>{chosen}</div> : null}
         {chosen === "share" ? <div>{chosen}</div> : null}
-        {chosen === "profile" ? <div>{chosen}</div> : null}
+        {chosen === "profile" ? <Profile user={currentUser!} /> : null}
       </Dialog>
     </>
   );
