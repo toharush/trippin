@@ -30,7 +30,6 @@ const useDestinations = () => {
           );
         }
         // @ts-ignore
-        console.log(values);
         await setSearchResults(values);
       };
 
