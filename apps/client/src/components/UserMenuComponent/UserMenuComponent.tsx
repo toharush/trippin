@@ -14,11 +14,11 @@ import Logout from "@mui/icons-material/Logout";
 
 interface UserMenuComponentProps {
   title: string;
-  handleSharedWith: Function;
+  handleChosenTab: Function;
   handleLogOut: Function;
 }
 export default function UserMenuComponent(props: UserMenuComponentProps) {
-  const { title, handleSharedWith, handleLogOut } = props;
+  const { title, handleChosenTab, handleLogOut } = props;
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -28,15 +28,16 @@ export default function UserMenuComponent(props: UserMenuComponentProps) {
     setAnchorEl(null);
   };
 
-  const handleSharedOpen = () => {
+  const handleOpenTab = (title: string) => {
     handleClose();
-    handleSharedWith();
+    handleChosenTab(title);
   };
 
   const handleSignout = () => {
     handleClose();
     handleLogOut();
   };
+
   return (
     <React.Fragment>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
@@ -88,20 +89,20 @@ export default function UserMenuComponent(props: UserMenuComponentProps) {
         transformOrigin={{ horizontal: "left", vertical: "top" }}
         anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
       >
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={() => handleOpenTab("profile")}>
           <Avatar /> {title}
         </MenuItem>
-        <MenuItem onClick={handleSharedOpen}>
+        <MenuItem onClick={() => handleOpenTab("usermanagment")}>
           <Avatar /> Shared With
         </MenuItem>
         <Divider />
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={() => handleOpenTab("share")}>
           <ListItemIcon>
             <PersonAdd fontSize="small" />
           </ListItemIcon>
           Share This Trip
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={() => handleOpenTab("settings")}>
           <ListItemIcon>
             <Settings fontSize="small" />
           </ListItemIcon>
