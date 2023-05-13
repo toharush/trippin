@@ -3,17 +3,19 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import './HourPicker.css';
+import dayjs, { Dayjs } from 'dayjs';
 
 interface Props {
   label: string;
-  selectedTime: Date | null;
-  onTimeChange: (time: Date | null) => void;
+  selectedTime: Dayjs;
+  onTimeChange: (time: Dayjs) => void;
 }
 
 export default function HourPicker({ label, selectedTime, onTimeChange }: Props) {
-  const [time, setTime] = useState<Date | null>(selectedTime);
+  const adapter = new AdapterDayjs();
+  const [time, setTime] = useState<Dayjs>(selectedTime);
 
-  const handleTimeChange = (time: Date | null) => {
+  const handleTimeChange = (time: Dayjs) => {
     setTime(time);
     onTimeChange(time);
   };
@@ -24,8 +26,13 @@ export default function HourPicker({ label, selectedTime, onTimeChange }: Props)
         className="picker"
         label={label}
         value={time}
-        onChange={handleTimeChange}
+        onChange={(date) => {
+          if (date) {
+            handleTimeChange(date);
+          }
+        }}
         ampm={false}
+        defaultValue={dayjs()}
       />
     </LocalizationProvider>
   );

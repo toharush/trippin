@@ -1,20 +1,29 @@
-import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
 import DatePicker from './DatePicker';
 import Typography from '@mui/material/Typography';
 import HourPicker from '../HourPicker/HourPicker';
+import useDateAndTime from '../../hooks/useDateAndTime';
+import { Dayjs } from 'dayjs';
 
 export default function DateRangePicker() {
-    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-    const [selectedTime, setSelectedTime] = useState<Date | null>(null);
 
-    const handleDateChange = (date: Date | null) => {
-      setSelectedDate(date);
+    const { dateAndTime, setDateAndTime, getDurationInDays } = useDateAndTime();
+    
+    const handleDepartureDateChange = (date: Dayjs) => {
+      setDateAndTime({ ...dateAndTime, departureDate: date});
     };
 
-    const handleTimeChange = (date: Date | null) => {
-        setSelectedTime(date);
+    const handleReturnDateChange = (date: Dayjs) => {
+      setDateAndTime({ ...dateAndTime, returnDate: date});
+    };
+
+    const handleDepartureTimeChange = (date: Dayjs) => {
+      setDateAndTime({ ...dateAndTime, departureTime: date});
+      };
+
+      const handleReturnTimeChange = (date: Dayjs) => {
+        setDateAndTime({ ...dateAndTime, returnTime: date});
       };
 
     return(
@@ -26,30 +35,33 @@ export default function DateRangePicker() {
           <Grid xs={5}>
           <DatePicker 
                 label='Departure date'
-                selectedDate={selectedDate}
-                onDateChange={handleDateChange}/>
+                selectedDate={dateAndTime.departureDate}
+                onDateChange={handleDepartureDateChange}/>
             
           </Grid>
           
           <Grid xs={5} sx={{ marginLeft: ' 5%'}}>
             <DatePicker
                     label='Return date'
-                    selectedDate={selectedDate}
-                    onDateChange={handleDateChange}/>
+                    selectedDate={dateAndTime.returnDate}
+                    onDateChange={handleReturnDateChange}/>
           </Grid>
         </Grid>
+        <Typography gutterBottom sx= {{ color: 'var(--primary-color)', marginTop: '5%' }}>
+        Daytrip hour range
+        </Typography>
         <Grid container sx={{ marginTop: '5%'}}>
             <Grid xs={5}>
                 <HourPicker
-                    label='Departure time'
-                    selectedTime={selectedTime}
-                    onTimeChange={handleTimeChange}/>
+                    label='Begin'
+                    selectedTime={dateAndTime.departureTime}
+                    onTimeChange={handleDepartureTimeChange}/>
             </Grid>
             <Grid xs={5} sx={{ marginLeft: ' 5%'}}>
                 <HourPicker
-                label='Return time'
-                selectedTime={selectedTime}
-                onTimeChange={handleTimeChange}/>
+                  label='End'
+                  selectedTime={dateAndTime.returnTime}
+                  onTimeChange={handleReturnTimeChange}/>
             </Grid>
         </Grid>
       </Box>

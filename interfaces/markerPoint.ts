@@ -12,5 +12,6 @@ export interface MarkerPoint {
   type: EntityTypes;
   location: [number, number];
   icon?: Icon;
+  show: boolean,
   data: any;
 }

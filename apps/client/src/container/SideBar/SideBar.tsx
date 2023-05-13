@@ -1,30 +1,35 @@
-import { useState, useEffect } from "react";
-import ActivitiesSidebarComponent from "../../components/ActivitiesSidebarComponent/ActivitiesSidebarComponent";
+import { useState } from "react";
 import AuthHeader from "../../components/AuthHeader/AuthHeader";
 import SideBar from "../../components/SideBar/SideBar";
 import TravelsCategoryComponent from "../../components/TravelsCategoryComponent/TravelsCategoryComponent";
 import Dropdown from "../../components/Dropdown/Dropdown";
 import ActivitiesGallery from "../../components/ActivitiesGallery/ActivitiesGallery";
-import { useActivities } from "../../hooks";
+import { useActivities, useStepper } from "../../hooks";
 import AppStepper from "../../components/Stepper/Stepper";
 import useMapDrawer from "../../hooks/useMapDrawer";
 import DateRangePicker from "../../components/DateRangePicker/DateRangePicker";
+import { stepperValues } from "../../interfaces";
+import { Button } from "@mui/material";
+import Authentication from "../Authentication/Authentication";
 
 const SideBarContainer = () => {
-  const startPosition: [number, number] = [51.50853, -0.12574];
-
+  const { currentStep, stepUp, stepDown } = useStepper();
   const { selectedActivities } = useActivities();
   const [isActivitiesOpen, setIsActivitiesOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
 
-
   const stepper = [
     {
-      label: "Categories",
+      label: stepperValues[stepperValues.Location],
+      component: 
+      <>
+        <DateRangePicker />
+      </>,
+    },
+    {
+      label: stepperValues[stepperValues.Activities],
       component: (
         <>
-          <AuthHeader />
-          <DateRangePicker />
           <TravelsCategoryComponent
             isCategoriesOpen={isCategoriesOpen}
             setIsCategoriesOpen={() => setIsCategoriesOpen(!isCategoriesOpen)}
@@ -35,27 +40,39 @@ const SideBarContainer = () => {
             title="Selected Activities"
           />
           {isActivitiesOpen ? (
-            <ActivitiesGallery
-              selectedActivities={selectedActivities}
-              max={1}
-            />
+            <ActivitiesGallery selectedActivities={selectedActivities} />
           ) : null}
         </>
       ),
     },
   ];
 
+  const next = () => {
+    if (stepper.length > currentStep + 1) {
+      stepUp();
+    }
+  };
+
+  const previous = () => {
+    if (0 < currentStep) {
+      stepDown();
+    }
+  };
+
   return (
     <>
-      <SideBar
-        ChildComponent={
-          <>
-            {stepper[0].component}
-            <AppStepper labels={stepper.map((step) => step.label)} />
-          </>
-        }
-      />
-      {isActivitiesOpen ? <ActivitiesSidebarComponent /> : null}
+      <SideBar>
+        <>
+          <Authentication />
+          {stepper[currentStep].component}
+          <AppStepper
+            labels={stepper.map((step) => step.label)}
+            activeStep={currentStep}
+          />
+          <Button onClick={previous}>previous</Button>
+          <Button onClick={next}>Next</Button>
+        </>
+      </SideBar>
     </>
   );
 };

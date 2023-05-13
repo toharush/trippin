@@ -2,12 +2,21 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { MarkerPoint } from "../../interfaces";
 
 interface MapState {
-  markerPoints: MarkerPoint[];
+  selectedActivitiesMarkerPoints: MarkerPoint[];
+  // routesMarkerPoints 
+  flyTo: {
+    latlng: [number, number];
+    zoom: number;
+  };
   loading: boolean;
 }
 
 const initialState: MapState = {
-  markerPoints: [],
+  selectedActivitiesMarkerPoints: [],
+  flyTo: {
+    latlng: [56.6, 56.8],
+    zoom: 4,
+  },
   loading: false,
 };
 
@@ -15,20 +24,39 @@ const stores = createSlice({
   name: "map",
   initialState: initialState,
   reducers: {
-    AddMarkerPoint: (state, action: PayloadAction<MarkerPoint>) => ({
+    AddMarkerPointToSelectedActivities: (state, action: PayloadAction<MarkerPoint>) => ({
       ...state,
-      markerPoints: [...state.markerPoints, action.payload],
+      selectedActivitiesMarkerPoints: [...state.selectedActivitiesMarkerPoints, action.payload],
     }),
-    RemoveMarkerPoint: (state, action: PayloadAction<string>) => {
+    RemoveMarkerPointFromSelectedActivities: (state, action: PayloadAction<string>) => {
       return {
         ...state,
-        markerPoints: state.markerPoints.filter(
-          (markerPoint) => markerPoint.id !== action.payload
+        selectedActivitiesMarkerPoints: state.selectedActivitiesMarkerPoints.filter(
+          (selectedActivitieMarkerPoint) => selectedActivitieMarkerPoint.id !== action.payload
         ),
       };
     },
+    HideAllSelectedActivitiesMarkers: (state) => {
+      return {
+        ...state,
+        selectedActivitiesMarkerPoints: state.selectedActivitiesMarkerPoints.map(
+          (samp) => {
+            return {...samp, show: false};
+          })
+      }
+    },
+    SetFlyTo: (
+      state,
+      action: PayloadAction<{
+        latlng: [number, number];
+        zoom: number;
+      }>
+    ) => ({ ...state, flyTo: action.payload }),
   },
 });
 
-export const { AddMarkerPoint, RemoveMarkerPoint } = stores.actions;
+export const {  AddMarkerPointToSelectedActivities,
+                RemoveMarkerPointFromSelectedActivities,  
+                SetFlyTo }
+                 = stores.actions;
 export default stores.reducer;

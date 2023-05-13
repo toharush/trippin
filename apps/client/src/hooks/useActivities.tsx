@@ -16,7 +16,7 @@ import { useState } from "react";
 import useMapDrawer from "./useMapDrawer";
 
 const useActivities = () => {
-  const { addMarkerPoint, removeMarkerPoint } = useMapDrawer();
+  const { addMarkerPoint, removeMarkerPoint, setFlyTo } = useMapDrawer();
   const dispatch = useAppDispatch();
   const selectedActivities = useSelector(selectSelectedActivities);
   const activities = useSelector(selectAllActivities);
@@ -31,14 +31,17 @@ const useActivities = () => {
   const removeSelectedActivity = async (activity: Activity) => {
     await removeMarkerPoint(activity.id);
     await dispatch(setSelectedActivities(activity));
+    await search();
   };
 
   const addSelectedActivity = async (activity: Activity) => {
+    setFlyTo([activity.position.lat, activity.position.lng], 8);
     await addMarkerPoint({
       id: activity.id,
       type: EntityTypes.activity,
       name: activity.title,
       location: [activity.position?.lat, activity.position?.lng],
+      show: true,
       data: activity,
     });
     await dispatch(setSelectedActivities(activity));

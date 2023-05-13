@@ -3,18 +3,18 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker as DatePickerMUI }from '@mui/x-date-pickers/DatePicker';
 import './DatePicker.css';
-
+import dayjs, { Dayjs } from 'dayjs';
 
 interface Props {
     label: string;
-    selectedDate: Date | null;
-    onDateChange: (date: Date | null) => void;
+    selectedDate: Dayjs;
+    onDateChange: (date: Dayjs) => void;
 }
 
 export default function DatePicker({ label, selectedDate, onDateChange }: Props) {
-    const [startDate, setStartDate] = useState<Date | null>(selectedDate);
+    const [startDate, setStartDate] = useState<Dayjs>(selectedDate);
 
-    const handleDateChange = (date: Date | null) => {
+    const handleDateChange = (date: Dayjs) => {
         setStartDate(date);
         onDateChange(date);
     };
@@ -25,9 +25,13 @@ export default function DatePicker({ label, selectedDate, onDateChange }: Props)
             className="date-picker"
             label={label}
             value={startDate}
-            onChange={handleDateChange}
+            onChange={(date) => {
+                if (date) {
+                    handleDateChange(date);
+                }
+            }}
             format="DD/MM/YYYY"
-            defaultValue={new Date()}
+            defaultValue={dayjs()}
             />
         </LocalizationProvider>
     );
