@@ -31,9 +31,9 @@ const UserMenu = () => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        {chosen === "usermanagment" ? <UserManagment /> : null}
+        {chosen === "mytrips" ? <div>{chosen}</div> : null}
         {chosen === "settings" ? <div>{chosen}</div> : null}
-        {chosen === "share" ? <div>{chosen}</div> : null}
+        {chosen === "share" ? <UserManagment /> : null}
         {chosen === "profile" ? <Profile user={currentUser!} /> : null}
       </Dialog>
     </>

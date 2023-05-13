@@ -11,6 +11,7 @@ import Tooltip from "@mui/material/Tooltip";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
+import { AirplanemodeActive } from "@mui/icons-material";
 
 interface UserMenuComponentProps {
   title: string;
@@ -92,8 +93,11 @@ export default function UserMenuComponent(props: UserMenuComponentProps) {
         <MenuItem onClick={() => handleOpenTab("profile")}>
           <Avatar /> {title}
         </MenuItem>
-        <MenuItem onClick={() => handleOpenTab("usermanagment")}>
-          <Avatar /> Shared With
+        <MenuItem onClick={() => handleOpenTab("mytrips")}>
+          <Avatar>
+            <AirplanemodeActive />
+          </Avatar>
+          My Trips
         </MenuItem>
         <Divider />
         <MenuItem onClick={() => handleOpenTab("share")}>
