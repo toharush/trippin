@@ -12,6 +12,7 @@ import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import { AirplanemodeActive } from "@mui/icons-material";
+import AuthHeader from "../AuthHeader/AuthHeader";
 
 interface UserMenuComponentProps {
   title: string;
@@ -51,7 +52,7 @@ export default function UserMenuComponent(props: UserMenuComponentProps) {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <Avatar sx={{ width: 40, height: 40 }}>{title[0]}</Avatar>
+            <AuthHeader title={title.split("@")[0]}/>
           </IconButton>
         </Tooltip>
       </Box>
