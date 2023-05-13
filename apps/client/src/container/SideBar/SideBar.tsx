@@ -8,6 +8,7 @@ import { useActivities, useStepper } from "../../hooks";
 import AppStepper from "../../components/Stepper/Stepper";
 import { stepperValues } from "../../interfaces";
 import { Button } from "@mui/material";
+import Authentication from "../Authentication/Authentication";
 
 const SideBarContainer = () => {
   const { currentStep, stepUp, stepDown } = useStepper();
@@ -18,17 +19,12 @@ const SideBarContainer = () => {
   const stepper = [
     {
       label: stepperValues[stepperValues.Location],
-      component: (
-        <>
-          <AuthHeader />
-        </>
-      ),
+      component: <></>,
     },
     {
       label: stepperValues[stepperValues.Activities],
       component: (
         <>
-          <AuthHeader />
           <TravelsCategoryComponent
             isCategoriesOpen={isCategoriesOpen}
             setIsCategoriesOpen={() => setIsCategoriesOpen(!isCategoriesOpen)}
@@ -62,6 +58,7 @@ const SideBarContainer = () => {
     <>
       <SideBar>
         <>
+          <Authentication />
           {stepper[currentStep].component}
           <AppStepper
             labels={stepper.map((step) => step.label)}
