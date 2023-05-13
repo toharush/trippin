@@ -16,8 +16,8 @@ import { useState } from "react";
 import useMapDrawer from "./useMapDrawer";
 
 const useActivities = () => {
-  const { addMarkerPoint, removeMarkerPoint, setFlyTo } = useMapDrawer();
   const dispatch = useAppDispatch();
+  const { addMarkerPoint, removeMarkerPoint, setFlyTo } = useMapDrawer();
   const selectedActivities = useSelector(selectSelectedActivities);
   const activities = useSelector(selectAllActivities);
   const filters = useSelector(selectFilters);

@@ -8,7 +8,6 @@ import {
   useAppDispatch,
 } from "../store";
 import auth from "../lib/firebase";
-import { useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { setUser } from "../store/slices/authentication";
 
@@ -19,7 +18,7 @@ const useAuthentication = () => {
   onAuthStateChanged(auth, (User) => {
     dispatch(setUser(User));
   });
-
+  
   const SignUp = async (email: string, password: string) =>
     await dispatch(fetchSignUp({ email, password }));
   const SignIn = async (email: string, password: string) =>

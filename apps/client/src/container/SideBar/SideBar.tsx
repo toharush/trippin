@@ -9,6 +9,7 @@ import AppStepper from "../../components/Stepper/Stepper";
 import { stepperValues } from "../../interfaces";
 import { Button } from "@mui/material";
 import Authentication from "../Authentication/Authentication";
+import MyTrips from "../MyTrips/MyTrips";
 
 const SideBarContainer = () => {
   const { currentStep, stepUp, stepDown } = useStepper();
@@ -19,7 +20,7 @@ const SideBarContainer = () => {
   const stepper = [
     {
       label: stepperValues[stepperValues.Location],
-      component: <></>,
+      component: <MyTrips />,
     },
     {
       label: stepperValues[stepperValues.Activities],
