@@ -19,6 +19,7 @@ const MapBody = () => {
     dayRoute.route.filter((point) => point.show === true)
   );
 
+
   const filteredPointsLocations: [number,number][] = filteredPoints.map((point)=> point.location);
   const polyLine = L.polyline(filteredPointsLocations,{color:'black',weight:1,dashArray:'5,8'});
 

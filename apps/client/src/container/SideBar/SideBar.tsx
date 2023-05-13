@@ -8,11 +8,13 @@ import { useActivities, useMapDrawer, useStepper } from "../../hooks";
 import AppStepper from "../../components/Stepper/Stepper";
 import { stepperValues } from "../../interfaces";
 import { Button } from "@mui/material";
+import DaysNavigation from "../../components/DaysNavigation/DaysNavigation";
+import DayRoute from "../../components/DayRoute/DayRoute";
 
 const SideBarContainer = () => {
   const { currentStep, stepUp, stepDown } = useStepper();
   const { selectedActivities } = useActivities();
-  const { hideSelectedActivities } = useMapDrawer();
+  const { selectedDayRoutes } = useMapDrawer();
   const [isActivitiesOpen, setIsActivitiesOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
 
@@ -45,13 +47,21 @@ const SideBarContainer = () => {
         </>
       ),
     },
+    {
+      label: stepperValues[stepperValues.Results],
+      component: (
+        <>
+          <AuthHeader></AuthHeader>
+          <DaysNavigation selectedDayRoutes={selectedDayRoutes}></DaysNavigation>
+        </>
+      )
+    }
   ];
 
   const next = () => {
     if (stepper.length > currentStep + 1) {
       stepUp();
     }
-    hideSelectedActivities();
   };
 
   const previous = () => {
