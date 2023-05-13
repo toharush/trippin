@@ -18,12 +18,12 @@ export default function DateRangePicker() {
       setDateAndTime({ ...dateAndTime, returnDate: date});
     };
 
-    const handleDepartureTimeChange = (date: Dayjs) => {
-      setDateAndTime({ ...dateAndTime, departureTime: date});
+    const handleDaytripStartTimeChange = (date: Dayjs) => {
+      setDateAndTime({ ...dateAndTime, daytripStartTime: date});
       };
 
-      const handleReturnTimeChange = (date: Dayjs) => {
-        setDateAndTime({ ...dateAndTime, returnTime: date});
+      const handleDaytripEndTimeChange = (date: Dayjs) => {
+        setDateAndTime({ ...dateAndTime, daytripEndTime: date});
       };
 
     return(
@@ -54,14 +54,14 @@ export default function DateRangePicker() {
             <Grid xs={5}>
                 <HourPicker
                     label='Begin'
-                    selectedTime={dateAndTime.departureTime}
-                    onTimeChange={handleDepartureTimeChange}/>
+                    selectedTime={dateAndTime.daytripStartTime}
+                    onTimeChange={handleDaytripStartTimeChange}/>
             </Grid>
             <Grid xs={5} sx={{ marginLeft: ' 5%'}}>
                 <HourPicker
                   label='End'
-                  selectedTime={dateAndTime.returnTime}
-                  onTimeChange={handleReturnTimeChange}/>
+                  selectedTime={dateAndTime.daytripEndTime}
+                  onTimeChange={handleDaytripEndTimeChange}/>
             </Grid>
         </Grid>
       </Box>

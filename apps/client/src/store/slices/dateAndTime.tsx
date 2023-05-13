@@ -6,12 +6,15 @@ interface DateAndTimeState {
     dateAndTime: DateAndTime;
 }
 
+const daytripStartTime = dayjs().hour(9).minute(0);
+const daytripEndTime = dayjs().hour(23).minute(0);
+
 const initialState: DateAndTimeState = {
     dateAndTime: {
         departureDate: dayjs(),
-        departureTime: dayjs(),
-        returnDate: dayjs(),
-        returnTime: dayjs(),
+        returnDate: dayjs().add(5, 'day'),
+        daytripStartTime: daytripStartTime,
+        daytripEndTime: daytripEndTime,
     }
 }
 
