@@ -4,7 +4,7 @@ import { fetchTrips } from "../middlewares/trip";
 
 interface TripState {
   trips: ITrip[];
-  selectedTripId: string | null;
+  selectedTripId: number | null;
 }
 
 const initialState: TripState = {
@@ -15,7 +15,12 @@ const initialState: TripState = {
 const stores = createSlice({
   name: "trip",
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    setSelectedTrip: (state, action: PayloadAction<number>) => ({
+      ...state,
+      selectedTripId: action.payload,
+    }),
+  },
   extraReducers: (builder) => {
     builder.addCase(
       fetchTrips.fulfilled,
@@ -27,5 +32,5 @@ const stores = createSlice({
   },
 });
 
-export const {} = stores.actions;
+export const { setSelectedTrip } = stores.actions;
 export default stores.reducer;

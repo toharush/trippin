@@ -1,12 +1,13 @@
+import Trip from "../../components/Trip/Trip";
 import useTrip from "../../hooks/useTrip";
 
 const MyTrips = () => {
-  const { trips } = useTrip();
+  const { trips, selectTrip } = useTrip();
 
   return (
     <>
       {trips.map((trip) => (
-        <div>{trip.name}</div>
+        <Trip onSelect={(tripId) => selectTrip(tripId)} trip={trip} />
       ))}
     </>
   );

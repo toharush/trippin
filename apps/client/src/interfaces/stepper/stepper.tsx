@@ -1,6 +1,7 @@
 export enum stepperValues {
-  "Location" = 0,
-  "Activities" = 1,
-  "Results" = 2,
-  "Done" = 3,
+  "My Trips" = 0,
+  "Location" = 1,
+  "Activities" = 2,
+  "Results" = 3,
+  "Done" = 4,
 }

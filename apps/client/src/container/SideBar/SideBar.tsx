@@ -1,5 +1,4 @@
 import { useState } from "react";
-import AuthHeader from "../../components/AuthHeader/AuthHeader";
 import SideBar from "../../components/SideBar/SideBar";
 import TravelsCategoryComponent from "../../components/TravelsCategoryComponent/TravelsCategoryComponent";
 import Dropdown from "../../components/Dropdown/Dropdown";
@@ -19,8 +18,12 @@ const SideBarContainer = () => {
 
   const stepper = [
     {
-      label: stepperValues[stepperValues.Location],
+      label: stepperValues[stepperValues["My Trips"]],
       component: <MyTrips />,
+    },
+    {
+      label: stepperValues[stepperValues.Location],
+      component: <></>,
     },
     {
       label: stepperValues[stepperValues.Activities],

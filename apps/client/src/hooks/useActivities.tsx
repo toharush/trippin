@@ -9,6 +9,7 @@ import {
   useAppDispatch,
 } from "../store";
 import {
+  removeAllSelectedActivities,
   setCatehoryFilter,
   setSelectedActivities,
 } from "../store/slices/activity";
@@ -80,16 +81,21 @@ const useActivities = () => {
     await search();
   };
 
+  const clearSelectedActivities = async () => {
+    await dispatch(removeAllSelectedActivities);
+  };
+
   return {
-    activities,
-    selectedActivities,
     addSelectedActivity,
     removeSelectedActivity,
     fetchActivities,
     searchActivity,
     setFilter,
+    clearSelectedActivities,
     filters,
     searchResults,
+    activities,
+    selectedActivities,
   };
 };
 

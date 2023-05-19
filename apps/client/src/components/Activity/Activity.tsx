@@ -1,4 +1,4 @@
-import { Activity as activity } from "../../../../../interfaces";
+import { Activity as activity } from "../../interfaces/activity/activity";
 import "./Activity.css";
 import { useActivities } from "../../hooks";
 import MissingPlaceImage from "../MissingPlaceImage/MissingPlaceImage";
@@ -35,7 +35,7 @@ export default function Activity({
       <div className="w-1/3">
         {Boolean(activity?.google?.image_url) ? (
           <img
-            src={activity.google.image_url}
+            src={activity?.google?.image_url}
             alt={activity.title}
             className="h-full w-full object-cover rounded-lg"
           />

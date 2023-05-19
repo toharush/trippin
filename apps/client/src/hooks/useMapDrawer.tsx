@@ -1,11 +1,15 @@
 import { MarkerPoint } from "../../../../interfaces/markerPoint";
 import { useSelector } from "react-redux";
-import { selectFlyTo, selectActivitiesMarkerPoints } from "../store/selectors/map";
+import {
+  selectFlyTo,
+  selectActivitiesMarkerPoints,
+} from "../store/selectors/map";
 import { useAppDispatch } from "../store";
 import {
   AddMarkerPointToSelectedActivities,
-  RemoveMarkerPointFromSelectedActivities, 
+  RemoveMarkerPointFromSelectedActivities,
   SetFlyTo,
+  removeAllMapItems,
 } from "../store/slices/map";
 
 const useMapDrawer = () => {
@@ -18,9 +22,11 @@ const useMapDrawer = () => {
   };
   const addMarkerPoint = async (markerPoint: MarkerPoint) =>
     await dispatch(AddMarkerPointToSelectedActivities(markerPoint));
-    
+
   const removeMarkerPoint = async (id: string) =>
     await dispatch(RemoveMarkerPointFromSelectedActivities(id));
+
+  const clearMap = async () => await dispatch(removeAllMapItems);
 
   return {
     markers,
@@ -28,6 +34,7 @@ const useMapDrawer = () => {
     setFlyTo,
     addMarkerPoint,
     removeMarkerPoint,
+    clearMap
   };
 };
 
