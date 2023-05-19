@@ -11,15 +11,18 @@ import Authentication from "../Authentication/Authentication";
 import MyTrips from "../MyTrips/MyTrips";
 
 const SideBarContainer = () => {
-  const { currentStep, stepUp, stepDown } = useStepper();
+  const { currentStep, stepUp, stepDown, setStep } = useStepper();
   const { selectedActivities } = useActivities();
   const [isActivitiesOpen, setIsActivitiesOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
+  const onSelectTrip = () => {
+    setStep(stepperValues.Activities);
+  };
 
   const stepper = [
     {
       label: stepperValues[stepperValues["My Trips"]],
-      component: <MyTrips />,
+      component: <MyTrips onSelectTrip={onSelectTrip} />,
     },
     {
       label: stepperValues[stepperValues.Location],
@@ -67,6 +70,7 @@ const SideBarContainer = () => {
           <AppStepper
             labels={stepper.map((step) => step.label)}
             activeStep={currentStep}
+            onSelect={(index) => setStep(index)}
           />
           <Button onClick={previous}>previous</Button>
           <Button onClick={next}>Next</Button>

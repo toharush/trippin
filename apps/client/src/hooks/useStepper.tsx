@@ -13,10 +13,15 @@ const useStepper = () => {
     dispatch(setStepper(currentStep - 1))
   };
 
+  const setStep = (index: number) => {
+    dispatch(setStepper(index));
+  }
+
   return {
     currentStep,
     stepUp,
     stepDown,
+    setStep
   };
 };
 
