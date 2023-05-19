@@ -25,7 +25,7 @@ const useTrip = () => {
       fetchAllTrips();
     } else {
       selectedTrip.routes.map((route) =>
-        route.activities.map((activity) => addSelectedActivity(activity))
+        route.activities.map((activity, index) => addSelectedActivity(activity))
       );
     }
   }, [currentUser, selectedTrip]);

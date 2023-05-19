@@ -24,26 +24,26 @@ const stores = createSlice({
   name: "activity",
   initialState: initialState,
   reducers: {
-    setSelectedActivities: (state, action: PayloadAction<Activity>) => {
-      let selectedActivitis: Activity[] = [];
-      const selectedActivityIndex = state.selectedActivities.findIndex(
-        (activity) => activity.id === action.payload.id
-      );
-      if (selectedActivityIndex === -1) {
+    removeStoreSelectedActivity: (state, action: PayloadAction<Activity>) => ({
+      ...state,
+      selectedActivities: state.selectedActivities.filter(
+        (selectedAct) => selectedAct.id != action.payload.id
+      ),
+      activities: [...state.activities!, action.payload],
+    }),
+    addStoreSelectedActivity: (state, action: PayloadAction<Activity>) => {
+      if (
+        state.selectedActivities.find((act) => act.id === action.payload.id)
+      ) {
         return {
           ...state,
-          activities: state.activities!.filter(
-            (item) => item.id !== action.payload.id
-          ),
-          selectedActivities: [...state.selectedActivities, action.payload],
         };
       } else {
         return {
           ...state,
-          activities: [...state.activities!, action.payload],
-          selectedActivities: state.selectedActivities.splice(
-            selectedActivityIndex,
-            1
+          selectedActivities: [...state.selectedActivities, action.payload],
+          activities: state.activities!.filter(
+            (act) => act.id != action.payload.id
           ),
         };
       }
@@ -78,8 +78,9 @@ const stores = createSlice({
 });
 
 export const {
-  setSelectedActivities,
   setCatehoryFilter,
+  removeStoreSelectedActivity,
+  addStoreSelectedActivity,
   removeAllSelectedActivities,
 } = stores.actions;
 export default stores.reducer;

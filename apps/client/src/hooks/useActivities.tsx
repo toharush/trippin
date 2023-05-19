@@ -11,7 +11,8 @@ import {
 import {
   removeAllSelectedActivities,
   setCatehoryFilter,
-  setSelectedActivities,
+  removeStoreSelectedActivity,
+  addStoreSelectedActivity,
 } from "../store/slices/activity";
 import { useState } from "react";
 import useMapDrawer from "./useMapDrawer";
@@ -31,7 +32,7 @@ const useActivities = () => {
 
   const removeSelectedActivity = async (activity: Activity) => {
     await removeMarkerPoint(activity.id);
-    await dispatch(setSelectedActivities(activity));
+    await dispatch(removeStoreSelectedActivity(activity));
     await search();
   };
 
@@ -45,7 +46,7 @@ const useActivities = () => {
       show: true,
       data: activity,
     });
-    await dispatch(setSelectedActivities(activity));
+    await dispatch(addStoreSelectedActivity(activity));
   };
 
   const searchActivity = async (name: string | undefined) => {
