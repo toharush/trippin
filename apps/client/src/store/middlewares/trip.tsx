@@ -2,11 +2,12 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { PermissionType } from "../../interfaces/permission/permission";
 import ITrip from "../../interfaces/trip/trip";
 
-const getTrips = (username?: string) =>
+const getTrips = (username?: string): ITrip[] =>
   username
     ? [
         {
           id: 1,
+          image_path: "The-Big-Ben.jpg",
           name: "New York",
           ownerId: "",
           permission: [
