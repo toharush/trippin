@@ -60,7 +60,7 @@ const useActivities = () => {
     if (searchString !== "" && !isEmpty(searchString)) {
       // @ts-ignore
       val = activities?.filter(
-        (activity) =>
+        (activity: Activity) =>
           selectedActivities.filter((act) => act.id != activity.id) &&
           (isEmpty(filters.category) ||
             activity.category?.name
