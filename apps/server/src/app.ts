@@ -23,7 +23,6 @@ const client = new Client({
 });
 client.connect();
 
-
 const PORT = process.env.APP_PORT || 8080;
 const app = express();
 
@@ -190,6 +189,7 @@ app.use(
         graphiql: true,
     })
 );
+
 app.use('/api/v1', mainRouter);
 
 app.listen(PORT, () => console.log(`App listening on port ${PORT}`));

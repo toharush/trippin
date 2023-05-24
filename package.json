@@ -21,6 +21,7 @@
     "@mui/x-data-grid": "^6.4.0",
     "@types/node": "^18.15.11",
     "firebase": "^9.22.0",
+    "geopoint": "^1.0.1",
     "graphql": "^15.8.0",
     "react-perfect-scrollbar": "^1.5.8"
   }
