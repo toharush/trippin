@@ -35,13 +35,13 @@ export class GoogleGenericScraper extends GenericScraper {
     for (let index = 0; index < items.length; index++) {
       const item = items[index];
 
-      await this.loadItemPage!(page, item);
-
-      const res = await this.pageSelector(page);
-
       let obj: GoogleDatabase = {
         place_id: item.id,
       };
+
+      await this.loadItemPage!(page, item);
+
+      const res = await this.pageSelector(page);
 
       await setTimeout(() => {}, 1000);
 
