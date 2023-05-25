@@ -1,4 +1,4 @@
-import ICoordinate from '../interfaces/coordinate';
+import ICoordinate from '../../../client/src/interfaces/activity/coordinate';
 import geo from 'geopoint';
 
 export const calculateDistance = (
