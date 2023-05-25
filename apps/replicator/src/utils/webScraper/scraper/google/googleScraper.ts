@@ -24,33 +24,37 @@ export class GoogleGenericScraper extends GenericScraper {
   async run(
     items: { id: string; address_id: number; label: string }[]
   ): Promise<void> {
+    let page = await this._browser.newPage();
+
     this._logger.info(
       `stating to replicate (${items.length} items in ${this._type} mode)`
     );
-    let page = await this._browser.newPage();
 
     await page.goto(GoogleScraperUrl[this._type]);
 
     for (let index = 0; index < items.length; index++) {
-      if (this.loadItemPage && (await this.loadItemPage(page, items[index]))) {
-        const res = await this.pageSelector(page);
-        let obj: GoogleDatabase = {
-          place_id: items[index].id,
-        };
-        await setTimeout(() => {}, 1000);
-        if (res?.rate && !Number.isNaN(res.rate)) {
-          obj.rate = res.rate;
-        } else {
-          obj.rate = await defaultGoogleRandomRate();
-        }
+      const item = items[index];
 
-        if (res?.spend) {
-          obj = res.spend;
-        } else {
-          obj.spend = await defaultGoogleRandomSpend(obj.place_id);
-        }
-        await upsert_google(obj);
-      }
+      await this.loadItemPage!(page, item);
+
+      const res = await this.pageSelector(page);
+
+      let obj: GoogleDatabase = {
+        place_id: item.id,
+      };
+
+      await setTimeout(() => {}, 1000);
+
+      await upsert_google({
+        ...obj,
+        rate:
+          res?.rate && !Number.isNaN(res.rate)
+            ? res.rate
+            : await defaultGoogleRandomRate(),
+        spend: res?.spend
+          ? res.spend
+          : await defaultGoogleRandomSpend(obj.place_id),
+      });
     }
 
     await page.close();
