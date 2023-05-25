@@ -23,7 +23,6 @@ const client = new Client({
 });
 client.connect();
 
-
 const PORT = process.env.APP_PORT || 8080;
 const app = express();
 

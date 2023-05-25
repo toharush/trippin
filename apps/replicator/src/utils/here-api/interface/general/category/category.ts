@@ -1,5 +1,5 @@
 export interface Category {
-    id: string;
-    name?: string;
-    primary?: boolean;
+  id: string;
+  name?: string;
+  primary?: boolean;
 }
