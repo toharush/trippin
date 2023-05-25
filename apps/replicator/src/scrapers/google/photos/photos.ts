@@ -33,8 +33,8 @@ export class GoolgePhotosScraper extends GoogleGenericScraper {
       };
       const res = await google.scrape(`${label}`);
       await setTimeout(() => {}, 1000);
-      res?.map((item) => !item.url.includes("fbsbx"));
-      res[0]?.url && (obj.image_url = res[0].url);
+      res?.map((item) => !item?.url.includes("fbsbx"));
+      res[0]?.url && (obj.image_url = res[0]?.url);
       await upsert_google(obj);
     }
   }
