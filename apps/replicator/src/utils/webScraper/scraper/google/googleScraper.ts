@@ -5,6 +5,10 @@ import { SearchTags } from "../../app";
 import { Logger } from "winston";
 import { upsert_google } from "../../../../controllers/google";
 import { GoogleDatabase } from "../../../../interface/google";
+import {
+  defaultGoogleRandomRate,
+  defaultGoogleRandomSpend,
+} from "../../../database/config";
 
 export interface GoogleScraperInput {
   browser: Browser;
@@ -34,8 +38,17 @@ export class GoogleGenericScraper extends GenericScraper {
           place_id: items[index].id,
         };
         await setTimeout(() => {}, 1000);
-        res.rate && !Number.isNaN(res.rate) && (obj.rate = Number(res.rate));
-        res.spend && (obj.spend = res.spend);
+        if (res?.rate && !Number.isNaN(res.rate)) {
+          obj.rate = res.rate;
+        } else {
+          obj.rate = await defaultGoogleRandomRate();
+        }
+
+        if (res?.spend) {
+          obj = res.spend;
+        } else {
+          obj.spend = await defaultGoogleRandomSpend(obj.place_id);
+        }
         await upsert_google(obj);
       }
     }

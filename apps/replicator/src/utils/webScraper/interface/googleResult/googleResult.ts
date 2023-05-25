@@ -1,5 +1,4 @@
 export interface googleResult {
-    nikud: string,
-    usually: string
+  nikud: string;
+  usually: string;
 }
-

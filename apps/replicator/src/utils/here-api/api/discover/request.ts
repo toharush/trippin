@@ -37,7 +37,8 @@ export class discover {
         })
       );
     } catch (err) {
-      throw err;
+      console.log(err);
+      return [];
     }
   }
 }

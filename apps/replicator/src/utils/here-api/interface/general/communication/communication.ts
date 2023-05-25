@@ -1,6 +1,6 @@
-import { Category } from '../../../app';
+import { Category } from "../../../app";
 
 export interface Communication {
-    value: string;
-    categories: Category[];
+  value: string;
+  categories: Category[];
 }
