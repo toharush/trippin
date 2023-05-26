@@ -16,4 +16,3 @@ export const getPointsInCircle = (
     radius: number,
     center: ICoordinate
 ) => points.filter(point => calculateDistance(point, center) <= radius);
-

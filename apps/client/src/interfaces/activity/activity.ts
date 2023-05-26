@@ -10,4 +10,5 @@ export interface Activity {
   google: Google;
   address: any;
   position: ICoordinate;
+  rate?: number;
 }

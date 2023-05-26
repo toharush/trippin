@@ -1,11 +1,11 @@
+import { Activity } from "../../../../client/src/interfaces";
 import ICoordinate from "../../../../client/src/interfaces/activity/coordinate";
-import Place from "../../interfaces/place";
 import {query} from "../../utils/sql_query";
 
-export const getPlacesInRadiusDB = async (
+export const getActivitiesInRadiusDB = async (
     radius: number,
     centerPoint: ICoordinate
-): Promise<Place[]> => {
+): Promise<Activity[]> => {
     return (await query(`SELECT * 
     FROM trippin."place"
     WHERE position_id IN (
