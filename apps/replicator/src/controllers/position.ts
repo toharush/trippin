@@ -1,6 +1,7 @@
 import {
   insert_position,
   get_position_id as get_position_id_db,
+  getAllPositionsFromDb,
 } from "../models/position";
 
 export const get_position_id = async (
@@ -15,3 +16,5 @@ export const get_position_id = async (
 
   return res;
 };
+
+export const getAllPositions = async () => await getAllPositionsFromDb();

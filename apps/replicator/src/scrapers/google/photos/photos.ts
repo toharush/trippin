@@ -5,6 +5,7 @@ import { Logger } from "winston";
 import Scraper from "images-scraper";
 import { GoogleDatabase } from "../../../interface/google";
 import { upsert_google } from "../../../controllers/google";
+import { sleep } from "../../../utils/sleep";
 
 export class GoolgePhotosScraper extends GoogleGenericScraper {
   constructor(browser: Browser, logger: Logger) {
@@ -32,9 +33,13 @@ export class GoolgePhotosScraper extends GoogleGenericScraper {
         place_id: item.id,
       };
       const res = await google.scrape(`${label}`);
-      await setTimeout(() => {}, 1000);
-      res?.map((item) => !item?.url.includes("fbsbx"));
-      res[0]?.url && (obj.image_url = res[0]?.url);
+      sleep(1000);
+
+      if (res.length > 0) {
+        res?.map((item) => !item?.url.includes("fbsbx"));
+        res[0]?.url && (obj.image_url = res[0]?.url);
+      }
+
       await upsert_google(obj);
     }
   }
