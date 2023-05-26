@@ -6,6 +6,7 @@ import {
 } from "../../app";
 import axios from "axios";
 import hash from "object-hash";
+import { sleep } from "../../../sleep";
 
 export class discover {
   private _options: GlobalOptions;
@@ -37,7 +38,8 @@ export class discover {
         })
       );
     } catch (err) {
-      console.log(err);
+      const millisecondsInOneDay = 24 * 60 * 60 * 1000;
+      await sleep(millisecondsInOneDay);
       return [];
     }
   }

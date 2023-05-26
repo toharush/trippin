@@ -10,37 +10,37 @@ export const min_value = 1;
 export const cache = 1;
 export const increase = 1;
 export const max_value = 999999;
-export const defaultOpenHours = [
+export const defaultOpenHours = `[
   {
-    text: ["Mon-Sun: 00:00 - 23:59"],
-    isOpen: true,
-    categories: [
+    "text": ["Mon-Sun: 00:00 - 23:59"],
+    "isOpen": "true",
+    "categories": [
       {
-        id: "100-1000-0000",
+        "id": "100-1000-0000",
       },
       {
-        id: "600-6300-0244",
+        "id": "600-6300-0244",
       },
     ],
-    structured: [
+    "structured": [
       {
-        start: "T000000",
-        duration: "PT23H59M",
-        recurrence: "FREQ:DAILY;BYDAY:MO,TU,WE,TH,FR,SA,SU",
+        "start": "T000000",
+        "duration": "PT23H59M",
+        "recurrence": "FREQ:DAILY;BYDAY:MO,TU,WE,TH,FR,SA,SU",
       },
       {
-        start: "T170000",
-        duration: "PT06H59M",
-        recurrence: "FREQ:DAILY;BYDAY:MO,TU,WE,TH,FR,SA",
+        "start": "T170000",
+        "duration": "PT06H59M",
+        "recurrence": "FREQ:DAILY;BYDAY:MO,TU,WE,TH,FR,SA",
       },
       {
-        start: "T180000",
-        duration: "PT05H59M",
-        recurrence: "FREQ:DAILY;BYDAY:SU",
+        "start": "T180000",
+        "duration": "PT05H59M",
+        "recurrence": "FREQ:DAILY;BYDAY:SU",
       },
     ],
   },
-];
+]`;
 export const defaultCategories = 1;
 export const defaultPosition = 1;
 export const defaultGoogleRandomRate = () =>

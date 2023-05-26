@@ -28,3 +28,15 @@ export const get_position_id = async (
   }
   return QueryResult.COLUMN_NOT_FOUND;
 };
+
+export const getAllPositionsFromDb = async (): Promise<{
+  lat: number;
+  lng: number;
+}[]> => {
+  const res = await await query(
+    `SELECT lat, lng FROM ${schema}.${TABLES.POSITION}`,
+    []
+  );
+
+  return res.rows;
+};
