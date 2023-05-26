@@ -1,5 +1,6 @@
 import { ReactJSXElement } from "@emotion/react/types/jsx-namespace";
 import {
+  Alert,
   Button,
   Dialog,
   DialogActions,
@@ -18,10 +19,11 @@ interface AuthenticationFormProps {
   setOpen: Function;
   handleSignIn: Function;
   handleSignUp: Function;
+  error: string | null;
 }
 const AuthenticationForm = (props: AuthenticationFormProps) => {
   const [isLogin, setIsLogin] = useState<boolean>(true);
-  const { open, setOpen, handleSignIn, handleSignUp } = props;
+  const { open, setOpen, handleSignIn, handleSignUp, error } = props;
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
@@ -53,6 +55,9 @@ const AuthenticationForm = (props: AuthenticationFormProps) => {
         <ToggleButton value={true}>Sign In</ToggleButton>
         <ToggleButton value={false}>Sign Up</ToggleButton>
       </ToggleButtonGroup>
+
+      {error ? <Alert severity="error">{error}</Alert> : null}
+
       <DialogTitle id="alert-dialog-title">
         {isLogin ? "Welcome back!" : "Sign up for free!"}
       </DialogTitle>

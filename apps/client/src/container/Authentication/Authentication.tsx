@@ -1,14 +1,12 @@
 import AuthHeader from "../../components/AuthHeader/AuthHeader";
-import SignIn from "../../components/SignIn/SignIn";
 import { useAuthentication } from "../../hooks";
 import { useState, useEffect } from "react";
 import AuthenticationForm from "../AuthenticationForm/AuthenticationForm";
-import SharedContact from "../../components/UserMenuComponent/UserMenuComponent";
 import UserMenu from "../UserMenu/UserMenu";
 
 const Authentication = () => {
   const [openAuth, setOpenAuth] = useState<boolean>(false);
-  const { currentUser, SignIn, SignUp } = useAuthentication();
+  const { currentUser, SignIn, SignUp, error } = useAuthentication();
 
   const handleAuth = () => {
     setOpenAuth(!openAuth);
@@ -21,12 +19,15 @@ const Authentication = () => {
   return (
     <>
       {openAuth ? (
-        <AuthenticationForm
-          open={openAuth}
-          setOpen={setOpenAuth}
-          handleSignIn={SignIn}
-          handleSignUp={SignUp}
-        />
+        <>
+          <AuthenticationForm
+            open={openAuth}
+            error={error}
+            setOpen={setOpenAuth}
+            handleSignIn={SignIn}
+            handleSignUp={SignUp}
+          />
+        </>
       ) : null}
       {currentUser ? <UserMenu /> : <AuthHeader onClick={handleAuth} />}
     </>
