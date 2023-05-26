@@ -32,7 +32,7 @@ export default function HourPicker({ label, selectedTime, onTimeChange }: Props)
           }
         }}
         ampm={false}
-        defaultValue={dayjs()}
+        
       />
     </LocalizationProvider>
   );
