@@ -1,11 +1,15 @@
 import { Activity } from "../../../client/src/interfaces";
-import { calculateDistance } from "../controllers/MapCalculation";
 import ICoordinate from "../../../client/src/interfaces/activity/coordinate";
+import Place from "../interfaces/place";
+import { getPlacesInRadius } from "../controllers/Place";
 
-export const filterCoveredActivities = (allActivities: Activity[], coveredActivities: Activity[]) => {
+export const filterCoveredActivities = (
+    activities: Activity[],
+    coveredActivities: Activity[]
+): Activity[] => {
     let potentialActivities: Activity[] = [];
     
-    allActivities.forEach(currentActivity => {
+    activities.forEach(currentActivity => {
         if (!isActivityCovered(currentActivity, coveredActivities)) {
             potentialActivities.push(currentActivity);
         } 
@@ -14,7 +18,10 @@ export const filterCoveredActivities = (allActivities: Activity[], coveredActivi
     return potentialActivities;
 }
 
-const isActivityCovered = (activity: Activity, activities: Activity[]) => {
+const isActivityCovered = (
+    activity: Activity,
+    activities: Activity[]
+): boolean => {
     if (activities.includes(activity)) {
         return true;
     }
@@ -22,7 +29,10 @@ const isActivityCovered = (activity: Activity, activities: Activity[]) => {
 }
 
 
-export const getRankedActivities = (categoryPriorities: Map<String, number>, potentialActivities: Activity[]) => {
+export const getRankedActivities = (
+    categoryPriorities: Map<String, number>,
+    potentialActivities: Activity[]
+): Map<Activity, number> => {
     let rankedActivities: Map<Activity, number> = new Map();
 
     potentialActivities.forEach(currentActivity => {
@@ -33,43 +43,38 @@ export const getRankedActivities = (categoryPriorities: Map<String, number>, pot
     return rankedActivities;
 }
 
-const calculateActivityGrade = (activity: Activity, categoryPriorities: Map<String, number>) => {
-    // Change 5 to activity.rating after inserting rating for every activity in the DB
-    let activityRating: number = 5;
-    let categoryPreference: number | undefined = categoryPriorities.get(activity.category);
+const calculateActivityGrade = (
+    activity: Activity,
+    categoryPriorities: Map<String, number>
+): number => {
+    const activityDefaultRating: number = 3;
+    const categoryPreference: number | undefined = categoryPriorities.get(activity.category);
     
-    if (categoryPreference !== undefined) {
-        return activityRating * categoryPreference;
+    if (categoryPreference === undefined) {
+        return 0;    
+    } else {
+        if (activity.google.rate === undefined) {
+            return categoryPreference * activityDefaultRating;
+        } else {
+            return categoryPreference * parseInt(activity.google.rate);
+        }
     }
-    return 0;    
 }
 
 
-export const getAllPotentialActivites = (startPoint: ICoordinate, radius: number, categoryPriorities: Map<String, number>) => {
-    let potentialActivities: Activity[] = [];
+export const getAllPotentialActivites = (
+    startPoint: ICoordinate,
+    radius: number,
+    categoryPriorities: Map<String, number>
+): Place[] => {
+    let potentialPlaces: Place[] = [];
 
-    Object.keys(categoryPriorities).forEach(key => {
+    Object.keys(categoryPriorities).forEach(async (key) => {
         if (categoryPriorities.get(key) != 0) {
-            // Call the sql query
-            let activities: Activity[] = [];
-
-            let activitiesInCircle: Activity[] = getActivitiesInCircle(activities, startPoint, radius);
-            potentialActivities = potentialActivities.concat(activitiesInCircle);
+            let currentCategoryPlaces: Place[] = await getPlacesInRadius(radius, startPoint);
+            potentialPlaces = potentialPlaces.concat(currentCategoryPlaces);
         }
     })
 
-    return potentialActivities;
-}
-
-const getActivitiesInCircle = (activities: Activity[], startPoint: ICoordinate, radius: number) => {
-    let activitiesInCircle: Activity[] = [];
-
-    activities.forEach(currentActivity => {
-        let coordinate: ICoordinate = {lat: currentActivity.position.lat, lng: currentActivity.position.lng};
-        if (calculateDistance(coordinate, startPoint) <= radius) {
-            activitiesInCircle.push(currentActivity);
-        }
-    });
-
-    return activitiesInCircle;
+    return potentialPlaces;
 }
