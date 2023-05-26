@@ -14,14 +14,9 @@ import getPlaceSQLQuery from './mapping/placeByAddressMapping';
 import { schema as DBSchema, TABLES } from '../../../utils';
 import mainRouter from './routes/main';
 import cors from 'cors';
-import { Client } from 'pg';
+import client from './utils/sql_client';
 
 dotenv.config();
-
-const client = new Client({
-    connectionString: process.env.DATABASE_URL,
-});
-client.connect();
 
 const PORT = process.env.APP_PORT || 8080;
 const app = express();
