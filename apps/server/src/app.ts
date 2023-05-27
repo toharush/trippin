@@ -15,6 +15,7 @@ import { schema as DBSchema, TABLES } from '../../../utils';
 import mainRouter from './routes/main';
 import cors from 'cors';
 import client from './utils/sql_client';
+import { calculateTrip } from './algorithm/algoFunctions';
 
 dotenv.config();
 
@@ -176,6 +177,38 @@ const QueryRoot = new GraphQLObjectType({
     }),
 });
 const schema = new GraphQLSchema({ query: QueryRoot });
+
+let date = new Date();
+date.setDate(date.getDate() + 3);
+
+(async () =>
+    console.log(
+        await calculateTrip(
+            'a',
+            { lat: 36.13506, lng: -95.97135 },
+            50,
+            new Map([['Atractions', 8]]),
+            [
+                {
+                    id: '25499431:place',
+                    title: 'Central Place, Tulsa, OK, United States',
+                    type: 'locality',
+                    open_hours: [],
+                    position: {
+                        lat: 36.1501,
+                        lng: -95.9647,
+                    },
+                    address: {},
+                    category: {},
+                    extra: {},
+                    google: {},
+                    rate: 0,
+                },
+            ],
+            new Date(),
+            date
+        )
+    ))();
 
 app.use(
     '/api/v1',

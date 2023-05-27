@@ -5,6 +5,10 @@ import IGroup from '../../../client/src/interfaces/activity/group';
 import ITrip from '../../../client/src/interfaces/activity/trip';
 import { getActivitiesInRadius } from '../controllers/activity';
 import { calculateDistance } from '../controllers/mapCalculation';
+import { dbCategoryToClientCategoryMapping } from '../controllers/mapCategory';
+
+const MIN_ACTIVITIES_PER_DAY = 3;
+const ACTIVITY_DEFAULT_RATING = 3;
 
 export const calculateTrip = async (
     name: string,
@@ -19,12 +23,14 @@ export const calculateTrip = async (
 
     for (
         let i = 0;
-        i < Math.abs(endDate.getDate() - startDate.getDate());
+        i <= Math.abs(endDate.getDate() - startDate.getDate());
         i++
     ) {
-        let date = startDate;
-        date.setDate(startDate.getDate() + i);
-        const allTripActivities = calculateAllTripActivities(dailyRoutes);
+        let date = new Date(startDate);
+        date.setDate(date.getDate() + i);
+
+        let allTripActivities = calculateAllTripActivities(dailyRoutes);
+
         selectedActivities = filterCoveredActivities(
             selectedActivities,
             allTripActivities
@@ -73,25 +79,42 @@ const findDailyRoute = async (
     categoryPriorities: Map<string, number>,
     selectedActivities: Activity[],
     allVacationActivities: Activity[]
-): Promise<IDailyRoute> => {
+): Promise<IDailyRoute> => {    
     // Find the start point of simplex
-    const startSimplexPoint = findStartSimplexPoint(
+    let startSimplexPoint = findStartSimplexPoint(
         cityCenter,
         radius,
-        selectedActivities
+        selectedActivities,
+        allVacationActivities
     );
 
     // Get max activities from DB under specific radius
-    const potentialActivities = await getAllPotentialActivites(
+    let potentialActivities = await getAllPotentialActivites(
         startSimplexPoint,
         radius
     );
+
+    // In case there weren't any potentialActivities after first randomizing
+    while (potentialActivities.length < MIN_ACTIVITIES_PER_DAY)  {
+        startSimplexPoint = findStartSimplexPoint(
+            cityCenter,
+            radius,
+            selectedActivities,
+            allVacationActivities
+        );
+
+        potentialActivities = await getAllPotentialActivites(
+            startSimplexPoint,
+            radius
+        );
+    }
 
     // Filter activities that has zero rating in category
     const rankedActivities = getRankedActivities(
         categoryPriorities,
         potentialActivities
     );
+    console.log(JSON.stringify(rankedActivities, null, 8));
 
     // Filter activities which already have been covered
     const finalActivities = filterCoveredActivities(
@@ -101,6 +124,9 @@ const findDailyRoute = async (
 
     // Simplex algo
 
+    // After running simplex algorithm we need to take the daily route activities that simplex 
+    // has returned and concat them to allVacationActivities array
+
     return {
         date: date,
         index: dailyIndex,
@@ -109,7 +135,7 @@ const findDailyRoute = async (
     };
 };
 
-export const filterCoveredActivities = (
+const filterCoveredActivities = (
     activities: Activity[],
     coveredActivities: Activity[]
 ): Activity[] =>
@@ -121,9 +147,9 @@ export const filterCoveredActivities = (
 const isActivityCovered = (
     activity: Activity,
     activities: Activity[]
-): boolean => activities.includes(activity);
+): boolean => Boolean(activities.length > 0 && activities.filter(currentActivity => currentActivity.id === activity.id));
 
-export const getRankedActivities = (
+const getRankedActivities = (
     categoryPriorities: Map<string, number>,
     potentialActivities: Activity[]
 ): Activity[] =>
@@ -139,45 +165,36 @@ const calculateActivityGrade = (
     activity: Activity,
     categoryPriorities: Map<string, number>
 ): number => {
-    const activityDefaultRating: number = 3;
-    const categoryPreference: number | undefined = categoryPriorities.get(
-        activity.category
-    );
+    let clientCategory = dbCategoryToClientCategoryMapping(activity.category);
+    const categoryPreference: number | undefined = categoryPriorities.get(clientCategory);
 
     if (!categoryPreference) {
         return 0;
     } else {
-        if (activity.google.rate === undefined) {
-            return categoryPreference * activityDefaultRating;
-        } else {
+        if (activity.google?.rate) {
             return categoryPreference * parseInt(activity.google.rate);
+        } else {
+            return categoryPreference * ACTIVITY_DEFAULT_RATING;
         }
     }
 };
 
-export const getAllPotentialActivites = async (
+const getAllPotentialActivites = async (
     startPoint: ICoordinate,
     radius: number
 ): Promise<Activity[]> => await getActivitiesInRadius(radius, startPoint);
 
-export const findStartSimplexPoint = (
+const findStartSimplexPoint = (
     cityCenter: ICoordinate,
     radius: number,
-    selectedActivities: Activity[]
+    selectedActivities: Activity[],
+    allVacationActivities: Activity[]
 ): ICoordinate => {
     if (selectedActivities.length != 0) {
         return findBestCoverPoint(radius, selectedActivities);
     } else {
-        // Need Implementation
-        return findRandomPointInRadius(cityCenter, radius);
+        return findFarthestPoint(allVacationActivities, cityCenter, radius);
     }
-};
-
-const findRandomPointInRadius = (
-    cityCenter: ICoordinate,
-    radius: number
-): ICoordinate => {
-    return { lat: 8, lng: 8 };
 };
 
 const findBestCoverPoint = (
@@ -208,13 +225,13 @@ const groupPointsByRadius = (
     selectedActivities: Activity[],
     radius: number
 ): IGroup[] => {
-    const groups: IGroup[] = [];
+    let groups: IGroup[] = [];
 
-    for (const currentSelectedActivity of selectedActivities) {
+    for (let currentSelectedActivity of selectedActivities) {
         let closestGroup: IGroup | null = null;
         let closestDistance = Infinity;
 
-        for (const group of groups) {
+        for (let group of groups) {
             const distance = calculateDistance(
                 group.centerActivity.position,
                 currentSelectedActivity.position
@@ -250,4 +267,50 @@ const findCenterPoint = (activities: Activity[]): ICoordinate => {
     const averageLng = sumLng / activities.length;
 
     return { lat: averageLat, lng: averageLng };
+};
+
+const getRandomPointInRadius = (
+    center: ICoordinate,
+    radiusInKm: number
+): ICoordinate => {
+    const radiusInDegrees = radiusInKm / 111.12; // Approximate number of kilometers in one degree (111.12 km/degree at the equator)
+    const randomAngle = Math.random() * 360; // Random angle in degrees
+    const offsetX = Math.cos(randomAngle) * radiusInDegrees;
+    const offsetY = Math.sin(randomAngle) * radiusInDegrees;
+    const randomPoint: ICoordinate = {
+        lat: center.lat + offsetX,
+        lng: center.lng + offsetY,
+    };
+    return randomPoint;
+};
+
+const findFarthestPoint = (
+    allTripActivities: Activity[],
+    cityCenter: ICoordinate,
+    radius: number
+): ICoordinate => {
+    let farthestDistance = 0;
+    let farthestPoint: ICoordinate = cityCenter;
+
+    for (let i = 0; i < 10; i++) {
+        const randomPoint = getRandomPointInRadius(cityCenter, radius);
+        let minDistance = Infinity;
+
+        allTripActivities.map(currentActivity => {
+            const distance = calculateDistance(
+                randomPoint,
+                currentActivity.position
+            );
+            if (distance < minDistance) {
+                minDistance = distance;
+            }
+        });
+
+        if (minDistance > farthestDistance) {
+            farthestDistance = minDistance;
+            farthestPoint = randomPoint;
+        }
+    }
+
+    return farthestPoint;
 };
