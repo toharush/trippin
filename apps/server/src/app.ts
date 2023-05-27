@@ -15,6 +15,8 @@ import { schema as DBSchema, TABLES } from '../../../utils';
 import mainRouter from './routes/main';
 import cors from 'cors';
 import { Client } from 'pg';
+import Comment from './models/comment/comment';
+import { registerNewComment } from './controllers/comment';
 
 dotenv.config();
 
@@ -180,7 +182,26 @@ const QueryRoot = new GraphQLObjectType({
         },
     }),
 });
-const schema = new GraphQLSchema({ query: QueryRoot });
+const MutationRoot = new GraphQLObjectType({
+    name: 'Mutation',
+    fields: () => ({
+        addComment: {
+            type: Comment,
+            args: {
+                place_id: { type: GraphQLNonNull(GraphQLString) },
+                user_id: { type: GraphQLNonNull(GraphQLString) },
+                text: { type: GraphQLNonNull(GraphQLString) },
+            },
+            resolve: async (parent, args, context, resolveInfo) =>
+                await registerNewComment(
+                    args.user_id,
+                    args.place_id,
+                    args.text
+                ),
+        },
+    }),
+});
+const schema = new GraphQLSchema({ query: QueryRoot, mutation: MutationRoot });
 
 app.use(
     '/api/v1',
@@ -189,6 +210,7 @@ app.use(
         graphiql: true,
     })
 );
+
 app.use('/api/v1', mainRouter);
 
 app.listen(PORT, () => console.log(`App listening on port ${PORT}`));

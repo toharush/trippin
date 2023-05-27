@@ -22,6 +22,7 @@
     "@types/node": "^18.15.11",
     "firebase": "^9.22.0",
     "graphql": "^15.8.0",
+    "react-apexcharts": "^1.4.0",
     "react-perfect-scrollbar": "^1.5.8"
   }
 }
