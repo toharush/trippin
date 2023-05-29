@@ -1,5 +1,5 @@
 import { Google } from "./google";
-export interface Activity {
+export default interface Activity {
   id: string;
   title: string;
   type: string;
