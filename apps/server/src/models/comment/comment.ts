@@ -27,4 +27,10 @@ export const registerNewCommentInDb = (
     date: Date
 ) => {
     console.log(userId, place_id, text, date);
+    return {
+        userId,
+        place_id,
+        text,
+        date,
+    };
 };

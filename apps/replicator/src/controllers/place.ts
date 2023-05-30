@@ -12,9 +12,13 @@ import { set_categories } from "./extra_categories";
 import { get_position_id } from "./position";
 import {
   defaultCategories,
+  defaultGoogleRandomRate,
+  defaultGoogleRandomSpend,
   defaultOpenHours,
   defaultPosition,
 } from "../utils/database/config";
+import { upsert_google } from "./google";
+import { getGoogleImage } from "../utils/randomLocation";
 
 export const get_places = async (limit: number, offset: number = 0) =>
   await get_places_db(limit, limit * offset);
@@ -22,9 +26,13 @@ export const get_places = async (limit: number, offset: number = 0) =>
 export const get_place_count = async () => await get_place_count_db();
 
 export const insert_place = async (item: DiscoverResponse) => {
+  const rate = defaultGoogleRandomRate();
+  const spend = defaultGoogleRandomSpend(item.id);
+  const picture = await getGoogleImage(item.title);
+
   let category = defaultCategories;
   let address = null;
-  let openHours = item?.openingHours ?? defaultOpenHours;
+  let openHours = null;
   let pos = await get_position_id(item.position.lat, item.position.lng);
 
   if (!pos) {
@@ -66,7 +74,15 @@ export const insert_place = async (item: DiscoverResponse) => {
       category,
       address
     );
+    console.log(place);
   }
+
+  await upsert_google({
+    place_id: item.id,
+    rate,
+    spend,
+    image_url: picture,
+  });
 
   return place;
 };

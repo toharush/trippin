@@ -3,15 +3,17 @@ import { GoogleScraper } from "./scrapers/google/app";
 import { getBrowser } from "./utils/browser/browser";
 import { drop_database, init_database } from "./utils/database/init-db";
 import logger from "./utils/logger/logger";
-import { getRandomLocation } from "./utils/randomLocation";
+import { getRandomLocation, getTurfLocation } from "./utils/randomLocation";
 import { sleep } from "./utils/sleep";
+process.setMaxListeners(100); // Disable the warning
 
-const oneDayInMilliseconds = 24 * 60 * 60 * 1000;
+const milliSeconds = 864000;
 
-const replicator = async () => {
+const replicators = async () => {
+  console.time("replicator");
   let loc = await getRandomLocation();
 
-  new TrippinReplicator(
+  await new TrippinReplicator(
     [
       { q: "bar", at: loc, limit: 100 },
       { q: "museum", at: loc, limit: 100 },
@@ -21,19 +23,12 @@ const replicator = async () => {
     ],
     logger
   );
+  console.timeEnd("replicator");
 };
 
 (async () => {
   await init_database();
-  new GoogleScraper(await getBrowser(true), logger, 10);
-
-  setInterval(async () => {
-    let num = 1;
-    let max = 100;
-    let cat = 5;
-    while (num * cat <= max) {
-      await replicator();
-      num++;
-    }
-  }, oneDayInMilliseconds);
+  await replicators();
+  // getTurfLocation();
+  setInterval(async () => await replicators(), milliSeconds);
 })();
