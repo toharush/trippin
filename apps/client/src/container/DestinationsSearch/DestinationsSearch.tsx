@@ -22,7 +22,7 @@ export default function DestintionsSearch() {
       // @ts-ignore
       setSearchResultsDests(
         destinations.filter((dest) =>
-          dest.name.toLowerCase().includes(value.toLowerCase())
+          dest?.name?.toLowerCase().includes(value?.toLowerCase())
         ) ?? []
       );
     } else {
