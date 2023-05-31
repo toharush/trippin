@@ -1,5 +1,6 @@
 import { getAllPositions } from "../controllers/position";
-import Scraper from "images-scraper";
+import { GOOGLE_IMG_SCRAP } from "google-img-scrap";
+
 import { sleep } from "./sleep";
 import turf from "turf";
 
@@ -16,22 +17,18 @@ const generateRandomCoordinate = () => {
   const randomLongitude = Math.random() * (max - min) + min;
   return { lat: randomLatitude, lng: randomLongitude };
 };
-const google = new Scraper({
-  puppeteer: {},
-});
 
 export const getGoogleImage = async (label: string) => {
   const defaultImage =
     "https://th.bing.com/th/id/OIP.FjGCo53E5pd2s23Zs1TV_gHaE6?pid=ImgDet&rs=1";
   try {
-    const res = await google.scrape(`${label}`);
-    // await sleep(1000);
+    const res = await GOOGLE_IMG_SCRAP({
+      search: label,
+    });
 
-    if (res.length > 0) {
-      res?.map((item) => !item?.url.includes("fbsbx"));
-      if (res[0]?.url) return res[0].url;
-      else if (res[1]?.url) res[1].url;
-      return res[3]?.url ?? defaultImage;
+    if (res && res.result.length > 0) {
+      res.result?.map((item) => !item?.url?.includes("fbsbx"));
+      return res.result[0]?.url ?? defaultImage;
     }
   } catch (err) {
     console.log(err);
@@ -56,16 +53,24 @@ const getRandomCoordinateNotInList = async () => {
 export const getTurfLocation = () => {
   const loc = [
     [
-      [125, -15],
-      [113, -22],
-      [154, -27],
-      [144, -15],
-      [125, -15],
+      [-13.41302, 49.67426], // Northwest point (Northern Ireland)
+      [-7.49147, 58.64499], // Northeast point (Scotland)
+      [1.82855, 50.10198], // Southeast point (England)
+      [-5.60026, 50.30945], // Southwest point (Wales)
+      [-13.41302, 49.67426], // Northwest point (Northern Ireland) - Repeat the first point to close the polygon
     ],
   ];
+
   const polygon = turf.polygon(loc);
 
-  const point = turf.pointOnSurface(polygon).geometry?.coordinates;
+  const randomPoint = turf.random("point", 1, {
+    bbox: turf.bbox(polygon),
+  });
+  const point = randomPoint.features[0].geometry.coordinates;
+
   console.log(point);
-  return point;
+  return {
+    lat: point[1],
+    lng: point[0],
+  };
 };

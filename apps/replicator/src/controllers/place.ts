@@ -14,7 +14,6 @@ import {
   defaultCategories,
   defaultGoogleRandomRate,
   defaultGoogleRandomSpend,
-  defaultOpenHours,
   defaultPosition,
 } from "../utils/database/config";
 import { upsert_google } from "./google";
@@ -74,15 +73,14 @@ export const insert_place = async (item: DiscoverResponse) => {
       category,
       address
     );
+    await upsert_google({
+      place_id: item.id,
+      rate,
+      spend,
+      image_url: picture,
+    });
     console.log(place);
   }
-
-  await upsert_google({
-    place_id: item.id,
-    rate,
-    spend,
-    image_url: picture,
-  });
 
   return place;
 };

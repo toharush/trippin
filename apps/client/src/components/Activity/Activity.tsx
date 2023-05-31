@@ -33,7 +33,7 @@ export default function Activity({
   };
 
   return (
-    <div className={minimized ? "" : "bg-white rounded-lg p-4 shadow-lg m-3"} onClick={() => setShowMore(true)}>
+    <div className={minimized ? "" : "bg-white rounded-lg p-4 shadow-lg m-3"}>
       <div className="flex flex-row max-h-400 md:max-h-none md:max-h-200">
         <div className="w-1/3">
           {Boolean(activity?.google?.image_url) ? (
@@ -54,7 +54,7 @@ export default function Activity({
           </div>
           <button
             className="bg-main text-white font-bold py-2 px-4 rounded"
-            style={{marginBottom: "5px"}}
+            style={{ marginBottom: "5px" }}
             onClick={
               isSelected
                 ? handleRemoveSelectedActivity
@@ -63,14 +63,14 @@ export default function Activity({
           >
             {isSelected ? `Remove` : `Add`}
           </button>
-    
+          <button onClick={() => setShowMore(true)}>Show More</button>
         </div>
       </div>
 
       {showMore ? (
         <FullScreenActivity
           activity={activity}
-          commetns={[
+          comments={[
             {
               date: new Date(),
               text: "test",

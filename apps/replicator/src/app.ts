@@ -1,15 +1,11 @@
 import { TrippinReplicator } from "./replicators/trippinReplicator/trippingReplicator";
-import { GoogleScraper } from "./scrapers/google/app";
-import { getBrowser } from "./utils/browser/browser";
-import { drop_database, init_database } from "./utils/database/init-db";
+import { init_database } from "./utils/database/init-db";
 import logger from "./utils/logger/logger";
 import { getRandomLocation, getTurfLocation } from "./utils/randomLocation";
-import { sleep } from "./utils/sleep";
-process.setMaxListeners(100); // Disable the warning
 
-const milliSeconds = 864000;
+const milliSeconds = 350000;
 
-const replicators = async () => {
+const replicator = async () => {
   console.time("replicator");
   let loc = await getRandomLocation();
 
@@ -28,7 +24,6 @@ const replicators = async () => {
 
 (async () => {
   await init_database();
-  await replicators();
-  // getTurfLocation();
-  setInterval(async () => await replicators(), milliSeconds);
+  await replicator();
+  setInterval(async () => await replicator(), milliSeconds);
 })();

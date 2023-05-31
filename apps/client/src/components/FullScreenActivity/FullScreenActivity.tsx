@@ -10,7 +10,7 @@ interface FullScreenActivityProps {
   open: boolean;
   setOpen: () => void;
   activity: Activity;
-  commetns: any[];
+  comments: any[];
   isSelected: boolean;
 }
 
@@ -24,6 +24,8 @@ const FullScreenActivity = (props: FullScreenActivityProps) => {
     addComment,
     commentPending,
   } = useActivities();
+
+  const { activity, open, setOpen, comments, isSelected } = props;
 
   const { currentUser } = useAuthentication();
 
@@ -45,9 +47,8 @@ const FullScreenActivity = (props: FullScreenActivityProps) => {
     }
   };
 
-  const { activity, open, setOpen, commetns, isSelected } = props;
   return (
-    <Dialog open={open} onClose={setOpen}>
+    <Dialog open={open} onClose={setOpen} fullWidth>
       <DialogContent>
         <div className="flex flex-row max-h-400 md:max-h-none md:max-h-200">
           <div className="w-1/3">
@@ -100,7 +101,7 @@ const FullScreenActivity = (props: FullScreenActivityProps) => {
           userId={currentUser?.email}
         />
 
-        {commetns.map((comment) => (
+        {comments.map((comment) => (
           <Comment
             date={comment.date}
             text={comment.text}

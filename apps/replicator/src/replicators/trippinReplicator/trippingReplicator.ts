@@ -22,6 +22,7 @@ export class TrippinReplicator extends GenericReplicator {
   }
 
   protected async start(
+    
     options: DiscoverRequest,
     requiredParams: string[]
   ): Promise<void> {
