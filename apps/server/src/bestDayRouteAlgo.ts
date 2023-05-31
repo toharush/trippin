@@ -7,6 +7,7 @@ interface Activity {
   closeHour: number;
   userRate: number;
   duration: number;
+  travelAndVisitTime?: number;
 }
 
 function calculateDistance(location1: [number, number], location2: [number, number]): number {
@@ -74,12 +75,13 @@ function findBestActivities(
           distance = 1.0;
         }
 
+        activity.travelAndVisitTime = roundTravelTime(activity.duration * 4) + roundTravelTime((distance / avgSpeed) * 4);
         const activityValue = activity.userRate / distance;
-
+        console.log("activity id: " + activity.id + " travelTime: " + activity.travelAndVisitTime);
         if (
           activity.openHour <= currentHour &&
-          currentHour + activity.duration * 4 <= calcActivityEndHour(activity.openHour, activity.closeHour) &&
-          currentHour + activity.duration * 4 <= calcActivityEndHour(startHour, endHour)
+          currentHour + activity.travelAndVisitTime <= calcActivityEndHour(activity.openHour, activity.closeHour) &&
+          currentHour + activity.travelAndVisitTime <= calcActivityEndHour(startHour, endHour)
         ) {
           if (activityValue > maxValueOfTimeSlot) {
             maxValueOfTimeSlot = activityValue;
@@ -91,11 +93,11 @@ function findBestActivities(
 
       dp[activitiesCombination] += maxValueOfTimeSlot;
 
-      if (bestValueActivity !== null) {
-        for (let i = 0; i < bestValueActivity.duration * 4; i++) {
+      if (bestValueActivity !== null && bestValueActivity.travelAndVisitTime !== undefined) {
+        for (let i = 0; i < bestValueActivity.travelAndVisitTime; i++) {
           selectedActivities[activitiesCombination][timeSlot + i] = bestValueActivity;
         }
-        currentHour += bestValueActivity.duration * 4 - 1;
+        currentHour += bestValueActivity.travelAndVisitTime - 1;
         reorderedActivities.splice(reorderedActivities.indexOf(bestValueActivity), 1);
       }
     }
@@ -124,6 +126,10 @@ function calcActivityEndHour(start: number, end: number): number {
   return ((end - start) * 4) + start;
 }
 
+function roundTravelTime(number: number): number {
+  return number > 1 ? Math.round(number) : 1;
+}
+
 function getLastSelectedActivity(
   activities: (Activity | null)[]
 ): Activity | null {
@@ -145,15 +151,16 @@ function getBestDayRoute(
 }
 
 const activities: Activity[] = [
-  { id: "1", type: 2, name: "Park Place, Tulsa, OK, United States", location: [36.13506, -95.97135], openHour: 6, closeHour: 8, userRate: 5.1, duration: 2 },
-  { id: "2", type: 2, name: "Popeyes Louisiana Kitchen", location: [33.56812, -92.67983], openHour: 8, closeHour: 15, userRate: 5.1, duration: 1 },
-  { id: "3", type: 2, name: "Whiting Cafe", location: [39.59027, -95.61215], openHour: 9, closeHour: 11, userRate: 3.5, duration: 1.5 },
-  { id: "4", type: 2, name: "Woods at Sau Tech Diner", location: [33.63206, -92.71822], openHour: 10, closeHour: 17, userRate: 6.2, duration: 3 },
-  { id: "5", type: 2, name: "Rick's Place Bar and Grill", location: [37.5281, -95.80044], openHour: 9, closeHour: 18, userRate: 4.8, duration: 2 }
+  { id: "1", type: 2, name: "Park Place, Tulsa, OK, United States", location: [51.519877166287486, -0.20420128478308805], openHour: 6, closeHour: 23, userRate: 5.1, duration: 2 },
+  { id: "2", type: 2, name: "Popeyes Louisiana Kitchen", location: [51.51761205306819, -0.20578971303352855], openHour: 8, closeHour: 23, userRate: 5.1, duration: 1 },
+  { id: "3", type: 2, name: "Whiting Cafe", location: [51.517076646210405, -0.2112830273996354], openHour: 9, closeHour: 23, userRate: 4.8, duration: 1.5 },
+  { id: "4", type: 2, name: "Woods at Sau Tech Diner", location: [51.50838570095298, -0.22121070396488873], openHour: 10, closeHour: 23, userRate: 6.2, duration: 3 },
+  { id: "5", type: 2, name: "Rick's Place Bar and Grill", location: [51.50039351073569, -0.20003166073033746], openHour: 9, closeHour: 23, userRate: 3.5, duration: 0.5 }
 ];
 
 const startHour = 9;
 const endHour = 17;
+const avgSpeed = 27.5;
 
 const bestActivities = findBestActivities(activities, startHour, endHour);
 
