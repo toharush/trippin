@@ -1,6 +1,7 @@
 import { GraphQLObjectType, GraphQLString } from 'graphql';
 import { GraphQLInt } from 'graphql/type';
 import { schema, TABLES } from '../../../../../utils';
+import client from '../../utils/dbClient';
 
 const Comment = new GraphQLObjectType({
     name: 'comment',
@@ -9,10 +10,11 @@ const Comment = new GraphQLObjectType({
         place_id: { type: GraphQLString },
         user_id: { type: GraphQLString },
         text: { type: GraphQLString },
+        date: { type: GraphQLString },
     }),
     extensions: {
         joinMonster: {
-            sqlTable: `${schema}.${TABLES.PLACE}`,
+            sqlTable: `${schema}.${TABLES.COMMENTS}`,
             uniqueKey: 'id',
         },
     },
@@ -20,17 +22,12 @@ const Comment = new GraphQLObjectType({
 
 export default Comment;
 
-export const registerNewCommentInDb = (
+export const registerNewCommentInDb = async (
     userId: string,
     place_id: string,
     text: string,
     date: Date
 ) => {
-    console.log(userId, place_id, text, date);
-    return {
-        userId,
-        place_id,
-        text,
-        date,
-    };
+    const q = `INSERT INTO trippin.comment(user_id, place_id, text, date) VALUES ($1, $2, $3, $4);`;
+    return await client.query(q, [userId, place_id, text, date]);
 };

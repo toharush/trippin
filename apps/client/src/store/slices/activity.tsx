@@ -71,6 +71,9 @@ const stores = createSlice({
     builder.addCase(fetchNewCommentToServer.rejected, (state, action) => {
       state.commentPending = false;
     });
+    builder.addCase(fetchNewCommentToServer.fulfilled, (state, action) => {
+      state.commentPending = false;
+    });
   },
 });
 

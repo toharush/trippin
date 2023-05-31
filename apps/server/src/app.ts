@@ -11,19 +11,14 @@ import {
 import * as joinMonster from 'join-monster';
 import Place from './models/place/place';
 import getPlaceSQLQuery from './mapping/placeByAddressMapping';
-import { schema as DBSchema, TABLES } from '../../../utils';
+import { schema as DBSchema, TABLES, schema } from '../../../utils';
 import mainRouter from './routes/main';
 import cors from 'cors';
-import { Client } from 'pg';
 import Comment from './models/comment/comment';
 import { registerNewComment } from './controllers/comment';
+import client from './utils/dbClient';
 
 dotenv.config();
-
-const client = new Client({
-    connectionString: process.env.DATABASE_URL,
-});
-client.connect();
 
 const PORT = process.env.APP_PORT || 8080;
 const app = express();
@@ -57,6 +52,7 @@ const QueryRoot = new GraphQLObjectType({
             },
             resolve: (parent, args, context, resolveInfo) => {
                 return joinMonster.default(resolveInfo, {}, (sql: any) => {
+                    console.log(sql);
                     return client.query(sql);
                 });
             },
@@ -180,6 +176,23 @@ const QueryRoot = new GraphQLObjectType({
                 });
             },
         },
+        commentsByPlaceId: {
+            type: GraphQLList(Comment),
+            args: {
+                place_id: { type: GraphQLNonNull(GraphQLString) },
+            },
+            extensions: {
+                joinMonster: {
+                    where: (commentTable, args) => {
+                        return `place_id = '${args.place_id}'`;
+                    },
+                },
+            },
+            resolve: (parent, args, context, resolveInfo) =>
+                joinMonster.default(resolveInfo, {}, (sql: string) =>
+                    client.query(sql)
+                ),
+        },
     }),
 });
 const MutationRoot = new GraphQLObjectType({
@@ -201,12 +214,15 @@ const MutationRoot = new GraphQLObjectType({
         },
     }),
 });
-const schema = new GraphQLSchema({ query: QueryRoot, mutation: MutationRoot });
+const gqlSchema = new GraphQLSchema({
+    query: QueryRoot,
+    mutation: MutationRoot,
+});
 
 app.use(
     '/api/v1',
     graphqlHTTP({
-        schema: schema,
+        schema: gqlSchema,
         graphiql: true,
     })
 );

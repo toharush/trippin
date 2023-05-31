@@ -1,7 +1,7 @@
 import { TrippinReplicator } from "./replicators/trippinReplicator/trippingReplicator";
 import { init_database } from "./utils/database/init-db";
 import logger from "./utils/logger/logger";
-import { getRandomLocation, getTurfLocation } from "./utils/randomLocation";
+import { getRandomLocation } from "./utils/randomLocation";
 
 const milliSeconds = 350000;
 

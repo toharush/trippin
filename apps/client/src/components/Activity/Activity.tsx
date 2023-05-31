@@ -3,7 +3,6 @@ import "./Activity.css";
 import { useState } from "react";
 import { useActivities } from "../../hooks";
 import MissingPlaceImage from "../MissingPlaceImage/MissingPlaceImage";
-import Comment from "../Comment/Comment";
 import FullScreenActivity from "../FullScreenActivity/FullScreenActivity";
 
 interface ActivityProps {
@@ -18,11 +17,7 @@ export default function Activity({
   minimized,
 }: ActivityProps) {
   const [showMore, setShowMore] = useState(false);
-  const {
-    addSelectedActivity,
-    removeSelectedActivity,
-    addComment,
-  } = useActivities();
+  const { addSelectedActivity, removeSelectedActivity } = useActivities();
 
   const handleAddSelectedActivity = () => {
     addSelectedActivity(activity);
@@ -70,19 +65,11 @@ export default function Activity({
       {showMore ? (
         <FullScreenActivity
           activity={activity}
-          comments={[
-            {
-              date: new Date(),
-              text: "test",
-              username: "tohar@gmail.com",
-            },
-          ]}
           open={showMore}
           setOpen={() => setShowMore(!showMore)}
           isSelected={isSelected ?? false}
         />
-      ) : // <Comment date={new Date()} text="test" username="tohar@gmail.com" />
-      null}
+      ) : null}
     </div>
   );
 }

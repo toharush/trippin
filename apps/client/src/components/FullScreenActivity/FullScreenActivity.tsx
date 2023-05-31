@@ -3,20 +3,30 @@ import { Activity } from "../../interfaces";
 import Comment from "../Comment/Comment";
 import MissingPlaceImage from "../MissingPlaceImage/MissingPlaceImage";
 import { useActivities, useAuthentication } from "../../hooks";
-import { useTransition, useRef } from "react";
+import { useTransition, useRef, useEffect, useState } from "react";
 import NewComment from "../Comment/NewComment";
+import { getCommentsByPlaceId } from "../../services";
+import IComment from "../../interfaces/comment/comment";
 
 interface FullScreenActivityProps {
   open: boolean;
   setOpen: () => void;
   activity: Activity;
-  comments: any[];
   isSelected: boolean;
 }
 
 const FullScreenActivity = (props: FullScreenActivityProps) => {
   const [isPending, startTransition] = useTransition();
   const commentRef = useRef<HTMLInputElement>(null);
+  const [comments, setComments] = useState<IComment[]>([]);
+
+  useEffect(() => {
+    fetchComments();
+  }, []);
+
+  const fetchComments = async () => {
+    setComments(await getCommentsByPlaceId(activity.id));
+  };
 
   const {
     addSelectedActivity,
@@ -25,7 +35,7 @@ const FullScreenActivity = (props: FullScreenActivityProps) => {
     commentPending,
   } = useActivities();
 
-  const { activity, open, setOpen, comments, isSelected } = props;
+  const { activity, open, setOpen, isSelected } = props;
 
   const { currentUser } = useAuthentication();
 
@@ -41,9 +51,10 @@ const FullScreenActivity = (props: FullScreenActivityProps) => {
     startTransition(() => removeSelectedActivity(activity));
   };
 
-  const handleNewComment = () => {
+  const handleNewComment = async () => {
     if (commentRef.current?.value) {
-      addComment(activity.id, commentRef.current.value);
+      await addComment(activity.id, commentRef.current.value);
+      await fetchComments();
     }
   };
 
@@ -105,8 +116,8 @@ const FullScreenActivity = (props: FullScreenActivityProps) => {
           <Comment
             date={comment.date}
             text={comment.text}
-            username={comment.username}
-            key={comment}
+            username={comment.user_id}
+            key={comment.id}
           />
         ))}
       </DialogContent>

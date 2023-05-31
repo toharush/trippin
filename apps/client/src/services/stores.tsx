@@ -1,4 +1,5 @@
 import { Activity } from "../../../../interfaces";
+import IComment from "../interfaces/comment/comment";
 import fetchGql from "../lib/axios";
 
 const fetchNewComment = async (
@@ -15,6 +16,24 @@ const fetchNewComment = async (
     }
     `
   );
+};
+
+const getCommentsByPlaceId = async (place_id: string) => {
+  return (await (
+    await fetchGql(
+      `
+     {
+      commentsByPlaceId(place_id: "${place_id}") {
+        id
+        place_id
+        user_id
+        text
+        date
+      }
+    }
+    `
+    )
+  ).data.data.commentsByPlaceId) as IComment[];
 };
 
 const getAllActivities = async () => {
@@ -78,4 +97,4 @@ const getAllActivities = async () => {
   ).data.data.places as Activity[];
 };
 
-export { getAllActivities, fetchNewComment };
+export { getAllActivities, fetchNewComment, getCommentsByPlaceId };

@@ -18,4 +18,5 @@ export const enum TABLES {
   POSITION = "position",
   EXTRA_CATEGORIES = "extra_categories",
   GOOGLE = "google",
+  COMMENTS = "comment"
 }
