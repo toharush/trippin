@@ -38,8 +38,7 @@ export class discover {
         })
       );
     } catch (err) {
-      const millisecondsInOneDay = 24 * 60 * 60 * 1000;
-      await sleep(millisecondsInOneDay);
+      console.log(err);
       return [];
     }
   }

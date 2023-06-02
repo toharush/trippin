@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS ${schema}.${TABLES.GOOGLE}
 (
     "place_id" text COLLATE pg_catalog."default" NOT NULL,
     rate double precision,
-    spend text COLLATE pg_catalog."default",
+    spend integer,
     image_url text COLLATE pg_catalog."default",
     created_at timestamp without time zone,
     updated_at timestamp without time zone,

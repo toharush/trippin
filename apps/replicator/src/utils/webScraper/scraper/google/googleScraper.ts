@@ -53,7 +53,7 @@ export class GoogleGenericScraper extends GenericScraper {
             : await defaultGoogleRandomRate(),
         spend: res?.spend
           ? res.spend
-          : await defaultGoogleRandomSpend(obj.place_id),
+          : await defaultGoogleRandomSpend(),
       });
     }
 

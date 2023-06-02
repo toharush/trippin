@@ -22,6 +22,7 @@ export class TrippinReplicator extends GenericReplicator {
   }
 
   protected async start(
+    
     options: DiscoverRequest,
     requiredParams: string[]
   ): Promise<void> {
@@ -29,7 +30,6 @@ export class TrippinReplicator extends GenericReplicator {
       options,
       requiredParams
     );
-    if(items.length === 0) throw "error"
     for (let item of items) {
       await insert_place(item);
     }

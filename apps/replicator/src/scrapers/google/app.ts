@@ -24,12 +24,14 @@ export class GoogleScraper {
         for (let i = 0; (i + 1) * limit < length; i++) {
           const places = await get_places(limit, i);
           await Promise.all([
-            this._mapsScrapper.run(places),
-            this._searchScrapper.run(places),
+            // this._mapsScrapper.run(places),
+            // this._searchScrapper.run(places),
             this._photosScrapper.run(places),
           ]);
         }
-      } catch {}
+      } catch (err) {
+        console.log("google err", err);
+      }
     }
   }
 }

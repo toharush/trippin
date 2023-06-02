@@ -50,32 +50,15 @@ export const defaultGoogleRandomRate = () =>
     )}`
   );
 
-export const defaultGoogleRandomSpend = (id: string) => {
-  const names = {
-    days: "ימים",
-    hours: "שעות",
-    minutes: "דקות",
-  };
-  let time = Math.floor(Math.random() * (90 - 15 + 1) + 15);
+export const defaultGoogleRandomSpend = () => {
+  const minMinutes = 5;
+  const maxMinutes = 120;
+  const randomMinutes =
+    Math.floor(Math.random() * (maxMinutes - minMinutes + 1)) + minMinutes;
 
-  if (id.includes("bar") && time <= 30) {
-    time += 20;
-  } else if (id.includes("restaurant") && time < 60) {
-    time += 60;
-  }
+  const milliseconds = randomMinutes * 60 * 1000;
 
-  let hours = Math.floor(time / 60);
-
-  if (hours >= 1) {
-    const days = Math.floor(hours / 60);
-    if (days >= 1) {
-      return `${days} ${names.days}`;
-    } else {
-      return `${hours} ${names.hours}`;
-    }
-  } else {
-    return `${time} ${names.minutes}`;
-  }
+  return milliseconds;
 };
 
 export const enum TABLES {
@@ -85,4 +68,5 @@ export const enum TABLES {
   POSITION = "position",
   EXTRA_CATEGORIES = "extra_categories",
   GOOGLE = "google",
+  COMMENTS = "comment",
 }
