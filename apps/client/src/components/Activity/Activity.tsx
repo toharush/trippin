@@ -1,5 +1,6 @@
 import { Activity as activity } from "../../../../../interfaces";
 import "./Activity.css";
+import { Rating } from "@mui/material";
 import { useState } from "react";
 import { useActivities } from "../../hooks";
 import MissingPlaceImage from "../MissingPlaceImage/MissingPlaceImage";
@@ -36,6 +37,7 @@ export default function Activity({
               src={activity.google.image_url}
               alt={activity.title}
               className="h-full w-full object-cover rounded-lg"
+              loading="lazy"
             />
           ) : (
             <MissingPlaceImage label={activity.title} />
@@ -45,7 +47,15 @@ export default function Activity({
         <div className="flex flex-col justify-between ml-4 w-2/3">
           <div>
             <h2 className="text-xl font-semibold">{activity.title}</h2>
-            <p className="text-gray-500 mt-2">{activity.category?.name}</p>
+
+            <p className="text-gray-500 mt-2">
+              {activity.category.name}{" "}
+              {activity.extra?.categories
+                .filter((cat: any) => cat.name != activity.category.name)
+                .map((cat: any) => (
+                  <>&bull; {cat.name} </>
+                ))}
+            </p>
           </div>
           <button
             className="bg-main text-white font-bold py-2 px-4 rounded"

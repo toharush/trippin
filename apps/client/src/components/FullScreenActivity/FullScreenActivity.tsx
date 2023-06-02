@@ -1,4 +1,11 @@
-import { Chip, Dialog, DialogContent, Divider, Stack } from "@mui/material";
+import {
+  Chip,
+  Dialog,
+  DialogContent,
+  Divider,
+  Rating,
+  Stack,
+} from "@mui/material";
 import { Activity } from "../../interfaces";
 import Comment from "../Comment/Comment";
 import MissingPlaceImage from "../MissingPlaceImage/MissingPlaceImage";
@@ -77,7 +84,33 @@ const FullScreenActivity = (props: FullScreenActivityProps) => {
           <div className="flex flex-col justify-between ml-4 w-2/3">
             <div>
               <h2 className="text-xl font-semibold">{activity.title}</h2>
-              <p className="text-gray-500 mt-2">{activity.category?.name}</p>
+              {activity.google?.rate ? (
+                <div
+                  style={{
+                    display: "flex",
+                  }}
+                >
+                  <h2>{activity.google?.rate} </h2>&bull;
+                  <Rating
+                    style={{ pointerEvents: "none" }}
+                    value={Number(activity.google!.rate)}
+                    title={`${activity.google?.rate}`}
+                  />
+                </div>
+              ) : null}
+
+              <Stack
+                direction="row"
+                spacing={1}
+                style={{ marginTop: "10px", marginBottom: "10px" }}
+              >
+                <Chip label={activity.category.name} color="primary" />
+                {activity.extra?.categories
+                  .filter((cat: any) => cat.name != activity.category.name)
+                  .map((cat: any) => (
+                    <Chip label={cat.name} color="success" />
+                  ))}
+              </Stack>
             </div>
             <button
               className="bg-main text-white font-bold py-2 px-4 rounded"
@@ -91,13 +124,6 @@ const FullScreenActivity = (props: FullScreenActivityProps) => {
             </button>
           </div>
         </div>
-
-        <Stack direction="row" spacing={1} style={{ marginTop: "10px" }}>
-          <Chip label={activity.category.name} color="primary" />
-          {activity.extra?.categories.map((cat: any) => (
-            <Chip label={cat.name} color="success" />
-          ))}
-        </Stack>
 
         <Divider
           style={{

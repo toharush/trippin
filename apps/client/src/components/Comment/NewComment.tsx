@@ -5,6 +5,7 @@ import {
   CardContent,
   CardHeader,
   TextField,
+  Divider,
 } from "@mui/material";
 import Loader from "../loader/Loader";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -38,6 +39,7 @@ const NewComment = (props: NewCommentProps) => {
             Send
           </Button>
         </CardActions>
+        <Divider />
       </>
     ) : (
       <div
@@ -51,7 +53,7 @@ const NewComment = (props: NewCommentProps) => {
           justifyContent: "space-around",
         }}
       >
-        <Loader isBlack={true}/>
+        <Loader isBlack={true} />
       </div>
     )
   ) : null;

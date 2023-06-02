@@ -56,26 +56,13 @@ export const defaultGoogleRandomSpend = (id: string) => {
     hours: "שעות",
     minutes: "דקות",
   };
-  let time = Math.floor(Math.random() * (90 - 15 + 1) + 15);
-
-  if (id.includes("bar") && time <= 30) {
-    time += 20;
-  } else if (id.includes("restaurant") && time < 60) {
-    time += 60;
-  }
-
-  let hours = Math.floor(time / 60);
+  let time = Math.floor(Math.random() * (59 - 15 + 1) + 15);
+  let hours = Math.floor(Math.random() * (2 - 0 + 1) + 0);
 
   if (hours >= 1) {
-    const days = Math.floor(hours / 60);
-    if (days >= 1) {
-      return `${days} ${names.days}`;
-    } else {
-      return `${hours} ${names.hours}`;
-    }
-  } else {
-    return `${time} ${names.minutes}`;
+    return `${hours} ${names.hours} ${time} ${names.minutes}`;
   }
+  return `${time} ${names.minutes}`;
 };
 
 export const enum TABLES {
@@ -85,5 +72,5 @@ export const enum TABLES {
   POSITION = "position",
   EXTRA_CATEGORIES = "extra_categories",
   GOOGLE = "google",
-  COMMENTS = "comment"
+  COMMENTS = "comment",
 }
