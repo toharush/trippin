@@ -1,34 +1,55 @@
 import Search from "../../components/SearchComponent/SearchComponent";
 import { useActivities } from "../../hooks";
-import { useRef, useEffect } from "react";
+import { useTransition, useState, useEffect } from "react";
 import Activity from "../../components/Activity/Activity";
 import "./ActivitiesSearch.css";
+import { isEmpty } from "lodash";
+import { Activity as IActivity } from "../../interfaces";
 
 const ActivitiesSearch = () => {
-  const value = useRef<HTMLInputElement>(null);
-  const {
-    searchActivity,
-    searchResults,
-    filters,
-    selectedActivities,
-  } = useActivities();
+  const [isPending, startTransition] = useTransition();
+  const [searchRes, setSearchRes] = useState<IActivity[]>([]);
+  const [value, setValue] = useState("");
+  const { filters, selectedActivities, activities } = useActivities();
 
-  const handleActivitySearch = () => searchActivity(value.current?.value);
+  const search = (value: string) => {
+    if (value !== "" && !isEmpty(value)) {
+      setSearchRes(
+        activities?.filter(
+          (activity) =>
+            selectedActivities.filter((act) => act.id != activity.id) &&
+            (isEmpty(filters.category) ||
+              activity.category?.name
+                ?.toLowerCase()
+                .includes(filters.category)) &&
+            activity.title.toUpperCase().includes(value.toUpperCase())
+        ) ?? []
+      );
+    } else {
+      setSearchRes([]);
+    }
+  };
+
+  const handleActivitySearch = (value: string) => {
+    setValue(value);
+    startTransition(() => {
+      search(value);
+    });
+  };
 
   useEffect(() => {
-    handleActivitySearch();
-  }, [filters, value.current?.value, selectedActivities]);
+    handleActivitySearch(value);
+  }, [filters, selectedActivities]);
 
   return (
     <>
       <Search
         handleSearch={handleActivitySearch}
         title="Search for activities"
-        value={value}
       />
 
       <div className="result scroller">
-        {searchResults?.map((activity) => (
+        {searchRes?.map((activity) => (
           <Activity activity={activity} />
         ))}
       </div>

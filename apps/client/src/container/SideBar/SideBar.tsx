@@ -15,7 +15,7 @@ import "./SideBar.css"
 
 const SideBarContainer = () => {
   const { currentStep, stepUp, stepDown } = useStepper();
-  const { selectedActivities } = useActivities();
+  const { selectedActivities, addComment } = useActivities();
   const [isActivitiesOpen, setIsActivitiesOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(true);
 

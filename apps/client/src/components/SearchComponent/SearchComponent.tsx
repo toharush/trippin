@@ -1,13 +1,21 @@
 import "./SearchComponent.css";
-
+import { useTransition, useState } from "react";
 interface props {
   title: string;
-  handleSearch: () => void;
-  value: React.RefObject<HTMLInputElement> | undefined;
+  handleSearch: (value: string) => void;
 }
 
 const Search = (props: props) => {
-  const { title, handleSearch, value } = props;
+  const [value, setValue] = useState<string>("");
+  const [isPending, startTransmition] = useTransition();
+  const { title, handleSearch } = props;
+
+  const handleNewSearch = (e: any) => {
+    setValue(e.target.value);
+    startTransmition(() => {
+      handleSearch(e.target.value);
+    });
+  };
 
   return (
     <form className="group relative mx-3 mt-3">
@@ -29,8 +37,8 @@ const Search = (props: props) => {
         type="text"
         aria-label="Filter projects"
         placeholder={title}
-        ref={value}
-        onChange={handleSearch}
+        value={value}
+        onChange={handleNewSearch}
       />
     </form>
   );
