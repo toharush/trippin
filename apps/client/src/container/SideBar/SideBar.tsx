@@ -14,7 +14,7 @@ const SideBarContainer = () => {
   const { selectedActivities } = useActivities();
   const { hideSelectedActivities } = useMapDrawer();
   const [isActivitiesOpen, setIsActivitiesOpen] = useState(false);
-  const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
+  const [isCategoriesOpen, setIsCategoriesOpen] = useState(true);
 
   const stepper = [
     {
