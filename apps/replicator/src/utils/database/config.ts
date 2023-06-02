@@ -43,12 +43,13 @@ export const defaultOpenHours = `[
 ]`;
 export const defaultCategories = 1;
 export const defaultPosition = 1;
-export const defaultGoogleRandomRate = () =>
-  Number(
-    `${Math.floor(Math.random() * (5 - 1 + 1) + 1)}.${Math.floor(
-      Math.random() * (9 - 1 + 1) + 1
-    )}`
-  );
+export const defaultGoogleRandomRate = () => {
+  const first_dig = Math.floor(Math.random() * (5 - 1 + 1) + 1);
+  if (first_dig === 5) {
+    return Number(`${first_dig}.0`);
+  }
+  return Number(`${first_dig}.${Math.floor(Math.random() * (9 - 1 + 1) + 1)}`);
+};
 
 export const defaultGoogleRandomSpend = () => {
   const minMinutes = 5;
