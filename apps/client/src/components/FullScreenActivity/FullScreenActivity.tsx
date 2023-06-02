@@ -5,7 +5,9 @@ import {
   Divider,
   Rating,
   Stack,
+  Typography,
 } from "@mui/material";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { Activity } from "../../interfaces";
 import Comment from "../Comment/Comment";
 import MissingPlaceImage from "../MissingPlaceImage/MissingPlaceImage";
@@ -26,6 +28,15 @@ const FullScreenActivity = (props: FullScreenActivityProps) => {
   const [isPending, startTransition] = useTransition();
   const commentRef = useRef<HTMLInputElement>(null);
   const [comments, setComments] = useState<IComment[]>([]);
+  const { activity, open, setOpen, isSelected } = props;
+  const {
+    addSelectedActivity,
+    removeSelectedActivity,
+    addComment,
+    commentPending,
+  } = useActivities();
+
+  const { currentUser } = useAuthentication();
 
   useEffect(() => {
     fetchComments();
@@ -34,17 +45,6 @@ const FullScreenActivity = (props: FullScreenActivityProps) => {
   const fetchComments = async () => {
     setComments(await getCommentsByPlaceId(activity.id));
   };
-
-  const {
-    addSelectedActivity,
-    removeSelectedActivity,
-    addComment,
-    commentPending,
-  } = useActivities();
-
-  const { activity, open, setOpen, isSelected } = props;
-
-  const { currentUser } = useAuthentication();
 
   const handleAddSelectedActivity = () => {
     setOpen();
@@ -98,7 +98,6 @@ const FullScreenActivity = (props: FullScreenActivityProps) => {
                   />
                 </div>
               ) : null}
-
               <Stack
                 direction="row"
                 spacing={1}

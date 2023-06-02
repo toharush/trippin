@@ -50,19 +50,15 @@ export const defaultGoogleRandomRate = () =>
     )}`
   );
 
-export const defaultGoogleRandomSpend = (id: string) => {
-  const names = {
-    days: "ימים",
-    hours: "שעות",
-    minutes: "דקות",
-  };
-  let time = Math.floor(Math.random() * (59 - 15 + 1) + 15);
-  let hours = Math.floor(Math.random() * (2 - 0 + 1) + 0);
+export const defaultGoogleRandomSpend = () => {
+  const minMinutes = 5;
+  const maxMinutes = 120;
+  const randomMinutes =
+    Math.floor(Math.random() * (maxMinutes - minMinutes + 1)) + minMinutes;
 
-  if (hours >= 1) {
-    return `${hours} ${names.hours} ${time} ${names.minutes}`;
-  }
-  return `${time} ${names.minutes}`;
+  const milliseconds = randomMinutes * 60 * 1000;
+
+  return milliseconds;
 };
 
 export const enum TABLES {

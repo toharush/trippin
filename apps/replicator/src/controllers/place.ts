@@ -26,7 +26,7 @@ export const get_place_count = async () => await get_place_count_db();
 
 export const insert_place = async (item: DiscoverResponse) => {
   const rate = defaultGoogleRandomRate();
-  const spend = defaultGoogleRandomSpend(item.id);
+  const spend = defaultGoogleRandomSpend();
   const picture = await getGoogleImage(item.title);
 
   let category = defaultCategories;
