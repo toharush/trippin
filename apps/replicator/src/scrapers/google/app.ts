@@ -19,14 +19,18 @@ export class GoogleScraper {
 
   async start(limit: number) {
     while (true) {
-      const length = await get_place_count();
-      for (let i = 0; (i + 1) * limit < length; i++) {
-        const places = await get_places(limit, i);
-        await Promise.all([
-          this._mapsScrapper.run(places),
-          this._searchScrapper.run(places),
-          this._photosScrapper.run(places),
-        ]);
+      try {
+        const length = await get_place_count();
+        for (let i = 0; (i + 1) * limit < length; i++) {
+          const places = await get_places(limit, i);
+          await Promise.all([
+            // this._mapsScrapper.run(places),
+            // this._searchScrapper.run(places),
+            this._photosScrapper.run(places),
+          ]);
+        }
+      } catch (err) {
+        console.log("google err", err);
       }
     }
   }

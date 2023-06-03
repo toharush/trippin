@@ -1,8 +1,6 @@
 import { Box } from "@mui/system";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import "./AuthHeader.css";
-import SharedContact from "../UserMenuComponent/UserMenuComponent";
-import { Avatar } from "@mui/material";
 
 interface AuthHeaderProps {
   onClick?: Function;

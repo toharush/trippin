@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import './HourPicker.css';
-import dayjs, { Dayjs } from 'dayjs';
+import React, { useState } from "react";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import "./HourPicker.css";
+import dayjs, { Dayjs } from "dayjs";
 
 interface Props {
   label: string;
@@ -11,8 +11,13 @@ interface Props {
   onTimeChange: (time: Dayjs) => void;
 }
 
-export default function HourPicker({ label, selectedTime, onTimeChange }: Props) {
+export default function HourPicker({
+  label,
+  selectedTime,
+  onTimeChange,
+}: Props) {
   const adapter = new AdapterDayjs();
+  const defaultDay = dayjs();
   const [time, setTime] = useState<Dayjs>(selectedTime);
 
   const handleTimeChange = (time: Dayjs) => {
@@ -26,13 +31,9 @@ export default function HourPicker({ label, selectedTime, onTimeChange }: Props)
         className="picker"
         label={label}
         value={time}
-        onChange={(date) => {
-          if (date) {
-            handleTimeChange(date);
-          }
-        }}
+        onChange={(date: Dayjs) => handleTimeChange(date)}
         ampm={false}
-        defaultValue={dayjs()}
+        defaultValue={defaultDay}
       />
     </LocalizationProvider>
   );
