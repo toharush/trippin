@@ -1,5 +1,5 @@
 import { BestDayRouteConsts } from "./bestDayRouteConstants";
-import { calculateDistance } from "../controllers/mapCalculation";
+import { calculateDistance } from "../controllers/MapCalculation";
 import ICoordinate from "../../../client/src/interfaces/activity/coordinate";
 import { Activity } from "../../../client/src/interfaces";
 
@@ -26,7 +26,6 @@ export function findBestActivities(activities: Activity[], startHour: number, en
         activity.travelAndVisitTime = distance !== 0 ? calcActivityTravelAndVisitTime(activity.duration, distance) :
           activity.duration * BestDayRouteConsts.SplitToQuarter;
         const activityValue = activity.rate! / (distance + 1);
-        console.log("activity id: " + activity.id + " travelTime: " + activity.travelAndVisitTime);
         if (isActivityOpenNow(activity, currentHour, startHour, endHour) && (activityValue > maxValueOfTimeSlot)) {
           maxValueOfTimeSlot = activityValue;
           currentCombinationValues[currentTimeSlot] = maxValueOfTimeSlot;
@@ -43,6 +42,7 @@ export function findBestActivities(activities: Activity[], startHour: number, en
       }
     }
   }
+
   return getBestDayRoute(combinationsValue, selectedActivitiesCombinations);
 }
 
@@ -125,11 +125,26 @@ const getActivityDuration = (
   return 2;
 }
 
+function filterDuplicateActivities(selectedActivities: (Activity | null)[]): Activity[] {
+  const filteredActivities: Activity[] = [];
+  const activitySet = new Set<String>(); 
+
+  console.log(selectedActivities);
+
+  for (let i=0; i<selectedActivities?.length; i++) {
+    if (selectedActivities[i] !== null && !activitySet.has(selectedActivities[i]!.id)) {
+      filteredActivities.push(selectedActivities[i]!);
+      activitySet.add(selectedActivities[i]!.id);
+    }
+  }
+  return filteredActivities;
+}
+
 function getBestDayRoute(
   dp: number[],
   selectedActivities: (Activity | null)[][]
-): (Activity | null)[] {
+): Activity[] {
   const maxValue = Math.max(...dp);
   const maxIndex = dp.indexOf(maxValue);
-  return selectedActivities[maxIndex];
+  return filterDuplicateActivities(selectedActivities[maxIndex]);
 }
