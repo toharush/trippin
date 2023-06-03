@@ -1,0 +1,25 @@
+.banner {
+    position: relative;
+    max-width: 67%;
+    min-width: 67%;
+    width: 67%;
+    height: 40vh;
+}
+
+.caption {
+    position: absolute;
+    font-weight: bold;
+    width: 100%;
+    color: white;
+    line-height: 150px;
+    margin: 0;
+    text-align: center;
+    font-size: 45px;
+    font-family: 'Noto Sans';
+    text-shadow: 1px 1px grey;
+}
+
+.date {
+    font-size: 25px;
+    line-height: 250px;
+}
