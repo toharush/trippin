@@ -9,12 +9,15 @@ import AppStepper from "../../components/Stepper/Stepper";
 import { stepperValues } from "../../interfaces";
 import { Button } from "@mui/material";
 import Authentication from "../Authentication/Authentication";
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import "./SideBar.css"
 
 const SideBarContainer = () => {
   const { currentStep, stepUp, stepDown } = useStepper();
   const { selectedActivities, addComment } = useActivities();
   const [isActivitiesOpen, setIsActivitiesOpen] = useState(false);
-  const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
+  const [isCategoriesOpen, setIsCategoriesOpen] = useState(true);
 
   const stepper = [
     {
@@ -64,8 +67,10 @@ const SideBarContainer = () => {
             labels={stepper.map((step) => step.label)}
             activeStep={currentStep}
           />
-          <Button onClick={previous}>previous</Button>
-          <Button onClick={next}>Next</Button>
+          <div className="container">
+            <ArrowBackIosIcon className="i" onClick={previous}>previous</ArrowBackIosIcon>
+            <ArrowForwardIosIcon className="i" onClick={next}>Next</ArrowForwardIosIcon>
+          </div>
         </>
       </SideBar>
     </>
