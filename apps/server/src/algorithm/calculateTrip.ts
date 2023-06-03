@@ -12,6 +12,7 @@ import { findStartAlgoPoint } from './findStartActivity';
 import { getRankedActivities } from './rankActivities';
 
 const MIN_ACTIVITIES_PER_DAY = 3;
+const MAX_RETRIES_AMOUNT = 10;
 
 export const calculateTrip = async (
     name: string,
@@ -25,10 +26,6 @@ export const calculateTrip = async (
     endHour: Date
 ): Promise<ITrip> => {
     let dailyRoutes: IDailyRoute[] = [];
-
-    // Convert startHour and endHour to numbers
-    let convertedStartHour = 9;
-    let convertedEndHour = 17;
 
     for (
         let i = 0;
@@ -53,8 +50,8 @@ export const calculateTrip = async (
             categoryPriorities,
             selectedActivities,
             allTripActivities,
-            convertedStartHour,
-            convertedEndHour
+            startHour.getHours(),
+            endHour.getHours()
         );
         dailyRoutes.push(currentDailyRoute);
     }
@@ -100,8 +97,15 @@ const findDailyRoute = async (
         allVacationActivities
     );
 
-    // In case there weren't any potentialActivities after first randomizing
-    while (finalActivities.length < MIN_ACTIVITIES_PER_DAY) {
+    let counter = 0;
+    let maxNumberOfFinalActivities = 0;
+    let maxFinalActivitiesArray: Activity[] = [];
+
+    // In case there weren't any potentialActivities after first randomizing process
+    while (
+        finalActivities.length < MIN_ACTIVITIES_PER_DAY &&
+        counter < MAX_RETRIES_AMOUNT
+    ) {
         startAlgoPoint = findStartAlgoPoint(
             cityCenter,
             radius,
@@ -117,15 +121,22 @@ const findDailyRoute = async (
             potentialActivities,
             allVacationActivities
         );
+
+        if (finalActivities.length > maxNumberOfFinalActivities) {
+            maxNumberOfFinalActivities = finalActivities.length;
+            maxFinalActivitiesArray = finalActivities;
+        }
+
+        counter++;
     }
 
     // Filter activities that has zero rating in category
     const rankedActivities = getRankedActivities(
         categoryPriorities,
-        finalActivities
+        maxFinalActivitiesArray
     );
 
-    // Call dynamic programming algo
+    // Call dynamic programming algorithm
     const algoResult = findBestActivities(
         rankedActivities,
         startHour,

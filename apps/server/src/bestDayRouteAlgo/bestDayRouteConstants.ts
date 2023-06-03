@@ -1,4 +1,3 @@
-
 export class BestDayRouteConsts {
     static readonly EarthRadius: number = 6371;
     static readonly SplitToQuarter: number = 4;

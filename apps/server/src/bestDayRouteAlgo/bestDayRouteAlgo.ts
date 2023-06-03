@@ -1,4 +1,4 @@
-import { BestDayRouteConsts } from "./bestDayRoute.constants";
+import { BestDayRouteConsts } from "./bestDayRouteConstants";
 import { calculateDistance } from "../controllers/mapCalculation";
 import ICoordinate from "../../../client/src/interfaces/activity/coordinate";
 import { Activity } from "../../../client/src/interfaces";

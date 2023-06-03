@@ -1,7 +1,7 @@
-import { Activity } from "../../../client/src/interfaces";
-import ICoordinate from "../../../client/src/interfaces/activity/coordinate";
-import IDailyRoute from "../../../client/src/interfaces/activity/dailyRoute";
-import { getActivitiesInRadius } from "../controllers/activity";
+import { Activity } from '../../../client/src/interfaces';
+import ICoordinate from '../../../client/src/interfaces/activity/coordinate';
+import IDailyRoute from '../../../client/src/interfaces/activity/dailyRoute';
+import { getActivitiesInRadius } from '../controllers/activity';
 
 export const getAllPotentialActivites = async (
     startPoint: ICoordinate,

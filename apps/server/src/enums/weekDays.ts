@@ -1,1 +1,0 @@
-export const weekDays = ["SU", "MO", "TU", "WE", "TH", "FR", "SA"];

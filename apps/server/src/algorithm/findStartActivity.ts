@@ -8,7 +8,7 @@ import circle from '@turf/circle';
 export const findStartAlgoPoint = (
     cityCenter: ICoordinate,
     radius: number,
-    selectedActivities: Activity[],
+    selectedActivities: Activity[]
 ): ICoordinate => {
     if (selectedActivities.length != 0) {
         return findBestCoverPoint(radius, selectedActivities);

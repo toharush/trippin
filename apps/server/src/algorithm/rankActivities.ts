@@ -1,5 +1,5 @@
-import { Activity } from "../../../client/src/interfaces";
-import { dbCategoryToClientCategoryMapping } from "../controllers/mapCategory";
+import { Activity } from '../../../client/src/interfaces';
+import { dbCategoryToClientCategoryMapping } from '../controllers/mapCategory';
 
 const ACTIVITY_DEFAULT_RATING = 3;
 
@@ -20,7 +20,9 @@ const calculateActivityGrade = (
     categoryPriorities: Map<string, number>
 ): number => {
     let clientCategory = dbCategoryToClientCategoryMapping(activity.category);
-    const categoryPreference: number | undefined = categoryPriorities.get(clientCategory);
+    const categoryPreference: number | undefined = categoryPriorities.get(
+        clientCategory
+    );
 
     if (!categoryPreference) {
         return 0;
