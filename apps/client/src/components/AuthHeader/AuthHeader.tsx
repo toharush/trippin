@@ -16,9 +16,19 @@ const AuthHeader = (props: AuthHeaderProps) => {
   };
 
   return (
-    <Box className="sidebar-login" onClick={handleOnClick}>
-      <AccountCircleIcon className="sidebar-icon" />
-      <span className="sidebar-text">{title ? title : "Login"}</span>
+    <Box className="sidebar-login">
+      <div
+        style={{
+          display: "flex",
+          maxWidth: "100px",
+          width: "10px",
+          cursor: "pointer",
+        }}
+        onClick={handleOnClick}
+      >
+        <AccountCircleIcon className="sidebar-icon" />
+        <span className="sidebar-text">{title ? title : "Login"}</span>
+      </div>
     </Box>
   );
 };

@@ -18,7 +18,7 @@ const Search = (props: props) => {
   };
 
   return (
-    <form className="group relative mx-3 mt-3">
+    <form className="group relative mr-3 mt-3">
       <svg
         width="20"
         height="20"
