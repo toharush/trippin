@@ -6,6 +6,8 @@ import Dropdown from "../../components/Dropdown/Dropdown";
 import ActivitiesGallery from "../../components/ActivitiesGallery/ActivitiesGallery";
 import { useActivities, useStepper } from "../../hooks";
 import AppStepper from "../../components/Stepper/Stepper";
+import useMapDrawer from "../../hooks/useMapDrawer";
+import DateRangePicker from "../../components/DateRangePicker/DateRangePicker";
 import { stepperValues } from "../../interfaces";
 import { Button } from "@mui/material";
 import Authentication from "../Authentication/Authentication";
@@ -19,7 +21,10 @@ const SideBarContainer = () => {
   const stepper = [
     {
       label: stepperValues[stepperValues.Location],
-      component: <></>,
+      component: 
+      <>
+        <DateRangePicker />
+      </>,
     },
     {
       label: stepperValues[stepperValues.Activities],
