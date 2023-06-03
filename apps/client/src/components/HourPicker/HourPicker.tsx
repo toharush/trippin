@@ -31,7 +31,11 @@ export default function HourPicker({
         className="picker"
         label={label}
         value={time}
-        onChange={(date: Dayjs) => handleTimeChange(date)}
+        onChange={(date: Dayjs | null) => {
+          if (date) {
+            handleTimeChange(date);
+          }
+        }}
         ampm={false}
         defaultValue={defaultDay}
       />
