@@ -16,7 +16,7 @@ import mainRouter from './routes/main';
 import cors from 'cors';
 import Comment from './models/comment/comment';
 import { registerNewComment } from './controllers/comment';
-import { calculateTrip } from './algorithm/algoFunctions';
+import { calculateTrip } from './algorithm/calculateTrip';
 import client from './utils/dbClient';
 
 dotenv.config();
@@ -227,7 +227,7 @@ date.setDate(date.getDate() + 3);
     console.log(
         await calculateTrip(
             'a',
-            { lat: 50.59617, lng: -1.95568 },
+            { lat: 57.57012, lng: -7.39597 },
             10,
             new Map([['Resturants', 8]]),
             [],
