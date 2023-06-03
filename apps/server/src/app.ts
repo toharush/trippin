@@ -14,8 +14,10 @@ import getPlaceSQLQuery from './mapping/placeByAddressMapping';
 import { schema as DBSchema, TABLES } from '../../../utils';
 import mainRouter from './routes/main';
 import cors from 'cors';
-import client from './utils/sql_client';
+import Comment from './models/comment/comment';
+import { registerNewComment } from './controllers/comment';
 import { calculateTrip } from './algorithm/algoFunctions';
+import client from './utils/dbClient';
 
 dotenv.config();
 
@@ -51,6 +53,7 @@ const QueryRoot = new GraphQLObjectType({
             },
             resolve: (parent, args, context, resolveInfo) => {
                 return joinMonster.default(resolveInfo, {}, (sql: any) => {
+                    console.log(sql);
                     return client.query(sql);
                 });
             },
@@ -174,9 +177,48 @@ const QueryRoot = new GraphQLObjectType({
                 });
             },
         },
+        commentsByPlaceId: {
+            type: GraphQLList(Comment),
+            args: {
+                place_id: { type: GraphQLNonNull(GraphQLString) },
+            },
+            extensions: {
+                joinMonster: {
+                    where: (commentTable, args) => {
+                        return `place_id = '${args.place_id}'`;
+                    },
+                },
+            },
+            resolve: (parent, args, context, resolveInfo) =>
+                joinMonster.default(resolveInfo, {}, (sql: string) =>
+                    client.query(sql)
+                ),
+        },
     }),
 });
-const schema = new GraphQLSchema({ query: QueryRoot });
+const MutationRoot = new GraphQLObjectType({
+    name: 'Mutation',
+    fields: () => ({
+        addComment: {
+            type: Comment,
+            args: {
+                place_id: { type: GraphQLNonNull(GraphQLString) },
+                user_id: { type: GraphQLNonNull(GraphQLString) },
+                text: { type: GraphQLNonNull(GraphQLString) },
+            },
+            resolve: async (parent, args, context, resolveInfo) =>
+                await registerNewComment(
+                    args.user_id,
+                    args.place_id,
+                    args.text
+                ),
+        },
+    }),
+});
+const gqlSchema = new GraphQLSchema({
+    query: QueryRoot,
+    mutation: MutationRoot,
+});
 
 let date = new Date();
 date.setDate(date.getDate() + 3);
@@ -213,7 +255,7 @@ date.setDate(date.getDate() + 3);
 app.use(
     '/api/v1',
     graphqlHTTP({
-        schema: schema,
+        schema: gqlSchema,
         graphiql: true,
     })
 );

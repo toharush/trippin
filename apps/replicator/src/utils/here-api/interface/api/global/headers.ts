@@ -1,3 +1,3 @@
 export interface Headers {
-    'X-Request-ID': string;
+  "X-Request-ID": string;
 }

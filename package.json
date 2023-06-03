@@ -20,9 +20,13 @@
     "@mui/joy": "^5.0.0-alpha.79",
     "@mui/x-data-grid": "^6.4.0",
     "@types/node": "^18.15.11",
+    "@types/turf": "^3.5.32",
     "firebase": "^9.22.0",
     "geopoint": "^1.0.1",
+    "google-img-scrap": "^1.1.1",
     "graphql": "^15.8.0",
-    "react-perfect-scrollbar": "^1.5.8"
+    "react-apexcharts": "^1.4.0",
+    "react-perfect-scrollbar": "^1.5.8",
+    "turf": "^3.0.14"
   }
 }

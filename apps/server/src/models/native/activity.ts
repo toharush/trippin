@@ -1,6 +1,6 @@
 import { Activity } from '../../../../client/src/interfaces';
 import ICoordinate from '../../../../client/src/interfaces/activity/coordinate';
-import { query } from '../../utils/sql_query';
+import { query } from '../../utils/sqlQuery';
 
 export const getActivitiesInRadiusDB = async (
     radius: number,

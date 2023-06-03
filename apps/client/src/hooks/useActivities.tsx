@@ -3,8 +3,10 @@ import { Activity, EntityTypes } from "../interfaces";
 import { isEmpty } from "lodash";
 import {
   fetchAllActivities,
+  fetchNewCommentToServer,
   selectAllActivities,
   selectFilters,
+  selectIsCommentPending,
   selectSelectedActivities,
   useAppDispatch,
 } from "../store";
@@ -14,15 +16,18 @@ import {
 } from "../store/slices/activity";
 import { useState } from "react";
 import useMapDrawer from "./useMapDrawer";
+import useAuthentication from "./useAuthentication";
+import { fetchNewComment } from "../services";
 
 const useActivities = () => {
+  const { currentUser } = useAuthentication();
   const { addMarkerPoint, removeMarkerPoint, setFlyTo } = useMapDrawer();
   const dispatch = useAppDispatch();
+  const commentPending = useSelector(selectIsCommentPending);
+
   const selectedActivities = useSelector(selectSelectedActivities);
   const activities = useSelector(selectAllActivities);
   const filters = useSelector(selectFilters);
-  const [searchString, setSearchString] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
 
   const fetchActivities = async () => {
     await dispatch(fetchAllActivities());
@@ -31,7 +36,6 @@ const useActivities = () => {
   const removeSelectedActivity = async (activity: Activity) => {
     await removeMarkerPoint(activity.id);
     await dispatch(setSelectedActivities(activity));
-    await search();
   };
 
   const addSelectedActivity = async (activity: Activity) => {
@@ -47,28 +51,18 @@ const useActivities = () => {
     await dispatch(setSelectedActivities(activity));
   };
 
-  const searchActivity = async (name: string | undefined) => {
-    const newName = name ?? "";
-    await setSearchString(newName);
-    await search();
-  };
-
-  const search = async () => {
-    let val = [];
-    if (searchString !== "" && !isEmpty(searchString)) {
-      // @ts-ignore
-      val = activities?.filter(
-        (activity) =>
-          selectedActivities.filter((act) => act.id != activity.id) &&
-          (isEmpty(filters.category) ||
-            activity.category?.name
-              ?.toLowerCase()
-              .includes(filters.category)) &&
-          activity.title.toUpperCase().includes(searchString.toUpperCase())
+  const addComment = async (place_id: string, text: string) => {
+    if (currentUser?.email) {
+      await dispatch(
+        fetchNewCommentToServer({
+          place_id,
+          user_id: currentUser.email,
+          text,
+        })
       );
+    } else {
+      console.log("non fetchNewComment");
     }
-    // @ts-ignore
-    await setSearchResults(val);
   };
 
   const setFilter = async (filter: string) => {
@@ -77,7 +71,6 @@ const useActivities = () => {
       newFilter = filter;
     }
     await dispatch(setCatehoryFilter(newFilter));
-    await search();
   };
 
   return {
@@ -86,10 +79,10 @@ const useActivities = () => {
     addSelectedActivity,
     removeSelectedActivity,
     fetchActivities,
-    searchActivity,
     setFilter,
+    addComment,
     filters,
-    searchResults,
+    commentPending
   };
 };
 

@@ -4,6 +4,7 @@ import {
   fetchSignIn,
   fetchSignOut,
   fetchSignUp,
+  selectAuthenticationError,
   selectCurrentUser,
   useAppDispatch,
 } from "../store";
@@ -14,6 +15,7 @@ import { setUser } from "../store/slices/authentication";
 
 const useAuthentication = () => {
   const dispatch = useAppDispatch();
+  const error = useSelector(selectAuthenticationError);
   const currentUser = useSelector(selectCurrentUser);
 
   onAuthStateChanged(auth, (User) => {
@@ -29,6 +31,7 @@ const useAuthentication = () => {
 
   return {
     currentUser,
+    error,
     SignIn,
     SignUp,
     SignOut,

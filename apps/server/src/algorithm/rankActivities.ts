@@ -26,7 +26,7 @@ const calculateActivityGrade = (
         return 0;
     } else {
         if (activity.google?.rate) {
-            return categoryPreference * parseInt(activity.google.rate);
+            return categoryPreference * activity.google.rate;
         } else {
             return categoryPreference * ACTIVITY_DEFAULT_RATING;
         }
