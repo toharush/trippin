@@ -12,7 +12,7 @@ const leeds = require("./cityPics/leeds.png");
 const liverpool = require("./cityPics/liverpool.png");
 const manchester = require("./cityPics/manchester.png");
 
-const setPic = (city:string) => {
+export function setPic(city: string): any {
     switch (city) {
         case "london": {
             return london;
