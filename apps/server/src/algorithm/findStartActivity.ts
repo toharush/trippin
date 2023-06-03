@@ -1,18 +1,19 @@
-import { Activity } from "../../../client/src/interfaces";
-import ICoordinate from "../../../client/src/interfaces/activity/coordinate";
-import IGroup from "../../../client/src/interfaces/activity/group";
-import { calculateDistance } from "../controllers/mapCalculation";
+import { Activity } from '../../../client/src/interfaces';
+import ICoordinate from '../../../client/src/interfaces/activity/coordinate';
+import IGroup from '../../../client/src/interfaces/activity/group';
+import { calculateDistance } from '../controllers/mapCalculation';
+import turf from 'turf';
+import circle from '@turf/circle';
 
 export const findStartSimplexPoint = (
     cityCenter: ICoordinate,
     radius: number,
     selectedActivities: Activity[],
-    allVacationActivities: Activity[]
 ): ICoordinate => {
     if (selectedActivities.length != 0) {
         return findBestCoverPoint(radius, selectedActivities);
     } else {
-        return findFarthestPoint(allVacationActivities, cityCenter, radius);
+        return findFarthestPoint(cityCenter, radius);
     }
 };
 
@@ -76,60 +77,50 @@ const groupPointsByRadius = (
 };
 
 const findCenterPoint = (activities: Activity[]): ICoordinate => {
-    let sumLat = 0;
-    let sumLng = 0;
-    activities.map(activity => {
-        sumLat += activity.position.lat;
-        sumLng += activity.position.lng;
-    });
-    const averageLat = sumLat / activities.length;
-    const averageLng = sumLng / activities.length;
+    const location: number[][][] = [[]];
 
-    return { lat: averageLat, lng: averageLng };
+    activities.map(activity => {
+        location[0].push([activity.position.lng, activity.position.lat]);
+    });
+    location[0].push([activities[0].position.lng, activities[0].position.lat]);
+
+    const polygon = turf.polygon(location);
+    const randomPoint = turf.random('point', 1, {
+        bbox: turf.bbox(polygon),
+    });
+    const point = randomPoint.features[0].geometry.coordinates;
+
+    return {
+        lat: point[1],
+        lng: point[0],
+    };
 };
 
 const findFarthestPoint = (
-    allTripActivities: Activity[],
     cityCenter: ICoordinate,
     radius: number
 ): ICoordinate => {
-    let farthestDistance = 0;
-    let farthestPoint: ICoordinate = cityCenter;
+    let circle1 = circle(
+        {
+            type: 'Feature',
+            geometry: {
+                type: 'Point',
+                // Note order: longitude, latitude.
+                coordinates: [cityCenter.lng, cityCenter.lat],
+            },
+            properties: {},
+        },
+        radius
+    );
 
-    for (let i = 0; i < 10; i++) {
-        const randomPoint = getRandomPointInRadius(cityCenter, radius);
-        let minDistance = Infinity;
+    const randomPoint = turf.random('point', 1, {
+        bbox: turf.bbox(circle1),
+    });
 
-        allTripActivities.map(currentActivity => {
-            const distance = calculateDistance(
-                randomPoint,
-                currentActivity.position
-            );
-            if (distance < minDistance) {
-                minDistance = distance;
-            }
-        });
+    const point = randomPoint.features[0].geometry.coordinates;
 
-        if (minDistance > farthestDistance) {
-            farthestDistance = minDistance;
-            farthestPoint = randomPoint;
-        }
-    }
-
-    return farthestPoint;
-};
-
-const getRandomPointInRadius = (
-    center: ICoordinate,
-    radiusInKm: number
-): ICoordinate => {
-    const radiusInDegrees = radiusInKm / 111.12; // Approximate number of kilometers in one degree (111.12 km/degree at the equator)
-    const randomAngle = Math.random() * 360; // Random angle in degrees
-    const offsetX = Math.cos(randomAngle) * radiusInDegrees;
-    const offsetY = Math.sin(randomAngle) * radiusInDegrees;
-    const randomPoint: ICoordinate = {
-        lat: center.lat + offsetX,
-        lng: center.lng + offsetY,
+    return {
+        lat: point[1],
+        lng: point[0],
     };
-    return randomPoint;
 };

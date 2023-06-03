@@ -227,26 +227,10 @@ date.setDate(date.getDate() + 3);
     console.log(
         await calculateTrip(
             'a',
-            { lat: 36.13506, lng: -95.97135 },
-            50,
-            new Map([['Atractions', 8]]),
-            [
-                {
-                    id: '25499431:place',
-                    title: 'Central Place, Tulsa, OK, United States',
-                    type: 'locality',
-                    open_hours: [],
-                    position: {
-                        lat: 36.1501,
-                        lng: -95.9647,
-                    },
-                    address: {},
-                    category: {},
-                    extra: {},
-                    google: {},
-                    rate: 0,
-                },
-            ],
+            { lat: 57.56816, lng: -7.39002 },
+            10,
+            new Map([['Resturants', 8]]),
+            [],
             new Date(),
             date
         )

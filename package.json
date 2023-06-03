@@ -19,6 +19,7 @@
   "dependencies": {
     "@mui/joy": "^5.0.0-alpha.79",
     "@mui/x-data-grid": "^6.4.0",
+    "@turf/circle": "^6.5.0",
     "@types/node": "^18.15.11",
     "@types/turf": "^3.5.32",
     "firebase": "^9.22.0",

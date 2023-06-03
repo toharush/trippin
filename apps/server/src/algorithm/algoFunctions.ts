@@ -71,8 +71,7 @@ const findDailyRoute = async (
     let startSimplexPoint = findStartSimplexPoint(
         cityCenter,
         radius,
-        selectedActivities,
-        allVacationActivities
+        selectedActivities
     );
 
     // Get max activities from DB under specific radius
@@ -81,43 +80,45 @@ const findDailyRoute = async (
         radius
     );
 
+    // Filter activities which already have been covered
+    let finalActivities = filterCoveredActivities(
+        potentialActivities,
+        allVacationActivities
+    );
+
     // In case there weren't any potentialActivities after first randomizing
-    while (potentialActivities.length < MIN_ACTIVITIES_PER_DAY)  {
+    while (finalActivities.length < MIN_ACTIVITIES_PER_DAY)  {
         startSimplexPoint = findStartSimplexPoint(
             cityCenter,
             radius,
-            selectedActivities,
-            allVacationActivities
+            selectedActivities
         );
 
         potentialActivities = await getAllPotentialActivites(
             startSimplexPoint,
             radius
         );
+
+        finalActivities = filterCoveredActivities(
+            potentialActivities,
+            allVacationActivities
+        );
     }
 
     // Filter activities that has zero rating in category
     const rankedActivities = getRankedActivities(
         categoryPriorities,
-        potentialActivities
+        finalActivities
     );
     console.log(JSON.stringify(rankedActivities, null, 8));
 
-    // Filter activities which already have been covered
-    const finalActivities = filterCoveredActivities(
-        rankedActivities,
-        allVacationActivities
-    );
-
     // Simplex algo
-
-    // After running simplex algorithm we need to take the daily route activities that simplex 
-    // has returned and concat them to allVacationActivities array
+    const algoResult = rankedActivities.length > 0 ? [rankedActivities[0]] : [];
 
     return {
         date: date,
         index: dailyIndex,
-        activities: finalActivities,
+        activities: algoResult,
         extraActivities: [],
     };
 };
