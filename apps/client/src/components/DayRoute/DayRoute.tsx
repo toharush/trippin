@@ -10,6 +10,8 @@ import Typography from '@mui/material/Typography';
 import { useMapDrawer } from '../../hooks';
 import { createTheme, ThemeProvider } from '@mui/material';
 import { DayRoute } from '../../interfaces/dayRoute/dayRoute';
+import OneStopComponent from '../OneStopComponent/OneStopComponent';
+import { spacing, Stack } from '@mui/system';
 
 interface props {
     dayRoute: DayRoute,
@@ -38,8 +40,11 @@ interface props {
 
   return (
     <ThemeProvider theme={theme}>
-    <Box sx={{ maxWidth: 400, margin:"8%"}}>
-      <Stepper activeStep={activeStep} orientation="vertical">
+    <Stack sx={{ maxWidth: 400, margin:"8%"}} spacing={2}>
+      <OneStopComponent></OneStopComponent>
+      <OneStopComponent></OneStopComponent>
+      <OneStopComponent></OneStopComponent>
+      {/* <Stepper activeStep={activeStep} orientation="vertical">
         {dayRoute?.route.map((step, index) => (
           <Step key={step.id}>
             <StepLabel>{step.name}</StepLabel>
@@ -74,8 +79,8 @@ interface props {
             Reset
           </Button>
         </>
-      )}
-    </Box>
+      )} */}
+    </Stack>
     </ThemeProvider>
   );
 }
