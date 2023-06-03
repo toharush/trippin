@@ -28,7 +28,7 @@ export default function DateRangePicker() {
 
   return (
     <Box
-      sx={{ flexGrow: 1, marginLeft: "5%", color: "white", marginBottom: "5%" }}
+      sx={{ flexGrow: 1, marginLeft: "5%", color: "white", marginBottom: "5%", marginRight: "5%" }}
     >
       <DestintionsSearch />
       <Typography gutterBottom sx={{ color: "var(--primary-color)" }}>
