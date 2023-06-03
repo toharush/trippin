@@ -1,4 +1,4 @@
-import { Activity as activity } from "../../../../../interfaces";
+import { Activity as activity } from "../../interfaces/activity/activity";
 import "./Activity.css";
 import { Rating } from "@mui/material";
 import { useState } from "react";
