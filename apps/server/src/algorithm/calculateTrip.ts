@@ -2,7 +2,10 @@ import { Activity } from '../../../client/src/interfaces';
 import ICoordinate from '../../../client/src/interfaces/activity/coordinate';
 import IDailyRoute from '../../../client/src/interfaces/activity/dailyRoute';
 import ITrip from '../../../client/src/interfaces/activity/trip';
-import { calculateAllTripActivities, getAllPotentialActivites } from './calculateActivities';
+import {
+    calculateAllTripActivities,
+    getAllPotentialActivites,
+} from './calculateActivities';
 import { filterCoveredActivities } from './filterActivities';
 import { findStartSimplexPoint } from './findStartActivity';
 import { getRankedActivities } from './rankActivities';
@@ -66,7 +69,7 @@ const findDailyRoute = async (
     categoryPriorities: Map<string, number>,
     selectedActivities: Activity[],
     allVacationActivities: Activity[]
-): Promise<IDailyRoute> => {    
+): Promise<IDailyRoute> => {
     // Find the start point of simplex
     let startSimplexPoint = findStartSimplexPoint(
         cityCenter,
@@ -87,7 +90,7 @@ const findDailyRoute = async (
     );
 
     // In case there weren't any potentialActivities after first randomizing
-    while (finalActivities.length < MIN_ACTIVITIES_PER_DAY)  {
+    while (finalActivities.length < MIN_ACTIVITIES_PER_DAY) {
         startSimplexPoint = findStartSimplexPoint(
             cityCenter,
             radius,
@@ -110,7 +113,6 @@ const findDailyRoute = async (
         categoryPriorities,
         finalActivities
     );
-    console.log(JSON.stringify(rankedActivities, null, 8));
 
     // Simplex algo
     const algoResult = rankedActivities.length > 0 ? [rankedActivities[0]] : [];

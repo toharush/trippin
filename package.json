@@ -26,6 +26,7 @@
     "geopoint": "^1.0.1",
     "google-img-scrap": "^1.1.1",
     "graphql": "^15.8.0",
+    "lodash": "^4.17.21",
     "react-apexcharts": "^1.4.0",
     "react-perfect-scrollbar": "^1.5.8",
     "turf": "^3.0.14"

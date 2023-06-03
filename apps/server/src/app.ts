@@ -227,7 +227,7 @@ date.setDate(date.getDate() + 3);
     console.log(
         await calculateTrip(
             'a',
-            { lat: 57.56816, lng: -7.39002 },
+            { lat: 50.59617, lng: -1.95568 },
             10,
             new Map([['Resturants', 8]]),
             [],
