@@ -5,7 +5,7 @@
     "main": "src/app.ts",
     "scripts": {
         "start": "ts-node src/app.ts",
-        "start:bestRouteAlgo": "ts-node src/bestDayRouteAlgo.ts",
+        "start:bestRouteAlgo": "ts-node src/bestDayRouteAlgo/bestDayRouteAlgo.ts",
         "start:castingOpeningHoures": "ts-node src/castingOpeningHoursFormat.ts",
         "lint": "eslint . --ext .ts",
         "test": "echo \"Error: no test specified\" && exit 1",
