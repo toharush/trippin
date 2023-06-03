@@ -20,3 +20,20 @@ SELECT * from (SELECT id, "position",
         SIN( RADIANS( $user_latitude) ) 
     ) 
 ) "distance" FROM original_Table) the_table WHERE the_table."distance" <= the_radius ORDER BY "distance" ASC;
+
+
+SELECT * 
+FROM trippin."place"
+WHERE position_id IN (
+	SELECT id
+	FROM trippin."position"
+	WHERE (
+  		6371 * 2 * ASIN(
+			SQRT(
+      		    POWER(SIN((RADIANS(lat) - RADIANS(center_lat)) / 2), 2) +
+      		    COS(RADIANS(center_lat)) * COS(RADIANS(lat)) *
+      		    POWER(SIN((RADIANS(lng) - RADIANS(center_lng)) / 2), 2)
+    		)
+  		)
+	) <= radius
+);

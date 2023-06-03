@@ -1,3 +1,4 @@
+import ICoordinate from "./coordinate";
 import { Google } from "./google";
 export interface Activity {
   id: string;
@@ -8,5 +9,6 @@ export interface Activity {
   category: any;
   google: Google;
   address: any;
-  position: any;
+  position: ICoordinate;
+  rate?: number;
 }

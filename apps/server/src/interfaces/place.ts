@@ -1,42 +1,11 @@
-import {
-    GraphQLInterfaceType,
-    GraphQLString,
-    GraphQLList,
-    GraphQLInt,
-    GraphQLBoolean,
-} from 'graphql';
+import { Activity } from '../../../client/src/interfaces';
 
-export const PlaceType = new GraphQLInterfaceType({
-    name: 'place',
-    fields: {
-        id: { type: GraphQLString },
-        title: { type: GraphQLString },
-        type: { type: GraphQLString },
-        open_hours: {
-            type: GraphQLList(
-                new GraphQLInterfaceType({
-                    name: 'open_hours',
-                    fields: {
-                        text: { type: GraphQLList(GraphQLString) },
-                        isOpen: { type: GraphQLBoolean },
-                        structured: {
-                            type: GraphQLList(
-                                new GraphQLInterfaceType({
-                                    name: 'structured',
-                                    fields: {
-                                        start: { type: GraphQLString },
-                                        duration: { type: GraphQLString },
-                                        recurrence: { type: GraphQLString },
-                                    },
-                                })
-                            ),
-                        },
-                    },
-                })
-            ),
-        },
-        position_id: { type: GraphQLString },
-        category_id: { type: GraphQLInt },
-        address_id: { type: GraphQLInt },
-    },
-});
+type OmittedColumns = 'extra' | 'category' | 'google' | 'address' | 'position';
+export default interface Place extends Omit<Activity, OmittedColumns> {
+    data_version: StreamPipeOptions;
+    created_at: Date;
+    updated_at: Date;
+    address_id: number;
+    category_id: number;
+    position_id: number;
+}

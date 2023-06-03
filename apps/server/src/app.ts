@@ -11,11 +11,12 @@ import {
 import * as joinMonster from 'join-monster';
 import Place from './models/place/place';
 import getPlaceSQLQuery from './mapping/placeByAddressMapping';
-import { schema as DBSchema, TABLES, schema } from '../../../utils';
+import { schema as DBSchema, TABLES } from '../../../utils';
 import mainRouter from './routes/main';
 import cors from 'cors';
 import Comment from './models/comment/comment';
 import { registerNewComment } from './controllers/comment';
+import { calculateTrip } from './algorithm/calculateTrip';
 import client from './utils/dbClient';
 
 dotenv.config();
@@ -218,6 +219,22 @@ const gqlSchema = new GraphQLSchema({
     query: QueryRoot,
     mutation: MutationRoot,
 });
+
+let date = new Date();
+date.setDate(date.getDate() + 3);
+
+(async () =>
+    console.log(
+        await calculateTrip(
+            'a',
+            { lat: 57.57012, lng: -7.39597 },
+            10,
+            new Map([['Resturants', 8]]),
+            [],
+            new Date(),
+            date
+        )
+    ))();
 
 app.use(
     '/api/v1',
