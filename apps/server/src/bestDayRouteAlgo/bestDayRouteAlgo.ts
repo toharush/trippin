@@ -1,18 +1,9 @@
 import { BestDayRouteConsts } from "./bestDayRoute.constants";
+import { calculateDistance } from "../controllers/mapCalculation";
+import ICoordinate from "../../../client/src/interfaces/activity/coordinate";
+import { Activity } from "../../../client/src/interfaces";
 
-interface Activity {
-  id: string;
-  type: number;
-  name: string;
-  location: [number, number];
-  openHour: number;
-  closeHour: number;
-  userRate: number;
-  duration: number;
-  travelAndVisitTime?: number;
-}
-
-function findBestActivities(activities: Activity[], startHour: number, endHour: number, startLocation: [number, number]): (Activity | null)[] {
+export function findBestActivities(activities: Activity[], startHour: number, endHour: number, startPosition: ICoordinate): Activity[] {
   const availableActivities = filterActivitiesOutOfUserTimeRange(activities, startHour, endHour);
   const combinationsValue: number[] = new Array(availableActivities.length).fill(0);
   const selectedActivitiesCombinations: (Activity | null)[][] = initSelectedActivities(availableActivities, startHour, endHour);
@@ -24,18 +15,19 @@ function findBestActivities(activities: Activity[], startHour: number, endHour: 
       let currentTimeSlot = currentHour - startHour;
       let maxValueOfTimeSlot = currentCombinationValues[currentTimeSlot];
       for (const activity of reorderedActivities) {
+        activity.duration = getActivityDuration(activity);
         const lastSelectedActivity = getLastSelectedActivity(selectedActivitiesCombinations[activitiesCombinationIndex]);
         let distance: number = 0;
         if (currentTimeSlot !== 0 && lastSelectedActivity !== null) {
-          distance = calculateDistance(activity.location, lastSelectedActivity.location);
-        } else if (!compareLocations(startLocation, activity.location)) {
-          distance = calculateDistance(startLocation, activity.location);
+          distance = calculateDistance(activity.position, lastSelectedActivity.position);
+        } else if (!compareLocations(startPosition, activity.position)) {
+          distance = calculateDistance(startPosition, activity.position);
         }
         activity.travelAndVisitTime = distance !== 0 ? calcActivityTravelAndVisitTime(activity.duration, distance) :
           activity.duration * BestDayRouteConsts.SplitToQuarter;
-        const activityValue = activity.userRate / (distance + 1);
+        const activityValue = activity.rate! / (distance + 1);
         console.log("activity id: " + activity.id + " travelTime: " + activity.travelAndVisitTime);
-        if (isActivityOpenNow(activity, currentHour) && (activityValue > maxValueOfTimeSlot)) {
+        if (isActivityOpenNow(activity, currentHour, startHour, endHour) && (activityValue > maxValueOfTimeSlot)) {
           maxValueOfTimeSlot = activityValue;
           currentCombinationValues[currentTimeSlot] = maxValueOfTimeSlot;
           selectedActivity = activity;
@@ -100,26 +92,8 @@ function getLastSelectedActivity(
   return null;
 }
 
-function compareLocations(location1: [number, number], location2: [number, number]): boolean {
-  return location1[0] === location2[0] && location1[1] === location2[1];
-}
-
-function calculateDistance(location1: [number, number], location2: [number, number]): number {
-
-  const [lat1, lon1] = location1.map((coord) => (Math.PI * coord) / 180);
-  const [lat2, lon2] = location2.map((coord) => (Math.PI * coord) / 180);
-
-  const dlon = lon2 - lon1;
-  const dlat = lat2 - lat1;
-
-  const a =
-    Math.sin(dlat / 2) ** 2 +
-    Math.cos(lat1) * Math.cos(lat2) * Math.sin(dlon / 2) ** 2;
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-  const distance = BestDayRouteConsts.EarthRadius * c;
-
-  return distance;
+function compareLocations(firstPosition: ICoordinate, secondPosition: ICoordinate): boolean {
+  return firstPosition.lat === secondPosition.lat && firstPosition.lng === secondPosition.lng;
 }
 
 function calcActivityTravelAndVisitTime(duration: number, distance: number): number {
@@ -128,7 +102,7 @@ function calcActivityTravelAndVisitTime(duration: number, distance: number): num
       * BestDayRouteConsts.SplitToQuarter);
 }
 
-function isActivityOpenNow(activity: Activity, currentHour: number): boolean {
+function isActivityOpenNow(activity: Activity, currentHour: number, startHour: number, endHour: number): boolean {
   return activity.travelAndVisitTime ? activity.openHour <= currentHour &&
     currentHour + activity.travelAndVisitTime <= calcActivityEndHour(activity.openHour, activity.closeHour) &&
     currentHour + activity.travelAndVisitTime <= calcActivityEndHour(startHour, endHour) : false;
@@ -142,6 +116,14 @@ const removeActivityById = (activities: Activity[], id: string): Activity[] => {
   return activities.filter((activity) => activity.id !== id);
 };
 
+const getActivityDuration = (
+  activity: Activity
+): number => {
+  if (activity.google.spend) {
+    return (activity.google.spend) / 3600000;
+  }
+  return 2;
+}
 
 function getBestDayRoute(
   dp: number[],
@@ -150,27 +132,4 @@ function getBestDayRoute(
   const maxValue = Math.max(...dp);
   const maxIndex = dp.indexOf(maxValue);
   return selectedActivities[maxIndex];
-}
-
-// test algo 
-
-const activities: Activity[] = [
-  { id: "1", type: 2, name: "Park Place, Tulsa, OK, United States", location: [51.519877166287486, -0.20420128478308805], openHour: 6, closeHour: 23, userRate: 30, duration: 2 },
-  { id: "2", type: 2, name: "Popeyes Louisiana Kitchen", location: [51.51761205306819, -0.20578971303352855], openHour: 8, closeHour: 23, userRate: 45, duration: 1 },
-  { id: "3", type: 2, name: "Whiting Cafe", location: [51.517076646210405, -0.2112830273996354], openHour: 9, closeHour: 23, userRate: 4.8, duration: 1.5 },
-  { id: "4", type: 2, name: "Woods at Sau Tech Diner", location: [51.50838570095298, -0.22121070396488873], openHour: 10, closeHour: 23, userRate: 6.2, duration: 3 },
-  { id: "5", type: 2, name: "Rick's Place Bar and Grill", location: [51.50039351073569, -0.20003166073033746], openHour: 9, closeHour: 23, userRate: 3.5, duration: 0.5 }
-];
-
-const startHour = 9;
-const endHour = 17;
-
-const bestActivities = findBestActivities(activities, startHour, endHour, [51.519877166287486, -0.20420128478308805]);
-
-for (const activity of bestActivities) {
-  if (activity === null) {
-    console.log("Free time :)");
-  } else {
-    console.log(activity.id);
-  }
 }

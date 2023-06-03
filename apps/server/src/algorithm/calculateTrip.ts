@@ -2,12 +2,13 @@ import { Activity } from '../../../client/src/interfaces';
 import ICoordinate from '../../../client/src/interfaces/activity/coordinate';
 import IDailyRoute from '../../../client/src/interfaces/activity/dailyRoute';
 import ITrip from '../../../client/src/interfaces/activity/trip';
+import { findBestActivities } from '../bestDayRouteAlgo/bestDayRouteAlgo';
 import {
     calculateAllTripActivities,
     getAllPotentialActivites,
 } from './calculateActivities';
 import { filterCoveredActivities } from './filterActivities';
-import { findStartSimplexPoint } from './findStartActivity';
+import { findStartAlgoPoint } from './findStartActivity';
 import { getRankedActivities } from './rankActivities';
 
 const MIN_ACTIVITIES_PER_DAY = 3;
@@ -19,9 +20,15 @@ export const calculateTrip = async (
     categoryPriorities: Map<string, number>,
     selectedActivities: Activity[],
     startDate: Date,
-    endDate: Date
+    endDate: Date,
+    startHour: Date,
+    endHour: Date
 ): Promise<ITrip> => {
     let dailyRoutes: IDailyRoute[] = [];
+
+    // Convert startHour and endHour to numbers
+    let convertedStartHour = 9;
+    let convertedEndHour = 17;
 
     for (
         let i = 0;
@@ -45,7 +52,9 @@ export const calculateTrip = async (
             radius,
             categoryPriorities,
             selectedActivities,
-            allTripActivities
+            allTripActivities,
+            convertedStartHour,
+            convertedEndHour
         );
         dailyRoutes.push(currentDailyRoute);
     }
@@ -68,10 +77,12 @@ const findDailyRoute = async (
     radius: number,
     categoryPriorities: Map<string, number>,
     selectedActivities: Activity[],
-    allVacationActivities: Activity[]
+    allVacationActivities: Activity[],
+    startHour: number,
+    endHour: number
 ): Promise<IDailyRoute> => {
     // Find the start point of simplex
-    let startSimplexPoint = findStartSimplexPoint(
+    let startAlgoPoint = findStartAlgoPoint(
         cityCenter,
         radius,
         selectedActivities
@@ -79,7 +90,7 @@ const findDailyRoute = async (
 
     // Get max activities from DB under specific radius
     let potentialActivities = await getAllPotentialActivites(
-        startSimplexPoint,
+        startAlgoPoint,
         radius
     );
 
@@ -91,14 +102,14 @@ const findDailyRoute = async (
 
     // In case there weren't any potentialActivities after first randomizing
     while (finalActivities.length < MIN_ACTIVITIES_PER_DAY) {
-        startSimplexPoint = findStartSimplexPoint(
+        startAlgoPoint = findStartAlgoPoint(
             cityCenter,
             radius,
             selectedActivities
         );
 
         potentialActivities = await getAllPotentialActivites(
-            startSimplexPoint,
+            startAlgoPoint,
             radius
         );
 
@@ -114,8 +125,13 @@ const findDailyRoute = async (
         finalActivities
     );
 
-    // Simplex algo
-    const algoResult = rankedActivities.length > 0 ? [rankedActivities[0]] : [];
+    // Call dynamic programming algo
+    const algoResult = findBestActivities(
+        rankedActivities,
+        startHour,
+        endHour,
+        startAlgoPoint
+    );
 
     return {
         date: date,

@@ -5,7 +5,7 @@ import { calculateDistance } from '../controllers/mapCalculation';
 import turf from 'turf';
 import circle from '@turf/circle';
 
-export const findStartSimplexPoint = (
+export const findStartAlgoPoint = (
     cityCenter: ICoordinate,
     radius: number,
     selectedActivities: Activity[],
