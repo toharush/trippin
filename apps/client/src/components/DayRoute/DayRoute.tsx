@@ -1,87 +1,21 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import StepContent from '@mui/material/StepContent';
-import Button from '@mui/material/Button';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
-import { useMapDrawer } from '../../hooks';
 import { createTheme, ThemeProvider } from '@mui/material';
 import { DayRoute } from '../../interfaces/dayRoute/dayRoute';
 import OneStopComponent from '../OneStopComponent/OneStopComponent';
 import { spacing, Stack } from '@mui/system';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 interface props {
     dayRoute: DayRoute,
-    activeStep: number,
-    handleNext: ()=>void,
-    handleBack: ()=>void,
-    handleReset: ()=>void,
 }
 
- const DayRouteComponent =({dayRoute, activeStep,handleNext,handleBack,handleReset}: props)=> {
+ const DayRouteComponent =({dayRoute}: props)=> {
   
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: '#86eaf0',
-      },
-      action: {
-        hover: 'rgba(0, 0, 0, .2)',
-      },
-      text: {
-        primary:"#FFFFFF",
-        secondary:"#FFFFFF",
-      }
-    },
-  });
-
   return (
-    <ThemeProvider theme={theme}>
-    <Stack sx={{ maxWidth: 400, margin:"8%"}} spacing={2}>
-      <OneStopComponent></OneStopComponent>
-      <OneStopComponent></OneStopComponent>
-      <OneStopComponent></OneStopComponent>
-      {/* <Stepper activeStep={activeStep} orientation="vertical">
-        {dayRoute?.route.map((step, index) => (
-          <Step key={step.id}>
-            <StepLabel>{step.name}</StepLabel>
-            <StepContent>
-              <Typography>{step.location}</Typography>
-              <Box sx={{ mb: 2 }}>
-                <div>
-                  <Button
-                    variant="contained"
-                    onClick={handleNext}
-                    sx={{ mt: 1, mr: 1 }}
-                  >
-                    {index === dayRoute.route.length - 1 ? 'Finish' : 'Continue'}
-                  </Button>
-                  <Button
-                    disabled={index === 0}
-                    onClick={handleBack}
-                    sx={{ mt: 1, mr: 1 }}
-                  >
-                    Back
-                  </Button>
-                </div>
-              </Box>
-            </StepContent>
-          </Step>
-        ))}
-      </Stepper>
-      {activeStep === dayRoute?.route.length && (
-        <>
-          <Typography>All steps completed - you&apos;re finished</Typography>
-          <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
-            Reset
-          </Button>
-        </>
-      )} */}
+    <Stack sx={{ maxWidth: 400, margin:"8%"}} spacing={1}>
+      <LocationOnIcon sx={{color:"#86eaf0"}}></LocationOnIcon>
+      {dayRoute.route.map((activity)=> <OneStopComponent activity={activity}></OneStopComponent>)}
     </Stack>
-    </ThemeProvider>
   );
 }
 

@@ -1,6 +1,5 @@
-import { Pagination, ThemeProvider, createTheme } from "@mui/material";
+import { Grid, Pagination, ThemeProvider, createTheme} from "@mui/material";
 import { useState, useEffect } from "react";
-import DayRouteContainer from "../../container/DayRoute/DayRoute";
 import { DayRoute } from "../../interfaces/dayRoute/dayRoute";
 import { selectDayRoutes } from "../../store";
 import DayRouteComponent from "../DayRoute/DayRoute";
@@ -39,7 +38,7 @@ const DaysNavigation = ({selectedDayRoutes}:props) => {
             <div className="nav-container vertical-align">
                 <Pagination count={selectedDayRoutes.length} shape="rounded" siblingCount={1} boundaryCount={2} color="primary" onChange={(event, index)=>handleDayChange(index-1)}></Pagination>
             </div>
-            <DayRouteContainer dayRoute={selectedDayRoutes[activeIndex]}/>
+            <DayRouteComponent dayRoute={selectedDayRoutes[activeIndex]}/>
         </ThemeProvider>
     );
 }
