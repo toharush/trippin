@@ -27,20 +27,13 @@ export const calculateTrip = async (
 ): Promise<ITrip> => {
     let dailyRoutes: IDailyRoute[] = [];
 
-    for (
-        let i = 0;
-        i <= Math.abs(endDate.getDate() - startDate.getDate());
-        i++
-    ) {
+    for (let i = 0; i <= Math.abs(endDate.getDate() - startDate.getDate()); i++) {
         let date = new Date(startDate);
         date.setDate(date.getDate() + i);
 
         let allTripActivities = calculateAllTripActivities(dailyRoutes);
 
-        selectedActivities = filterCoveredActivities(
-            selectedActivities,
-            allTripActivities
-        );
+        selectedActivities = filterCoveredActivities(selectedActivities, allTripActivities);
 
         let currentDailyRoute = await findDailyRoute(
             i + 1,
@@ -79,48 +72,23 @@ const findDailyRoute = async (
     endHour: number
 ): Promise<IDailyRoute> => {
     // Find the start point of simplex
-    let startAlgoPoint = findStartAlgoPoint(
-        cityCenter,
-        radius,
-        selectedActivities
-    );
+    let startAlgoPoint = findStartAlgoPoint(cityCenter, radius, selectedActivities);
 
     // Get max activities from DB under specific radius
-    let potentialActivities = await getAllPotentialActivites(
-        startAlgoPoint,
-        radius
-    );
+    let potentialActivities = await getAllPotentialActivites(startAlgoPoint, radius);
 
     // Filter activities which already have been covered
-    let finalActivities = filterCoveredActivities(
-        potentialActivities,
-        allVacationActivities
-    );
+    let finalActivities = filterCoveredActivities(potentialActivities, allVacationActivities);
 
     let counter = 0;
     let maxNumberOfFinalActivities = 0;
     let maxFinalActivitiesArray: Activity[] = [];
 
     // In case there weren't any potentialActivities after first randomizing process
-    while (
-        finalActivities.length < MIN_ACTIVITIES_PER_DAY &&
-        counter < MAX_RETRIES_AMOUNT
-    ) {
-        startAlgoPoint = findStartAlgoPoint(
-            cityCenter,
-            radius,
-            selectedActivities
-        );
-
-        potentialActivities = await getAllPotentialActivites(
-            startAlgoPoint,
-            radius
-        );
-
-        finalActivities = filterCoveredActivities(
-            potentialActivities,
-            allVacationActivities
-        );
+    while ((finalActivities.length < MIN_ACTIVITIES_PER_DAY) && (counter < MAX_RETRIES_AMOUNT)) {
+        startAlgoPoint = findStartAlgoPoint(cityCenter, radius, selectedActivities);
+        potentialActivities = await getAllPotentialActivites(startAlgoPoint, radius);
+        finalActivities = filterCoveredActivities(potentialActivities, allVacationActivities);
 
         if (finalActivities.length > maxNumberOfFinalActivities) {
             maxNumberOfFinalActivities = finalActivities.length;
@@ -130,19 +98,11 @@ const findDailyRoute = async (
         counter++;
     }
 
-    // Filter activities that has zero rating in category
-    const rankedActivities = getRankedActivities(
-        categoryPriorities,
-        maxFinalActivitiesArray
-    );
+    // Filter activities that has zero rating in category field and rank the activities
+    const rankedActivities = getRankedActivities(categoryPriorities, maxFinalActivitiesArray);
 
     // Call dynamic programming algorithm
-    const algoResult = findBestActivities(
-        rankedActivities,
-        startHour,
-        endHour,
-        startAlgoPoint
-    );
+    const algoResult = findBestActivities(rankedActivities, startHour, endHour, startAlgoPoint);
 
     return {
         date: date,
