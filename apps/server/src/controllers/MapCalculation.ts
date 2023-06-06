@@ -1,5 +1,6 @@
 import ICoordinate from '../../../client/src/interfaces/activity/coordinate';
 import geo from 'geopoint';
+import { calculateCityCenterPoint } from '../algorithm/calculateCityCenter';
 
 export const calculateDistance = (
     firstPoint: ICoordinate,
@@ -16,3 +17,7 @@ export const getPointsInCircle = (
     radius: number,
     center: ICoordinate
 ) => points.filter(point => calculateDistance(point, center) <= radius);
+
+export const getCityCenter = (cityCoordinates: ICoordinate[]): ICoordinate => {
+    return calculateCityCenterPoint(cityCoordinates);
+};
