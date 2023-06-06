@@ -1,18 +1,21 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker as DatePickerMUI }from '@mui/x-date-pickers/DatePicker';
-import './DatePicker.css';
+import '../DateRangePicker.css';
 import dayjs, { Dayjs } from 'dayjs';
 
 interface Props {
     label: string;
     selectedDate: Dayjs;
     onDateChange: (date: Dayjs) => void;
+    error?: boolean;
+    errorMessage?: string;
 }
 
-export default function DatePicker({ label, selectedDate, onDateChange }: Props) {
+export default function DatePicker({ label, selectedDate, onDateChange, error, errorMessage}: Props) {
     const [startDate, setStartDate] = useState<Dayjs>(selectedDate);
+    const defaultDay = dayjs();
 
     const handleDateChange = (date: Dayjs) => {
         setStartDate(date);
@@ -22,7 +25,7 @@ export default function DatePicker({ label, selectedDate, onDateChange }: Props)
     return(
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePickerMUI
-            className="date-picker"
+           className={`picker ${error ? 'error' : ''}`}
             label={label}
             value={startDate}
             onChange={(date) => {
@@ -31,7 +34,15 @@ export default function DatePicker({ label, selectedDate, onDateChange }: Props)
                 }
             }}
             format="DD/MM/YYYY"
-            defaultValue={dayjs()}
+            defaultValue={defaultDay}
+            disablePast
+            slotProps={ error ? {
+              textField: {
+                helperText:errorMessage,
+                className: 'error-message',
+              },
+              
+            } : {}}
             />
         </LocalizationProvider>
     );
