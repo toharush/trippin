@@ -1,6 +1,6 @@
-import { Supplier } from '../../../app';
+import { Supplier } from "../../../app";
 
 export interface Reference {
-    id: string;
-    supplier: Supplier;
+  id: string;
+  supplier: Supplier;
 }

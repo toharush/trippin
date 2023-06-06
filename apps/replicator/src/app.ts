@@ -1,50 +1,29 @@
 import { TrippinReplicator } from "./replicators/trippinReplicator/trippingReplicator";
-import { GoogleScraper } from "./scrapers/google/app";
-import { getBrowser } from "./utils/browser/browser";
-import { drop_database, init_database } from "./utils/database/init-db";
+import { init_database } from "./utils/database/init-db";
 import logger from "./utils/logger/logger";
+import { getRandomLocation } from "./utils/randomLocation";
+
+const milliSeconds = 350000;
+
+const replicator = async () => {
+  console.time("replicator");
+  let loc = await getRandomLocation();
+
+  await new TrippinReplicator(
+    [
+      { q: "bar", at: loc, limit: 100 },
+      { q: "museum", at: loc, limit: 100 },
+      { q: "night club", at: loc, limit: 100 },
+      { q: "place", at: loc, limit: 100 },
+      { q: "restaurant", at: loc, limit: 100 },
+    ],
+    logger
+  );
+  console.timeEnd("replicator");
+};
 
 (async () => {
   await init_database();
-  new TrippinReplicator(
-    [
-      { q: "bar", at: "37.6,-95.665", limit: 100 },
-      { q: "museum", at: "37.6,-95.665", limit: 100 },
-      { q: "night club", at: "37.6,-95.665", limit: 100 },
-      { q: "place", at: "37.6,-95.665", limit: 100 },
-      { q: "restaurant", at: "37.6,-95.665", limit: 100 },
-    ],
-    logger
-  );
-  new TrippinReplicator(
-    [
-      { q: "bar", at: "39.6,-95.665", limit: 100 },
-      { q: "museum", at: "37.6,-95.665", limit: 100 },
-      { q: "night club", at: "37.6,-95.665", limit: 100 },
-      { q: "place", at: "39.6,-95.665", limit: 100 },
-      { q: "restaurant", at: "39.6,-95.665", limit: 100 },
-    ],
-    logger
-  );
-  new TrippinReplicator(
-    [
-      { q: "bar", at: "39.6,-96.665", limit: 100 },
-      { q: "museum", at: "37.6,-95.665", limit: 100 },
-      { q: "night club", at: "37.6,-95.665", limit: 100 },
-      { q: "place", at: "39.6,-96.665", limit: 100 },
-      { q: "restaurant", at: "39.6,-96.665", limit: 100 },
-    ],
-    logger
-  );
-  new TrippinReplicator(
-    [
-      { q: "bar", at: "33.6,-92.665", limit: 100 },
-      { q: "museum", at: "37.6,-95.665", limit: 100 },
-      { q: "night club", at: "37.6,-95.665", limit: 100 },
-      { q: "place", at: "33.6,-92.665", limit: 100 },
-      { q: "restaurant", at: "33.6,-92.665", limit: 100 },
-    ],
-    logger
-  );
-  new GoogleScraper(await getBrowser(true), logger, 10);
+  await replicator();
+  setInterval(async () => await replicator(), milliSeconds);
 })();
