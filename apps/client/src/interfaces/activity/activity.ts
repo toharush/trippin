@@ -3,17 +3,17 @@ import { Google } from "./google";
 export interface Activity {
   id: string;
   title: string;
-  type: string;
+  type?: string;
   openHour: number;
   closeHour: number;
-  extra: any;
-  category: any;
-  google: Google;
-  address: any;
+  extra?: any;
+  category?: any;
+  google?: Google;
+  address?: any;
   position: ICoordinate;
   rate?: number;
   duration?: number;
   travelAndVisitTime?: number;
-  startTime?: number;
-  endTime?: number;
+  startTime?: Date;
+  endTime?: Date;
 }
