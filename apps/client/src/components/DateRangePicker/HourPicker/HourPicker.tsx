@@ -1,22 +1,19 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
-import "./HourPicker.css";
+import '../DateRangePicker.css';
 import dayjs, { Dayjs } from "dayjs";
 
 interface Props {
   label: string;
   selectedTime: Dayjs;
   onTimeChange: (time: Dayjs) => void;
+  error?: boolean;
+  errorMessage?: string;
 }
 
-export default function HourPicker({
-  label,
-  selectedTime,
-  onTimeChange,
-}: Props) {
-  const adapter = new AdapterDayjs();
+export default function HourPicker({ label, selectedTime, onTimeChange, error, errorMessage }: Props) {
   const defaultDay = dayjs();
   const [time, setTime] = useState<Dayjs>(selectedTime);
 
@@ -28,7 +25,7 @@ export default function HourPicker({
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <TimePicker
-        className="picker"
+        className={`picker ${error ? 'error' : ''}`}
         label={label}
         value={time}
         onChange={(date: Dayjs | null) => {
@@ -38,6 +35,12 @@ export default function HourPicker({
         }}
         ampm={false}
         defaultValue={defaultDay}
+        slotProps={error ? {
+          textField: {
+            helperText: errorMessage,
+            className: 'error-message',
+          },
+        } : {}}
       />
     </LocalizationProvider>
   );
