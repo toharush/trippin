@@ -1,21 +1,12 @@
 import { getAllPositions } from "../controllers/position";
 import { GOOGLE_IMG_SCRAP } from "google-img-scrap";
-
-import { sleep } from "./sleep";
 import turf from "turf";
-
+import { dbCategoryToClientCategoryMapping } from "../../../server/src/controllers/mapCategory";
+import { clientCategories } from "../../../server/src/enums/clientCategory";
 export const getRandomLocation = async () => {
   const location = await getRandomCoordinateNotInList();
 
   return `${location.lat},${location.lng}`;
-};
-
-const generateRandomCoordinate = () => {
-  const min = -90;
-  const max = 90;
-  const randomLatitude = Math.random() * (max - min) + min;
-  const randomLongitude = Math.random() * (max - min) + min;
-  return { lat: randomLatitude, lng: randomLongitude };
 };
 
 export const getGoogleImage = async (label: string) => {
@@ -74,3 +65,37 @@ export const getTurfLocation = () => {
     lng: point[0],
   };
 };
+
+export const getRandomBusinessHours = (
+  placeType: string | undefined
+): { openingTime: Date; closingTime: Date } => {
+  let openingHour, closingHour;
+  let category = "place";
+
+  if (placeType) {
+    category = dbCategoryToClientCategoryMapping(placeType);
+  }
+
+  if (category === clientCategories.Night) {
+    openingHour = getRandomHour(18, 23);
+    closingHour = getRandomHour(0, 6);
+  } else {
+    openingHour = getRandomHour(8, 10);
+    closingHour = getRandomHour(18, 20);
+  }
+
+  const openingTime = new Date();
+  openingTime.setHours(openingHour, 0, 0, 0);
+
+  const closingTime = new Date();
+  closingTime.setHours(closingHour, 0, 0, 0);
+
+  return {
+    openingTime,
+    closingTime,
+  };
+};
+
+function getRandomHour(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}

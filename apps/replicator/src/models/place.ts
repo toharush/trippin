@@ -31,7 +31,8 @@ export const insert_place = async (
   id: string,
   title: string,
   type: string,
-  open_hours: any | null,
+  closeHour: Date,
+  openHour: Date,
   data_version: string,
   created_at: Date,
   position_id: number | null,
@@ -40,12 +41,13 @@ export const insert_place = async (
 ) => {
   return await (
     await query(
-      `INSERT INTO ${schema}.${TABLES.PLACE}(id, title, type, open_hours, data_version, created_at, updated_at, "position_id", "category_id", "address_id") VALUES ($1, $2, $3, $4, $5, $6, $6, $7, $8, $9) RETURNING id`,
+      `INSERT INTO ${schema}.${TABLES.PLACE}(id, title, type, closeHour, openHour, data_version, created_at, updated_at, "position_id", "category_id", "address_id") VALUES ($1, $2, $3, $4, $5, $6, $7, $7, $8, $9, $10) RETURNING id`,
       [
         id,
         title,
         type,
-        open_hours,
+        closeHour,
+        openHour,
         data_version,
         created_at,
         position_id,
