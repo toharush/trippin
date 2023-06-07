@@ -3,14 +3,20 @@ import { useSelector } from "react-redux";
 import { selectFlyTo, selectActivitiesMarkerPoints } from "../store/selectors/map";
 import { useAppDispatch } from "../store";
 import { selectUserCategoriesPriority } from "../store/selectors/userCategoriesPriority";
+import { SetUserCategoriesPriority } from "../store/slices/userCategoriesPriority";
 
 const useUserCategoriesPriority = () => {
   const dispatch = useAppDispatch();
   const userCategoriesPriority = useSelector(selectUserCategoriesPriority);
 
+  const setCategoriesPriority = (category: string, value:number) => {
+    dispatch(SetUserCategoriesPriority({category,value}));
+};
+
  
   return {
-    userCategoriesPriority
+    userCategoriesPriority,
+    setCategoriesPriority
   };
 };
 

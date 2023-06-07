@@ -1,3 +1,4 @@
+import useUserCategoriesPriority from "../../hooks/useUserCategoriesPriority";
 import Category from "../Category/Category";
 import "./CategoriesGallery.css";
 
@@ -7,7 +8,7 @@ export default function CategoriesGallery() {
     "Night Life",
     "Resturants",
     "Atractions",
-    "Shows &Concerts",
+    "Shows",
     "Shopping",
     "Sport",
     "Nature",

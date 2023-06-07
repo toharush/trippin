@@ -1,10 +1,12 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { enableMapSet } from 'immer';
 
 interface UserCategoriesPriorityState {
     userCategoriesPriority: Map<string,number>;
 }
 
 const DefaultPriorityValue= 5;
+
 
 const initialState: UserCategoriesPriorityState = {
     userCategoriesPriority: new Map([
@@ -24,11 +26,14 @@ const stores = createSlice({
     name: "userCategoriesPriority",
     initialState: initialState,
     reducers: {
-        SetUserCategoriesPriority: (state, action: PayloadAction<Map<string,number>>) => {
+        SetUserCategoriesPriority: (state, action: PayloadAction<{ category: string; value: number }>) => {
+            const { payload } = action;
+            const { category, value }= payload;
+            state.userCategoriesPriority.set(category,value);
             return {
                 ...state,
-                userCategoriesPriority: action.payload,
-            };
+                userCategoriesPriority: state.userCategoriesPriority
+            }
         },
     },
 });
