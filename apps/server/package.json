@@ -5,6 +5,8 @@
     "main": "src/app.ts",
     "scripts": {
         "start": "ts-node src/app.ts",
+        "start:bestRouteAlgo": "ts-node src/bestDayRouteAlgo/bestDayRouteAlgo.ts",
+        "start:castingOpeningHoures": "ts-node src/castingOpeningHoursFormat.ts",
         "lint": "eslint . --ext .ts",
         "test": "echo \"Error: no test specified\" && exit 1",
         "start:nodemon": "nodemon src/app.ts",
@@ -19,6 +21,7 @@
     "devDependencies": {
         "@types/cors": "^2.8.13",
         "@types/express": "^4.17.15",
+        "@types/geopoint": "^1.0.1",
         "@types/node": "^18.11.15",
         "cross-env": "^7.0.3",
         "ts-node": "^10.9.1",
@@ -26,14 +29,17 @@
         "typescript": "^4.9.4"
     },
     "dependencies": {
+        "@turf/circle": "^6.5.0",
         "@types/axios": "^0.14.0",
         "axios": "^1.2.1",
         "cors": "^2.8.5",
         "dotenv": "^16.0.3",
         "express": "^4.18.2",
         "express-graphql": "^0.12.0",
+        "geopoint": "^1.0.1",
         "graphql": "^15.8.0",
         "join-monster": "^3.1.1",
+        "negotiator": "^0.6.3",
         "nodemon": "^2.0.20",
         "pg": "^8.10.0",
         "postgraphile": "^4.12.12"
