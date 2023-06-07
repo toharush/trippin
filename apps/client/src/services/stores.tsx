@@ -1,4 +1,4 @@
-import { Activity } from "../../../../interfaces";
+import { Activity } from "../interfaces";
 import IComment from "../interfaces/comment/comment";
 import fetchGql from "../lib/axios";
 
