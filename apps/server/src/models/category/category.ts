@@ -1,5 +1,9 @@
 import { GraphQLObjectType, GraphQLString } from 'graphql';
-import { GraphQLBoolean, GraphQLInt } from 'graphql/type';
+import {
+    GraphQLBoolean,
+    GraphQLInputObjectType,
+    GraphQLInt,
+} from 'graphql/type';
 import { schema, TABLES } from '../../../../../utils';
 
 const Category = new GraphQLObjectType({
@@ -18,3 +22,12 @@ const Category = new GraphQLObjectType({
 });
 
 export default Category;
+
+export const CategoryInput = new GraphQLInputObjectType({
+    name: 'inputCategory',
+    fields: () => ({
+        id: { type: GraphQLInt },
+        name: { type: GraphQLString },
+        is_primary: { type: GraphQLBoolean },
+    }),
+});

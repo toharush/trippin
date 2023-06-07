@@ -4,8 +4,8 @@ export interface Activity {
   id: string;
   title: string;
   type: string;
-  openHour: number;
-  closeHour: number;
+  open_hour: number;
+  close_hour: number;
   extra: any;
   category: any;
   google: Google;
