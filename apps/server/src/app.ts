@@ -7,9 +7,12 @@ import {
     GraphQLSchema,
     GraphQLList,
     GraphQLNonNull,
+    GraphQLInt,
+    GraphQLFloat,
 } from 'graphql';
 import * as joinMonster from 'join-monster';
-import Place from './models/place/place';
+import ICoordinate from '../../client/src/interfaces/activity/coordinate';
+import Place, { InputPlace } from './models/place/place';
 import getPlaceSQLQuery from './mapping/placeByAddressMapping';
 import { schema as DBSchema, TABLES } from '../../../utils';
 import mainRouter from './routes/main';
@@ -18,6 +21,8 @@ import Comment from './models/comment/comment';
 import { registerNewComment } from './controllers/comment';
 import { calculateTrip } from './algorithm/calculateTrip';
 import client from './utils/dbClient';
+import Icoordinate from './models/Icoordinate/icoordinate';
+import Map from './models/map/map';
 
 dotenv.config();
 
@@ -34,7 +39,6 @@ const QueryRoot = new GraphQLObjectType({
             type: GraphQLList(Place),
             resolve: (parent, args, context, resolveInfo) => {
                 return joinMonster.default(resolveInfo, {}, (sql: any) => {
-                    console.log(sql);
                     return client.query(sql);
                 });
             },
@@ -53,7 +57,6 @@ const QueryRoot = new GraphQLObjectType({
             },
             resolve: (parent, args, context, resolveInfo) => {
                 return joinMonster.default(resolveInfo, {}, (sql: any) => {
-                    console.log(sql);
                     return client.query(sql);
                 });
             },
@@ -213,30 +216,56 @@ const MutationRoot = new GraphQLObjectType({
                     args.text
                 ),
         },
+        createTrip: {
+            type: GraphQLList(Place),
+            args: {
+                name: { type: GraphQLNonNull(GraphQLString) },
+                cityCenter: { type: GraphQLNonNull(Icoordinate) },
+                radius: { type: GraphQLNonNull(GraphQLFloat) },
+                categoryPriorities: { type: GraphQLNonNull(GraphQLList(Map)) },
+                selectedActivities: {
+                    type: GraphQLNonNull(GraphQLList(InputPlace)),
+                },
+                startDate: { type: GraphQLNonNull(GraphQLFloat) },
+                endDate: { type: GraphQLNonNull(GraphQLFloat) },
+                startHour: { type: GraphQLNonNull(GraphQLFloat) },
+                endHour: { type: GraphQLNonNull(GraphQLFloat) },
+            },
+            resolve: async (
+                _,
+                {
+                    name,
+                    cityCenter,
+                    categoryPriorities,
+                    selectedActivities,
+                    radius,
+                    startDate,
+                    endDate,
+                    startHour,
+                    endHour,
+                }
+            ) => {
+                return (
+                    await calculateTrip(
+                        name,
+                        cityCenter,
+                        radius,
+                        categoryPriorities,
+                        selectedActivities,
+                        new Date(startDate),
+                        new Date(endDate),
+                        new Date(startHour),
+                        new Date(endHour)
+                    )
+                ).routes[0].activities;
+            },
+        },
     }),
 });
 const gqlSchema = new GraphQLSchema({
     query: QueryRoot,
     mutation: MutationRoot,
 });
-
-let date = new Date();
-date.setDate(date.getDate() + 3);
-
-(async () =>
-    console.log(
-        await calculateTrip(
-            'a',
-            { lat: 57.57012, lng: -7.39597 },
-            10,
-            new Map([['Resturants', 8]]),
-            [],
-            new Date(),
-            date,
-            new Date(),
-            date
-        )
-    ))();
 
 app.use(
     '/api/v1',
