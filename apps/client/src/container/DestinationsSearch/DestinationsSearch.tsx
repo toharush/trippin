@@ -3,7 +3,7 @@ import { useDestinations } from "../../hooks";
 import { List } from "@mui/material";
 import Search from "../../components/SearchComponent/SearchComponent";
 import DestinationContainer from "../Destination/Destination";
-import { isEmpty } from "lodash";
+import { filter, isEmpty } from "lodash";
 
 export default function DestintionsSearch() {
   const [value, setValue] = useState<string>("");
@@ -21,7 +21,7 @@ export default function DestintionsSearch() {
     if (value !== "" && !isEmpty(value)) {
       // @ts-ignore
       setSearchResultsDests(
-        destinations.filter((dest) =>
+        filter(destinations, (dest) =>
           dest?.name?.toLowerCase().includes(value?.toLowerCase())
         ) ?? []
       );

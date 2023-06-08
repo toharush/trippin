@@ -3,7 +3,7 @@ import { useActivities } from "../../hooks";
 import { useTransition, useState, useEffect } from "react";
 import Activity from "../../components/Activity/Activity";
 import "./ActivitiesSearch.css";
-import { isEmpty } from "lodash";
+import { isEmpty, filter, differenceBy } from "lodash";
 import { Activity as IActivity } from "../../interfaces";
 
 const ActivitiesSearch = () => {
@@ -14,17 +14,17 @@ const ActivitiesSearch = () => {
 
   const search = (value: string) => {
     if (value !== "" && !isEmpty(value)) {
-      setSearchRes(
-        activities?.filter(
-          (activity) =>
-            selectedActivities.filter((act) => act.id != activity.id) &&
-            (isEmpty(filters.category) ||
-              activity.category?.name
-                ?.toLowerCase()
-                .includes(filters.category)) &&
-            activity.title.toUpperCase().includes(value.toUpperCase())
-        ) ?? []
+      const filteredItems = filter(
+        differenceBy(activities, selectedActivities, "id"),
+        (activity) =>
+          (isEmpty(filters.category) ||
+            activity.category?.name
+              ?.toLowerCase()
+              .includes(filters.category)) &&
+          activity.title.toLowerCase().includes(value.toLowerCase())
       );
+      //@ts-ignore
+      setSearchRes(filteredItems);
     } else {
       setSearchRes([]);
     }
