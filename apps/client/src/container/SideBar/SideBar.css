@@ -3,12 +3,13 @@
   align-items: center;
   padding: 8%;
 }
+
 .next {
   margin-left: auto;
 }
 
 .icon-button {
-  color: #86EAF0 !important;
+  color: var(--primary-color) !important;
 }
 
 .icon-button:disabled {
@@ -17,4 +18,16 @@
 
 .spacer {
   flex-grow: 1; 
+}
+
+.destination-search-wrapper {
+  margin-left: 3%;
+  margin-right: 8%;
+  margin-bottom: 5%;
+}
+
+.destination-header {
+    color: var(--primary-color);
+    margin-top: 5%;
+    margin-left: 5%;
 }

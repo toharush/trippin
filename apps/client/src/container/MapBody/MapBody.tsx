@@ -21,7 +21,6 @@ const MapBody = () => {
     <>
       <div className="leaflet-control search-control">
         {currentStep === stepperValues.Activities ? <ActivitiesSearch /> : null}
-        {currentStep === stepperValues.Location ? <DestintionsSearch /> : null}
       </div>
 
       <LayersControl>

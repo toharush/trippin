@@ -5,6 +5,7 @@ import Dropdown from "../../components/Dropdown/Dropdown";
 import Authentication from "../Authentication/Authentication";
 import DateRangePicker from "../../components/DateRangePicker/DateRangePicker";
 import ActivitiesGallery from "../../components/ActivitiesGallery/ActivitiesGallery";
+import DestintionsSearch from "../DestinationsSearch/DestinationsSearch";
 import { useState } from "react";
 import { useActivities, useStepper } from "../../hooks";
 import { stepperValues } from "../../interfaces";
@@ -27,6 +28,12 @@ const SideBarContainer = () => {
       label: stepperValues[stepperValues.Location],
       component:
         <>
+          <div className="destination-header">
+            Where are you travelling to?
+          </div>
+          <div className="destination-search-wrapper">
+            <DestintionsSearch />
+          </div>
           <DateRangePicker />
         </>,
     },
