@@ -1,10 +1,11 @@
 import { Activity } from '../../../client/src/interfaces';
 import { dbCategoryToClientCategoryMapping } from '../controllers/mapCategory';
+import IClientCategory from '../../../client/src/interfaces/activity/clientCategory';
 
 const ACTIVITY_DEFAULT_RATING = 3;
 
 export const getRankedActivities = (
-    categoryPriorities: Map<string, number>,
+    categoryPriorities: IClientCategory[],
     potentialActivities: Activity[]
 ): Activity[] =>
     potentialActivities.map(currentActivity => {
@@ -17,10 +18,11 @@ export const getRankedActivities = (
 
 const calculateActivityGrade = (
     activity: Activity,
-    categoryPriorities: Map<string, number>
+    categoryPriorities: IClientCategory[]
 ): number => {
     let clientCategory = dbCategoryToClientCategoryMapping(activity.category);
-    const categoryPreference: number | undefined = categoryPriorities.get(
+    const categoryPreference: number | undefined = getValueByKey(
+        categoryPriorities,
         clientCategory
     );
 
@@ -33,4 +35,16 @@ const calculateActivityGrade = (
             return categoryPreference * ACTIVITY_DEFAULT_RATING;
         }
     }
+};
+
+const getValueByKey = (
+    categoryPriorities: IClientCategory[],
+    clientCategory: string
+): number | undefined => {
+    for (const currentClientPriority of categoryPriorities) {
+        if (currentClientPriority.categoryName === clientCategory) {
+            return currentClientPriority.categoryPreference;
+        }
+    }
+    return undefined;
 };

@@ -1,3 +1,4 @@
+import IClientCategory from "./clientCategory";
 import IDailyRoute from "./dailyRoute";
 
 export default interface ITrip {
@@ -7,5 +8,5 @@ export default interface ITrip {
   creationDate: Date;
   startDate: Date;
   endDate: Date;
-  categoryPreferences: Map<string, number>;
+  categoryPreferences: IClientCategory[];
 }

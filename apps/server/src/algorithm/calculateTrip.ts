@@ -1,4 +1,5 @@
 import { Activity } from '../../../client/src/interfaces';
+import IClientCategory from '../../../client/src/interfaces/activity/clientCategory';
 import ICoordinate from '../../../client/src/interfaces/activity/coordinate';
 import IDailyRoute from '../../../client/src/interfaces/activity/dailyRoute';
 import ITrip from '../../../client/src/interfaces/activity/trip';
@@ -18,7 +19,7 @@ export const calculateTrip = async (
     name: string,
     cityCenter: ICoordinate,
     radius: number,
-    categoryPriorities: Map<string, number>,
+    categoryPriorities: IClientCategory[],
     selectedActivities: Activity[],
     startDate: Date,
     endDate: Date,
@@ -72,7 +73,7 @@ const findDailyRoute = async (
     date: Date,
     cityCenter: ICoordinate,
     radius: number,
-    categoryPriorities: Map<string, number>,
+    categoryPriorities: IClientCategory[],
     selectedActivities: Activity[],
     allVacationActivities: Activity[],
     startHour: number,
@@ -98,8 +99,8 @@ const findDailyRoute = async (
     );
 
     let counter = 0;
-    let maxNumberOfFinalActivities = 0;
-    let maxFinalActivitiesArray: Activity[] = [];
+    let maxNumberOfFinalActivities = finalActivities.length;
+    let maxFinalActivitiesArray = finalActivities;
 
     // In case there weren't any potentialActivities after first randomizing process
     while (
