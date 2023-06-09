@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Activity } from "../../../../../interfaces";
+import { Activity } from "../../interfaces";
 import { fetchAllActivities, fetchNewCommentToServer } from "../middlewares";
 
 interface ActivityState {

@@ -1,4 +1,4 @@
-import { Activity } from "../../../../interfaces";
+import { Activity } from "../interfaces";
 import IComment from "../interfaces/comment/comment";
 import fetchGql from "../lib/axios";
 
@@ -82,15 +82,8 @@ const getAllActivities = async () => {
         rate
         image_url
       }
-      open_hours {
-        text
-        isOpen
-        structured {
-          start
-          duration
-          recurrence
-        }
-      }
+      close_hour
+      open_hour
     }
   }
   `)
