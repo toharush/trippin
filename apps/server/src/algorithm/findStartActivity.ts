@@ -1,8 +1,8 @@
 import { Activity } from '../../../client/src/interfaces';
 import ICoordinate from '../../../client/src/interfaces/activity/coordinate';
 import IGroup from '../../../client/src/interfaces/activity/group';
-import { calculateDistance } from '../controllers/mapCalculation';
-import turf from 'turf';
+import { calculateDistance } from '../controllers/MapCalculation';
+import turf from '@turf/turf';
 import circle from '@turf/circle';
 
 export const findStartAlgoPoint = (
