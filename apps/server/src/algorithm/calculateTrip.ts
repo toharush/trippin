@@ -146,6 +146,5 @@ const findDailyRoute = async (
         date: date,
         index: dailyIndex,
         activities: algoResult,
-        extraActivities: [],
     };
 };
