@@ -1,6 +1,6 @@
 import { getAllPositions } from "../controllers/position";
 import { GOOGLE_IMG_SCRAP } from "google-img-scrap";
-import turf from "@turf/turf";
+import turf from "turf";
 import { randomPoint } from "../../../server/src/controllers/MapCalculation";
 import { dbCategoryToClientCategoryMapping } from "../../../server/src/controllers/mapCategory";
 import { clientCategories } from "../../../server/src/enums/clientCategory";

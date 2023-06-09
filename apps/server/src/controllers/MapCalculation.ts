@@ -1,6 +1,6 @@
 import ICoordinate from "../../../client/src/interfaces/activity/coordinate";
 import { calculateCityCenterPoint } from "../algorithm/calculateCityCenter";
-import turf, { BBox } from "@turf/turf";
+import turf from "turf";
 
 export const calculateDistance = (
   firstPoint: ICoordinate,
@@ -23,9 +23,7 @@ export const calculateDistance = (
         coordinates: [secPoint.lng, secPoint.lat],
       },
     },
-    {
-      units: "kilometers",
-    }
+    "kilometers"
   );
 
 export const getPointsInCircle = (
@@ -38,9 +36,9 @@ export const getCityCenter = (cityCoordinates: ICoordinate[]): ICoordinate => {
   return calculateCityCenterPoint(cityCoordinates);
 };
 
-export const randomPoint = (bbox: BBox): ICoordinate => {
-  const randomPoint = turf.randomPoint(1, {
-    bbox: turf.bbox(bbox),
+export const randomPoint = (bbox: number[]): ICoordinate => {
+  const randomPoint = turf.random("point", 1, {
+    bbox: bbox,
   });
   const point = randomPoint.features[0].geometry.coordinates;
 

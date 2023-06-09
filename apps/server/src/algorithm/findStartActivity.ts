@@ -2,7 +2,7 @@ import { Activity } from "../../../client/src/interfaces";
 import ICoordinate from "../../../client/src/interfaces/activity/coordinate";
 import IGroup from "../../../client/src/interfaces/activity/group";
 import { calculateDistance, randomPoint } from "../controllers/MapCalculation";
-import turf from "@turf/turf";
+import turf from "turf";
 import circle from "@turf/circle";
 
 export const findStartAlgoPoint = (
