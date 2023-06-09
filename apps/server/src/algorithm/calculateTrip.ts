@@ -2,7 +2,7 @@ import { Activity } from '../../../client/src/interfaces';
 import ICoordinate from '../../../client/src/interfaces/activity/coordinate';
 import IDailyRoute from '../../../client/src/interfaces/activity/dailyRoute';
 import ITrip from '../../../client/src/interfaces/activity/trip';
-import { findBestActivities } from '../bestDayRouteAlgo/bestDayRouteAlgo';
+import { findBestActivities } from './calculateDailyRoute';
 import {
     calculateAllTripActivities,
     getAllPotentialActivites,

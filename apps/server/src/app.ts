@@ -7,13 +7,11 @@ import {
     GraphQLSchema,
     GraphQLList,
     GraphQLNonNull,
-    GraphQLInt,
     GraphQLFloat,
 } from 'graphql';
 import * as joinMonster from 'join-monster';
-import ICoordinate from '../../client/src/interfaces/activity/coordinate';
 import Place, { InputPlace } from './models/place/place';
-import getPlaceSQLQuery from './mapping/placeByAddressMapping';
+import getPlaceSQLQuery from './controllers/mapPlace';
 import { schema as DBSchema, TABLES } from '../../../utils';
 import mainRouter from './routes/main';
 import cors from 'cors';
