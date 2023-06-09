@@ -1,6 +1,7 @@
 import { getAllPositions } from "../controllers/position";
 import { GOOGLE_IMG_SCRAP } from "google-img-scrap";
 import turf from "@turf/turf";
+import { randomPoint } from "../../../server/src/controllers/MapCalculation";
 import { dbCategoryToClientCategoryMapping } from "../../../server/src/controllers/mapCategory";
 import { clientCategories } from "../../../server/src/enums/clientCategory";
 export const getRandomLocation = async () => {
@@ -54,16 +55,7 @@ export const getTurfLocation = () => {
 
   const polygon = turf.polygon(loc);
 
-  const randomPoint = turf.random("point", 1, {
-    bbox: turf.bbox(polygon),
-  });
-  const point = randomPoint.features[0].geometry.coordinates;
-
-  console.log(point);
-  return {
-    lat: point[1],
-    lng: point[0],
-  };
+  return randomPoint(turf.bbox(polygon));
 };
 
 export const getRandomBusinessHours = (
