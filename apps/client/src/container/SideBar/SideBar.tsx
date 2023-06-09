@@ -1,16 +1,16 @@
-import { useState } from "react";
-import AuthHeader from "../../components/AuthHeader/AuthHeader";
+import AppStepper from "../../components/Stepper/Stepper";
 import SideBar from "../../components/SideBar/SideBar";
 import TravelsCategoryComponent from "../../components/TravelsCategoryComponent/TravelsCategoryComponent";
 import Dropdown from "../../components/Dropdown/Dropdown";
-import ActivitiesGallery from "../../components/ActivitiesGallery/ActivitiesGallery";
-import { useActivities, useStepper } from "../../hooks";
-import AppStepper from "../../components/Stepper/Stepper";
-import useMapDrawer from "../../hooks/useMapDrawer";
+import Authentication from "../Authentication/Authentication";
 import DateRangePicker from "../../components/DateRangePicker/DateRangePicker";
+import ActivitiesGallery from "../../components/ActivitiesGallery/ActivitiesGallery";
+import { useState } from "react";
+import { useActivities, useStepper } from "../../hooks";
 import { stepperValues } from "../../interfaces";
 import { Button } from "@mui/material";
-import Authentication from "../Authentication/Authentication";
+import { useSelector } from "react-redux";
+import { selectIsDateAndTimeValid } from "../../store/selectors/dateAndTime";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import "./SideBar.css"
@@ -20,14 +20,15 @@ const SideBarContainer = () => {
   const { selectedActivities, addComment } = useActivities();
   const [isActivitiesOpen, setIsActivitiesOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(true);
+  const isDateAndTimeValid = useSelector(selectIsDateAndTimeValid);
 
   const stepper = [
     {
       label: stepperValues[stepperValues.Location],
-      component: 
-      <>
-        <DateRangePicker />
-      </>,
+      component:
+        <>
+          <DateRangePicker />
+        </>,
     },
     {
       label: stepperValues[stepperValues.Activities],
@@ -73,11 +74,23 @@ const SideBarContainer = () => {
             activeStep={currentStep}
           />
           <div className="container">
-            <ArrowBackIosIcon className="i" onClick={previous}>previous</ArrowBackIosIcon>
-            <ArrowForwardIosIcon className="i" onClick={next}>Next</ArrowForwardIosIcon>
+            {currentStep > 0 && (
+              <Button
+                className="icon-button"
+                onClick={previous}
+                endIcon={<ArrowBackIosIcon />}>
+              </Button>
+            )}
+            <div className="spacer" />
+            <Button
+              className="icon-button next"
+              onClick={next}
+              disabled={!isDateAndTimeValid}
+              endIcon={<ArrowForwardIosIcon />}>
+            </Button>
           </div>
         </>
-      </SideBar>
+      </SideBar >
     </>
   );
 };
