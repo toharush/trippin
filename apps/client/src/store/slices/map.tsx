@@ -64,24 +64,24 @@ const stores = createSlice({
           })
       }
     },
-    ShowDayRoute: (state, action: PayloadAction<number>) => {
-      const newTotalRoute: TotalRoute = {
-        ...state.totalRoute, // Copy the existing totalRoute object
-        dayRoutes: state.totalRoute.dayRoutes.map((dayRoute: DayRoute, dayNumber: number) => {
-          if (dayNumber === action.payload) {
-            const updatedRoute = dayRoute.route.map((point) => ({ ...point, show: true }));
-            return { ...dayRoute, route: updatedRoute };
-          } else {
-            const updatedRoute = dayRoute.route.map((point) => ({ ...point, show: false }));
-            return { ...dayRoute, route: updatedRoute };
-          }
-        }),
-      };
-      return {
-        ...state,
-        totalRoute: newTotalRoute,
-      };
-    },
+    // ShowDayRoute: (state, action: PayloadAction<number>) => {
+    //   const newTotalRoute: TotalRoute = {
+    //     ...state.totalRoute, // Copy the existing totalRoute object
+    //     dayRoutes: state.totalRoute.dayRoutes.map((dayRoute: DayRoute, dayNumber: number) => {
+    //       if (dayNumber === action.payload) {
+    //         const updatedRoute = dayRoute.route.map((point) => ({ ...point, show: true }));
+    //         return { ...dayRoute, route: updatedRoute };
+    //       } else {
+    //         const updatedRoute = dayRoute.route.map((point) => ({ ...point, show: false }));
+    //         return { ...dayRoute, route: updatedRoute };
+    //       }
+    //     }),
+    //   };
+    //   return {
+    //     ...state,
+    //     totalRoute: newTotalRoute,
+    //   };
+    // },
     SetFlyTo: (
       state,
       action: PayloadAction<{
@@ -95,7 +95,7 @@ const stores = createSlice({
 export const {AddMarkerPointToSelectedActivities,
               RemoveMarkerPointFromSelectedActivities,
               HideAllSelectedActivitiesMarkers,
-              SetFlyTo,
-              ShowDayRoute}
+              SetFlyTo}
+              // ShowDayRoute}
   = stores.actions;
 export default stores.reducer;
