@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { Activity, EntityTypes } from "../interfaces";
-import { isEmpty } from "lodash";
+import { differenceBy, isEmpty } from "lodash";
 import {
   fetchAllActivities,
   fetchNewCommentToServer,
@@ -14,7 +14,7 @@ import {
   setCatehoryFilter,
   setSelectedActivities,
 } from "../store/slices/activity";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useMapDrawer from "./useMapDrawer";
 import useAuthentication from "./useAuthentication";
 import { fetchNewComment } from "../services";
@@ -82,7 +82,7 @@ const useActivities = () => {
     setFilter,
     addComment,
     filters,
-    commentPending
+    commentPending,
   };
 };
 
