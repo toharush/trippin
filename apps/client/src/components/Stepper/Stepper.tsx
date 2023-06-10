@@ -9,18 +9,13 @@ interface StepperProps {
 
 const AppStepper = ({ labels, activeStep }: StepperProps) => {
   return (
-    <div className="stepper-bottom">
       <Stepper activeStep={activeStep} alternativeLabel>
         {labels.map((label, index) => (
           <Step key={label}>
-            <StepLabel>{label}</StepLabel>
+            <StepLabel className="label">{label}</StepLabel>
           </Step>
         ))}
-        <Step key={"logo"}>
-          <StepLabel icon={<Logo />} />
-        </Step>
       </Stepper>
-    </div>
   );
 };
 

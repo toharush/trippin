@@ -6,6 +6,7 @@ import Authentication from "../Authentication/Authentication";
 import DateRangePicker from "../../components/DateRangePicker/DateRangePicker";
 import ActivitiesGallery from "../../components/ActivitiesGallery/ActivitiesGallery";
 import DestintionsSearch from "../DestinationsSearch/DestinationsSearch";
+import Logo from "../../components/Logo/Logo";
 import { useState } from "react";
 import { useActivities, useStepper } from "../../hooks";
 import { stepperValues } from "../../interfaces";
@@ -25,7 +26,7 @@ const SideBarContainer = () => {
 
   const stepper = [
     {
-      label: stepperValues[stepperValues.Location],
+      label: stepperValues[stepperValues.Destination],
       component:
         <>
           <div className="destination-header">
@@ -76,10 +77,6 @@ const SideBarContainer = () => {
         <>
           <Authentication />
           {stepper[currentStep].component}
-          <AppStepper
-            labels={stepper.map((step) => step.label)}
-            activeStep={currentStep}
-          />
           <div className="container">
             {currentStep > 0 && (
               <Button
@@ -96,6 +93,11 @@ const SideBarContainer = () => {
               endIcon={<ArrowForwardIosIcon />}>
             </Button>
           </div>
+          <AppStepper
+            labels={stepper.map((step) => step.label)}
+            activeStep={currentStep}
+          />
+          <Logo />
         </>
       </SideBar >
     </>

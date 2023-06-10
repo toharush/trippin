@@ -1,7 +1,9 @@
 .container {
   display: flex;
   align-items: center;
-  padding: 8%;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  padding-bottom: 2vh;
 }
 
 .next {
@@ -30,4 +32,11 @@
     color: var(--primary-color);
     margin-top: 5%;
     margin-left: 5%;
+}
+
+.logo-wrapper {
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+  margin-top: auto;
 }
