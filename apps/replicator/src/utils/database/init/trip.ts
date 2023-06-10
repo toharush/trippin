@@ -17,6 +17,7 @@ export const create_trip = `
       creation_date timestamp without time zone NOT NULL,
       start_date timestamp without time zone NOT NULL,
       end_date timestamp without time zone NOT NULL,
+      user_id text COLLATE pg_catalog."default" NOT NULL,
       CONSTRAINT trip_pkey PRIMARY KEY (id)
   )
   
