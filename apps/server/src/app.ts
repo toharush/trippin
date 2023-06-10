@@ -265,6 +265,10 @@ const gqlSchema = new GraphQLSchema({
     mutation: MutationRoot,
 });
 
+let date = new Date();
+date.setDate(date.getDate() + 3);
+
+
 app.use(
     '/api/v1',
     graphqlHTTP({
