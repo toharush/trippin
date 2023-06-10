@@ -46,12 +46,13 @@ export default function DestintionsSearch() {
         title="Search for destinations .."
         handleSearch={handleSearch}
         value={selectedDestination.name}
+        textColor="white"
       />
       {showResults && (
         <List
           id="list"
           dense
-          sx={{ width: "100%", overflow: "auto", maxHeight: 300 }}
+          sx={{ width: "30%", overflow: "auto", maxHeight: 300, zIndex:9999, position:"absolute"}}
         >
           {searchResultsDests?.map((dest) => (
             <DestinationContainer position={dest?.location} name={dest?.name} />
