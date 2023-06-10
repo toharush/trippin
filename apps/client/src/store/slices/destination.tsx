@@ -17,8 +17,11 @@ const stores = createSlice({
       name: action.payload.name,
       cityCenter: action.payload.cityCenter
     }),
+    resetDestination: () => ({
+      ...initialState
+    }),
   },
 });
 
-export const { setDestination } = stores.actions;
+export const { setDestination, resetDestination } = stores.actions;
 export default stores.reducer;

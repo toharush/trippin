@@ -46,6 +46,7 @@ const ActivitiesSearch = () => {
       <Search
         handleSearch={handleActivitySearch}
         title="Search for activities"
+        value={value}
       />
 
       <div className="result scroller">

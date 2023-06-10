@@ -6,25 +6,24 @@ import DestinationContainer from "../Destination/Destination";
 import { filter, isEmpty } from "lodash";
 
 export default function DestintionsSearch() {
-  const [value, setValue] = useState<string>("");
   const [searchResultsDests, setSearchResultsDests] = useState<any[]>([]);
   const [isPending, startTransition] = useTransition();
-  const { destinations, selectedDestination } = useDestinations();
-
-  useEffect(() => {
-    if (selectedDestination) {
-      setValue(selectedDestination.name);
-    }
-  }, [selectedDestination]);
+  const {
+    destinations,
+    selectedDestination,
+    setSelectedDestination,
+    resetSelectedDestination,
+  } = useDestinations();
+  const [showResults, setShowResults] = useState<boolean>(false);
 
   const handleSearch = (value: string) => {
-    setValue(value);
     startTransition(() => search(value));
+    resetSelectedDestination();
+    setShowResults(true);
   };
 
   const search = (value: string) => {
     if (value !== "" && !isEmpty(value)) {
-      // @ts-ignore
       setSearchResultsDests(
         filter(destinations, (dest) =>
           dest?.name?.toLowerCase().includes(value?.toLowerCase())
@@ -35,22 +34,30 @@ export default function DestintionsSearch() {
     }
   };
 
+  useEffect(() => {
+    if (selectedDestination) {
+      setShowResults(false);
+    }
+  }, [selectedDestination]);
+
   return (
     <>
       <Search
         title="Search for destinations .."
         handleSearch={handleSearch}
-      // value={value}
+        value={selectedDestination.name}
       />
-      <List
-        id="list"
-        dense
-        sx={{ width: "100%", overflow: "auto", maxHeight: 300 }}
-      >
-        {searchResultsDests?.map((dest) => (
-          <DestinationContainer position={dest?.location} name={dest?.name} />
-        ))}
-      </List>
+      {showResults && (
+        <List
+          id="list"
+          dense
+          sx={{ width: "100%", overflow: "auto", maxHeight: 300 }}
+        >
+          {searchResultsDests?.map((dest) => (
+            <DestinationContainer position={dest?.location} name={dest?.name} />
+          ))}
+        </List>
+      )}
     </>
   );
 }

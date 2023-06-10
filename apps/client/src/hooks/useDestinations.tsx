@@ -4,7 +4,7 @@ import turf from "turf";
 import { Feature, GeoJsonProperties } from "geojson";
 import { selectDestination, useAppDispatch } from "../store";
 import { useSelector } from "react-redux";
-import { setDestination } from "../store/slices/destination";
+import { resetDestination, setDestination } from "../store/slices/destination";
 import ICoordinate from "../interfaces/activity/coordinate";
 
 const useDestinations = () => {
@@ -23,6 +23,10 @@ const useDestinations = () => {
     })),
     "name"
   );
+
+  const resetSelectedDestination = () => {
+    dispatch(resetDestination);
+  }
 
   const getCityCenter = (name: string): ICoordinate => {
     let feature: Feature<any, GeoJsonProperties>[] = [];
@@ -50,7 +54,8 @@ const useDestinations = () => {
   return {
     destinations,
     selectedDestination,
-    setSelectedDestination
+    setSelectedDestination,
+    resetSelectedDestination
   };
 };
 
