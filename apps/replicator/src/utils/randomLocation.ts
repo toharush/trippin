@@ -2,7 +2,7 @@ import { getAllPositions } from "../controllers/position";
 import { GOOGLE_IMG_SCRAP } from "google-img-scrap";
 import turf from "turf";
 import { randomPoint } from "../../../server/src/controllers/mapCalculation";
-import { dbCategoryToClientCategoryMapping } from "../../../server/src/controllers/mapCategory";
+import { convertDBCategoryToClientCategory } from "../../../server/src/controllers/mapCategory";
 import { clientCategories } from "../../../server/src/enums/clientCategory";
 export const getRandomLocation = async () => {
   const location = await getRandomCoordinateNotInList();
@@ -65,7 +65,7 @@ export const getRandomBusinessHours = (
   let category = "place";
 
   if (placeType) {
-    category = dbCategoryToClientCategoryMapping(placeType);
+    category = convertDBCategoryToClientCategory(placeType);
   }
 
   if (category === clientCategories.Night) {
