@@ -218,7 +218,6 @@ const MutationRoot = new GraphQLObjectType({
       type: Trip,
       args: {
         user_id: { type: GraphQLString },
-        name: { type: GraphQLNonNull(GraphQLString) },
         cityName: { type: GraphQLNonNull(GraphQLString) },
         cityCenter: { type: GraphQLNonNull(Icoordinate) },
         radius: { type: GraphQLNonNull(GraphQLFloat) },
@@ -235,7 +234,6 @@ const MutationRoot = new GraphQLObjectType({
         _,
         {
           user_id,
-          name,
           cityName,
           cityCenter,
           categoryPriorities,
@@ -251,7 +249,7 @@ const MutationRoot = new GraphQLObjectType({
           selectedActivitiesIds
         );
         const trip = await calculateTrip(
-          name,
+          cityName,
           cityCenter,
           radius,
           categoryPriorities,
@@ -264,6 +262,7 @@ const MutationRoot = new GraphQLObjectType({
         if (user_id) {
           trip.id = await createNewTrip(trip, user_id);
         }
+
         return trip;
       },
     },

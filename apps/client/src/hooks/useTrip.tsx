@@ -9,7 +9,6 @@ import useUserCategoriesPriority from "./useUserCategoriesPriority";
 const useTrip = () => {
   const dispatch = useAppDispatch();
   const defaultRadius = 50;
-  const defaultName = "My Trip";
   const { selectedDestination } = useDestinations();
   const { currentUser } = useAuthentication();
   const { selectedActivities } = useActivities();
@@ -20,7 +19,6 @@ const useTrip = () => {
     await dispatch(
       fetchCreateTripToServer({
         user_id: currentUser?.email ?? null,
-        name: defaultName,
         cityName: selectedDestination.name,
         cityCenter: {
           lat: selectedDestination.cityCenter.lat,
