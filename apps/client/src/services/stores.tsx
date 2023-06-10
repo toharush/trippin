@@ -22,7 +22,7 @@ const fetchNewComment = async (
 
 const fetchCreateTrip = async (
   user_id: string | null,
-  name: string,
+  cityName: string,
   cityCenter: ICoordinate,
   radius: number,
   categoryPriorities: IClientCategory[],
@@ -37,7 +37,7 @@ const fetchCreateTrip = async (
     mutation createTrip {
       createTrip(
       user_id: "${user_id}",
-      name: "${name}",
+      cityName: "${cityName}",
       cityCenter: {
         lat: ${cityCenter.lat},
         lng: ${cityCenter.lng}
@@ -50,6 +50,32 @@ const fetchCreateTrip = async (
       startHour: ${startHour},
       endHour: ${endHour}) {
         id
+        name
+        routes {
+          index
+          date
+          activities {
+            id
+            title
+            type
+            close_hour
+            open_hour
+            startTime 
+            endTime
+            category {
+              name
+            }
+            google {
+              spend
+              rate
+              image_url
+            }
+            position {
+              lat
+              lng
+            }
+          }
+        }
       }
     }
     `

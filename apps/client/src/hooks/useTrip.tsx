@@ -3,12 +3,13 @@ import { fetchCreateTripToServer } from "../store/middlewares/trip";
 import useActivities from "./useActivities";
 import useAuthentication from "./useAuthentication";
 import useDateAndTime from "./useDateAndTime";
+import useDestinations from "./useDestinations";
 import useUserCategoriesPriority from "./useUserCategoriesPriority";
 
 const useTrip = () => {
   const dispatch = useAppDispatch();
   const defaultRadius = 50;
-  const defaultName = "My Trip";
+  const { selectedDestination } = useDestinations();
   const { currentUser } = useAuthentication();
   const { selectedActivities } = useActivities();
   const { userCategoriesPriority } = useUserCategoriesPriority();
@@ -18,10 +19,10 @@ const useTrip = () => {
     await dispatch(
       fetchCreateTripToServer({
         user_id: currentUser?.email ?? null,
-        name: defaultName,
+        cityName: selectedDestination.name,
         cityCenter: {
-          lat: 55.5,
-          lng: 55.5,
+          lat: selectedDestination.cityCenter.lat,
+          lng: selectedDestination.cityCenter.lng,
         },
         radius: defaultRadius,
         categoryPriorities: userCategoriesPriority,

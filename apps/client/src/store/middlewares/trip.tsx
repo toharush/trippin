@@ -8,7 +8,7 @@ export const fetchCreateTripToServer = createAsyncThunk(
   "trip/newTrip",
   async (props: {
     user_id: string | null;
-    name: string;
+    cityName: string;
     cityCenter: ICoordinate;
     radius: number;
     categoryPriorities: IClientCategory[];
@@ -20,7 +20,7 @@ export const fetchCreateTripToServer = createAsyncThunk(
   }) => {
     return await fetchCreateTrip(
       props.user_id,
-      props.name,
+      props.cityName,
       props.cityCenter,
       props.radius,
       props.categoryPriorities,

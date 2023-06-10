@@ -1,24 +1,21 @@
-import AppStepper from "../../components/Stepper/Stepper";
 import SideBar from "../../components/SideBar/SideBar";
 import TravelsCategoryComponent from "../../components/TravelsCategoryComponent/TravelsCategoryComponent";
 import Dropdown from "../../components/Dropdown/Dropdown";
 import Authentication from "../Authentication/Authentication";
 import ActivitiesGallery from "../../components/ActivitiesGallery/ActivitiesGallery";
-import { useActivities, useTrip } from "../../hooks";
+import { useActivities, useStepper, useTrip } from "../../hooks";
 import AppStepper from "../../components/Stepper/Stepper";
 import DateRangePicker from "../../components/DateRangePicker/DateRangePicker";
-import ActivitiesGallery from "../../components/ActivitiesGallery/ActivitiesGallery";
 import DestintionsSearch from "../DestinationsSearch/DestinationsSearch";
 import Logo from "../../components/Logo/Logo";
 import { useState } from "react";
-import { useActivities, useStepper } from "../../hooks";
 import { stepperValues } from "../../interfaces";
 import { Button } from "@mui/material";
 import { useSelector } from "react-redux";
 import { selectIsDateAndTimeValid } from "../../store/selectors/dateAndTime";
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import "./SideBar.css"
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import "./SideBar.css";
 
 const SideBarContainer = () => {
   const { currentStep, stepUp, stepDown } = useStepper();
@@ -31,16 +28,15 @@ const SideBarContainer = () => {
   const stepper = [
     {
       label: stepperValues[stepperValues.Destination],
-      component:
+      component: (
         <>
-          <div className="destination-header">
-            Where are you travelling to?
-          </div>
+          <div className="destination-header">Where are you travelling to?</div>
           <div className="destination-search-wrapper">
             <DestintionsSearch />
           </div>
           <DateRangePicker />
-        </>,
+        </>
+      ),
     },
     {
       label: stepperValues[stepperValues.Activities],
@@ -87,16 +83,16 @@ const SideBarContainer = () => {
               <Button
                 className="icon-button"
                 onClick={previous}
-                endIcon={<ArrowBackIosIcon />}>
-              </Button>
+                endIcon={<ArrowBackIosIcon />}
+              ></Button>
             )}
             <div className="spacer" />
             <Button
               className="icon-button next"
               onClick={next}
               disabled={!isDateAndTimeValid}
-              endIcon={<ArrowForwardIosIcon />}>
-            </Button>
+              endIcon={<ArrowForwardIosIcon />}
+            ></Button>
           </div>
           <div className="spacer" />
           <AppStepper
@@ -105,7 +101,7 @@ const SideBarContainer = () => {
           />
           <Logo />
         </>
-      </SideBar >
+      </SideBar>
     </>
   );
 };
