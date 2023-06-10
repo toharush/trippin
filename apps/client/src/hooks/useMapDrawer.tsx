@@ -7,7 +7,7 @@ import {
   RemoveMarkerPointFromSelectedActivities, 
   HideAllSelectedActivitiesMarkers,
   SetFlyTo,
-  ShowDayRoute,
+  // ShowDayRoute,
 } from "../store/slices/map";
 
 const useMapDrawer = () => {
@@ -30,9 +30,9 @@ const useMapDrawer = () => {
   const hideSelectedActivities = async () =>
     await dispatch(HideAllSelectedActivitiesMarkers());
 
-  const showDayRoute= async (dayNumber: number) => {
-    await dispatch(ShowDayRoute(dayNumber));
-  }
+  // const showDayRoute= async (dayNumber: number) => {
+  //   await dispatch(ShowDayRoute(dayNumber));
+  // }
   return {
     selectedActivitiesMarkers,
     flyTo,
@@ -40,7 +40,7 @@ const useMapDrawer = () => {
     addMarkerPoint,
     removeMarkerPoint,
     hideSelectedActivities,
-    showDayRoute,
+    // showDayRoute,
     selectedDayRoutes
   };
 };

@@ -66,11 +66,12 @@ const SideBarContainer = () => {
       label: stepperValues[stepperValues.Results],
       component: (
         <>
-          <AuthHeader></AuthHeader>
-          <DaysNavigation selectedDayRoutes={selectedDayRoutes}></DaysNavigation>
+          <DaysNavigation
+            selectedDayRoutes={selectedDayRoutes}
+          ></DaysNavigation>
         </>
-      )
-    }
+      ),
+    },
   ];
 
   const next = () => {
