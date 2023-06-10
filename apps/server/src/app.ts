@@ -24,6 +24,7 @@ import Map from "./models/map/map";
 import { Activity } from "../../client/src/interfaces";
 import Trip from "./models/trip/trip";
 import { createNewTrip } from "./controllers/trip";
+import { getActivitiesByIds } from "./controllers/activity";
 
 dotenv.config();
 
@@ -246,7 +247,9 @@ const MutationRoot = new GraphQLObjectType({
           endHour,
         }
       ) => {
-        const selectedActivities: Activity[] = [] // query all selected activities by ids;
+        const selectedActivities = await getActivitiesByIds(
+          selectedActivitiesIds
+        );
         const trip = await calculateTrip(
           name,
           cityCenter,
@@ -259,7 +262,7 @@ const MutationRoot = new GraphQLObjectType({
           new Date(endHour)
         );
         if (user_id) {
-          trip.id = await createNewTrip(trip);
+          trip.id = await createNewTrip(trip, user_id);
         }
         return trip;
       },

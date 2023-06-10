@@ -1,3 +1,4 @@
+import ICategory from "./category";
 import ICoordinate from "./coordinate";
 import { Google } from "./google";
 export interface Activity {
@@ -7,7 +8,7 @@ export interface Activity {
   open_hour: Date;
   close_hour: Date;
   extra: any;
-  category: any;
+  category: ICategory;
   google: Google;
   address: any;
   position: ICoordinate;

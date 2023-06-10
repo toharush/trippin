@@ -1,8 +1,7 @@
 import { Activity } from '../../../client/src/interfaces';
-import { dbCategoryToClientCategoryMapping } from '../controllers/mapCategory';
+import { convertDBCategoryToClientCategory } from '../controllers/mapCategory';
 import IClientCategory from '../../../client/src/interfaces/activity/clientCategory';
-
-const ACTIVITY_DEFAULT_RATING = 3;
+import { ACTIVITY_DEFAULT_RATING } from '../constants/algorithm';
 
 export const getRankedActivities = (
     categoryPriorities: IClientCategory[],
@@ -20,17 +19,20 @@ const calculateActivityGrade = (
     activity: Activity,
     categoryPriorities: IClientCategory[]
 ): number => {
-    let clientCategory = dbCategoryToClientCategoryMapping(activity.category);
-    const categoryPreference: number | undefined = getValueByKey(
+    const clientCategory = convertDBCategoryToClientCategory(
+        activity.category.name
+    );
+
+    const categoryPreference = getValueByKey(
         categoryPriorities,
         clientCategory
     );
 
-    if (!categoryPreference) {
-        return 0;
+    if (!activity.google?.rate) {
+        return ACTIVITY_DEFAULT_RATING;
     } else {
-        if (activity.google?.rate) {
-            return categoryPreference * activity.google.rate;
+        if (activity.google?.rate !== 0) {
+            return categoryPreference * activity.google.rate!;
         } else {
             return categoryPreference * ACTIVITY_DEFAULT_RATING;
         }
@@ -40,11 +42,14 @@ const calculateActivityGrade = (
 const getValueByKey = (
     categoryPriorities: IClientCategory[],
     clientCategory: string
-): number | undefined => {
+): number => {
+    let clientPriority = 0;
+
     for (const currentClientPriority of categoryPriorities) {
-        if (currentClientPriority.categoryName === clientCategory) {
-            return currentClientPriority.categoryPreference;
+        if (currentClientPriority.key === clientCategory) {
+            clientPriority = currentClientPriority.value;
         }
     }
-    return undefined;
+
+    return clientPriority;
 };
