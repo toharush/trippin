@@ -17,6 +17,7 @@ import { ChangeEvent, useEffect } from 'react';
 
 interface props {
   name: string;
+  value:number;
 }
 
 interface MyObject {
@@ -34,7 +35,7 @@ const iconMapping: MyObject = {
   Nature: <ForestIcon />,
 };
 
-export default function Category({ name}: props) {
+export default function Category({name,value}: props) {
 
   const {userCategoriesPriority ,setCategoriesPriority} = useUserCategoriesPriority();
 
@@ -61,7 +62,7 @@ export default function Category({ name}: props) {
         <Grid xs={8} sm={9} md={8}>
           <Slider
             aria-label="Temperature"
-            defaultValue={userCategoriesPriority.get(name)}
+            defaultValue={value}
             getAriaValueText={valuetext}
             valueLabelDisplay="auto"
             step={1}
@@ -71,7 +72,7 @@ export default function Category({ name}: props) {
             sx={{
               color: "#86EAF0",
             }}
-            onChange={(event,newValue)=>handleSliderChange(event,newValue as number)}
+            onChange={(event, newVal)=>handleSliderChange(event,newVal)}
           />
         </Grid>
       </Grid>

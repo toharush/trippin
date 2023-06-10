@@ -1,3 +1,4 @@
+import IClientCategory from "../../interfaces/activity/clientCategory";
 import { RootState } from "../store";
 
-export const selectUserCategoriesPriority = (state: RootState):  Map<string,number>=> state.userCategoriesPriority.userCategoriesPriority;
+export const selectUserCategoriesPriority = (state: RootState):  IClientCategory[]=> state.userCategoriesPriority.userCategoriesPriority;

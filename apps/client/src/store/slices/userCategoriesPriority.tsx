@@ -1,25 +1,24 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { enableMapSet } from 'immer';
+import IClientCategory from '../../interfaces/activity/clientCategory';
 
 interface UserCategoriesPriorityState {
-    userCategoriesPriority: Map<string,number>;
+    userCategoriesPriority: IClientCategory[];
 }
 
 const DefaultPriorityValue= 5;
 
 
 const initialState: UserCategoriesPriorityState = {
-    userCategoriesPriority: new Map([
-        ["Museums",DefaultPriorityValue],
-        ["Resturants",DefaultPriorityValue],
-        ["Shows",DefaultPriorityValue],
-        ["Sport",DefaultPriorityValue],
-        ["Night Life",DefaultPriorityValue],
-        ["Shopping",DefaultPriorityValue],
-        ["Nature",DefaultPriorityValue],
-        ["Atractions",DefaultPriorityValue]
-    ])
-        
+    userCategoriesPriority: [
+        {categoryName:"Museums",categoryPreference:DefaultPriorityValue},
+        {categoryName:"Resturants",categoryPreference:DefaultPriorityValue},
+        {categoryName:"Shows",categoryPreference:DefaultPriorityValue},
+        {categoryName:"Sport",categoryPreference:DefaultPriorityValue},
+        {categoryName:"Night Life",categoryPreference:DefaultPriorityValue},
+        {categoryName:"Shopping",categoryPreference:DefaultPriorityValue},
+        {categoryName:"Nature",categoryPreference:DefaultPriorityValue},
+        {categoryName:"Atractions",categoryPreference:DefaultPriorityValue}
+    ]    
 }
 
 const stores = createSlice({
@@ -29,10 +28,14 @@ const stores = createSlice({
         SetUserCategoriesPriority: (state, action: PayloadAction<{ category: string; value: number }>) => {
             const { payload } = action;
             const { category, value }= payload;
-            state.userCategoriesPriority.set(category,value);
+            const newPreferences= state.userCategoriesPriority.map(cat=> {
+                if(cat.categoryName === category) {
+                    return {...cat, categoryPreference: value};
+                }
+                return cat;
+            })
             return {
-                ...state,
-                userCategoriesPriority: state.userCategoriesPriority
+                userCategoriesPriority: newPreferences
             }
         },
     },
