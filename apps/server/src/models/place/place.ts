@@ -1,12 +1,16 @@
 import { GraphQLObjectType, GraphQLString } from 'graphql';
-import { GraphQLList } from 'graphql/type';
+import {
+    GraphQLFloat,
+    GraphQLInputObjectType,
+    GraphQLList,
+} from 'graphql/type';
 import { schema, TABLES } from '../../../../../utils';
 import address from '../address/address';
-import category from '../category/category';
+import category, { CategoryInput } from '../category/category';
 import extraCategories from '../category/extraCategories';
-import google from '../google/google';
-import OpenHours from '../openHours/openHours';
+import google, { GoogleInput } from '../google/google';
 import position from '../position/position';
+import Icoordinate from '../Icoordinate/icoordinate';
 
 const Place = new GraphQLObjectType({
     name: 'place',
@@ -14,7 +18,10 @@ const Place = new GraphQLObjectType({
         id: { type: GraphQLString },
         title: { type: GraphQLString },
         type: { type: GraphQLString },
-        open_hours: { type: GraphQLList(OpenHours) },
+        close_hour: { type: GraphQLFloat },
+        open_hour: { type: GraphQLFloat },
+        startTime: { type: GraphQLFloat },
+        endTime: { type: GraphQLFloat },
         extra: {
             type: extraCategories,
             extensions: {
@@ -85,3 +92,21 @@ const Place = new GraphQLObjectType({
 });
 
 export default Place;
+
+export const InputPlace = new GraphQLInputObjectType({
+    name: 'inputPlace',
+    fields: () => ({
+        id: { type: GraphQLString },
+        title: { type: GraphQLString },
+        type: { type: GraphQLString },
+        category: {
+            type: CategoryInput,
+        },
+        google: {
+            type: GoogleInput,
+        },
+        position: {
+            type: Icoordinate,
+        },
+    }),
+});

@@ -1,25 +1,37 @@
 import { useState } from "react";
-import AuthHeader from "../../components/AuthHeader/AuthHeader";
 import SideBar from "../../components/SideBar/SideBar";
 import TravelsCategoryComponent from "../../components/TravelsCategoryComponent/TravelsCategoryComponent";
 import Dropdown from "../../components/Dropdown/Dropdown";
 import ActivitiesGallery from "../../components/ActivitiesGallery/ActivitiesGallery";
-import { useActivities, useStepper } from "../../hooks";
+import { useActivities, useTrip } from "../../hooks";
 import AppStepper from "../../components/Stepper/Stepper";
+import DateRangePicker from "../../components/DateRangePicker/DateRangePicker";
 import { stepperValues } from "../../interfaces";
 import { Button } from "@mui/material";
 import Authentication from "../Authentication/Authentication";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import "./SideBar.css";
+import DestintionsSearch from "../DestinationsSearch/DestinationsSearch";
 
 const SideBarContainer = () => {
-  const { currentStep, stepUp, stepDown } = useStepper();
-  const { selectedActivities, addComment } = useActivities();
+  const [currentStep, setCurrentStep] = useState(0);
+  const { selectedActivities } = useActivities();
+  const { createTrip } = useTrip();
   const [isActivitiesOpen, setIsActivitiesOpen] = useState(false);
-  const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
+  const [isCategoriesOpen, setIsCategoriesOpen] = useState(true);
 
   const stepper = [
     {
       label: stepperValues[stepperValues.Location],
-      component: <></>,
+      component: (
+        <>
+          <div style={{ marginLeft: "5%", marginRight: "11%" }}>
+            <DestintionsSearch />
+          </div>
+          <DateRangePicker />
+        </>
+      ),
     },
     {
       label: stepperValues[stepperValues.Activities],
@@ -37,6 +49,7 @@ const SideBarContainer = () => {
           {isActivitiesOpen ? (
             <ActivitiesGallery selectedActivities={selectedActivities} />
           ) : null}
+          <Button onClick={createTrip}>Calculate Trip</Button>
         </>
       ),
     },
@@ -44,13 +57,13 @@ const SideBarContainer = () => {
 
   const next = () => {
     if (stepper.length > currentStep + 1) {
-      stepUp();
+      setCurrentStep(currentStep + 1);
     }
   };
 
   const previous = () => {
     if (0 < currentStep) {
-      stepDown();
+      setCurrentStep(currentStep - 1);
     }
   };
 
@@ -64,8 +77,14 @@ const SideBarContainer = () => {
             labels={stepper.map((step) => step.label)}
             activeStep={currentStep}
           />
-          <Button onClick={previous}>previous</Button>
-          <Button onClick={next}>Next</Button>
+          <div className="container">
+            <ArrowBackIosIcon className="i" onClick={previous}>
+              previous
+            </ArrowBackIosIcon>
+            <ArrowForwardIosIcon className="i" onClick={next}>
+              Next
+            </ArrowForwardIosIcon>
+          </div>
         </>
       </SideBar>
     </>
