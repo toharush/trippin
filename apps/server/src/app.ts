@@ -218,6 +218,7 @@ const MutationRoot = new GraphQLObjectType({
       args: {
         user_id: { type: GraphQLString },
         name: { type: GraphQLNonNull(GraphQLString) },
+        cityName: { type: GraphQLNonNull(GraphQLString) },
         cityCenter: { type: GraphQLNonNull(Icoordinate) },
         radius: { type: GraphQLNonNull(GraphQLFloat) },
         categoryPriorities: { type: GraphQLNonNull(GraphQLList(Map)) },
@@ -234,6 +235,7 @@ const MutationRoot = new GraphQLObjectType({
         {
           user_id,
           name,
+          cityName,
           cityCenter,
           categoryPriorities,
           selectedActivitiesIds,
