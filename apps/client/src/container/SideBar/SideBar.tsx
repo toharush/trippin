@@ -3,7 +3,7 @@ import SideBar from "../../components/SideBar/SideBar";
 import TravelsCategoryComponent from "../../components/TravelsCategoryComponent/TravelsCategoryComponent";
 import Dropdown from "../../components/Dropdown/Dropdown";
 import ActivitiesGallery from "../../components/ActivitiesGallery/ActivitiesGallery";
-import { useActivities, useTrip } from "../../hooks";
+import { useActivities, useAuthentication, useTrip } from "../../hooks";
 import AppStepper from "../../components/Stepper/Stepper";
 import DateRangePicker from "../../components/DateRangePicker/DateRangePicker";
 import { stepperValues } from "../../interfaces";
@@ -11,6 +11,7 @@ import { Button } from "@mui/material";
 import Authentication from "../Authentication/Authentication";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import BookmarkAddedIcon from "@mui/icons-material/BookmarkAdded";
 import "./SideBar.css";
 import DestintionsSearch from "../DestinationsSearch/DestinationsSearch";
 
@@ -20,6 +21,8 @@ const SideBarContainer = () => {
   const { createTrip } = useTrip();
   const [isActivitiesOpen, setIsActivitiesOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(true);
+  const [isPlannedTripOpen, setIsPlannedTripOpen] = useState(false);
+  const {currentUser} = useAuthentication();
 
   const stepper = [
     {
@@ -67,24 +70,38 @@ const SideBarContainer = () => {
     }
   };
 
+  const onOpenSavedTrips = () => {
+    setIsPlannedTripOpen(true);
+  }
+
   return (
     <>
       <SideBar>
         <>
-          <Authentication />
-          {stepper[currentStep].component}
-          <AppStepper
-            labels={stepper.map((step) => step.label)}
-            activeStep={currentStep}
-          />
-          <div className="container">
-            <ArrowBackIosIcon className="i" onClick={previous}>
-              previous
-            </ArrowBackIosIcon>
-            <ArrowForwardIosIcon className="i" onClick={next}>
-              Next
-            </ArrowForwardIosIcon>
+          <div className="row">
+            <Authentication/>
+            {(currentUser !== null) && <Button
+              className="icon-button saved"
+              onClick={onOpenSavedTrips}
+              endIcon={<BookmarkAddedIcon />}>
+            </Button>}
           </div>
+          {isPlannedTripOpen ? <div/> : 
+          <> 
+           {stepper[currentStep].component}
+            <AppStepper
+              labels={stepper.map((step) => step.label)}
+              activeStep={currentStep}
+            />
+            <div className="container">
+              <ArrowBackIosIcon className="i" onClick={previous}>
+                previous
+              </ArrowBackIosIcon>
+              <ArrowForwardIosIcon className="i" onClick={next}>
+                Next
+              </ArrowForwardIosIcon>
+            </div>
+          </>}
         </>
       </SideBar>
     </>

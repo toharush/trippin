@@ -24,6 +24,7 @@
     "@turf/circle": "^6.5.0",
     "@types/node": "^18.15.11",
     "@types/turf": "^3.5.32",
+    "dayjs": "^1.11.8",
     "firebase": "^9.22.0",
     "google-img-scrap": "^1.1.1",
     "graphql": "^15.8.0",

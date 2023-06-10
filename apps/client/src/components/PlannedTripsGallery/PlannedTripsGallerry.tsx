@@ -1,4 +1,6 @@
 import { Stack } from "@mui/system";
+import { Button } from "@mui/material";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import PlannedTrip from "../PlannedTrip/PlannedTrip";
 
 interface TripBasicInfo {
@@ -14,6 +16,7 @@ interface props {
 
 export default function PlannedTripsGallery({trips}: props) {
     return (
+        <>
         <Stack spacing={{ xs: 1, sm: 1, md: 5 }}>
             <div className="trips-list">
                 {trips?.map((trip: TripBasicInfo, index) => (
@@ -21,5 +24,11 @@ export default function PlannedTripsGallery({trips}: props) {
                 ))}
             </div>
         </Stack>
+        <Button
+            className="icon-button next"
+            // onClick={setIsPlannedTripOpen(false)}
+            endIcon={<ArrowBackIosIcon />}>
+        </Button>
+        </>
     )
                 }
