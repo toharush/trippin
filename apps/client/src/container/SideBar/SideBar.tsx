@@ -93,6 +93,7 @@ const SideBarContainer = () => {
               endIcon={<ArrowForwardIosIcon />}>
             </Button>
           </div>
+          <div className="spacer" />
           <AppStepper
             labels={stepper.map((step) => step.label)}
             activeStep={currentStep}
