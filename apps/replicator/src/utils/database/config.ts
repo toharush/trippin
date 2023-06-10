@@ -70,4 +70,7 @@ export const enum TABLES {
   EXTRA_CATEGORIES = "extra_categories",
   GOOGLE = "google",
   COMMENTS = "comment",
+  TRIP = "trip",
+  DAILY_ROUTE = "daily_route",
+  DAILY_ROUTE_ACTIVITY = "daily_route_activity",
 }
