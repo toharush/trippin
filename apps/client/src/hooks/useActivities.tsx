@@ -1,6 +1,5 @@
 import { useSelector } from "react-redux";
 import { Activity, EntityTypes } from "../interfaces";
-import { differenceBy, isEmpty } from "lodash";
 import {
   fetchAllActivities,
   fetchNewCommentToServer,
@@ -14,10 +13,8 @@ import {
   setCatehoryFilter,
   setSelectedActivities,
 } from "../store/slices/activity";
-import { useEffect, useState } from "react";
 import useMapDrawer from "./useMapDrawer";
 import useAuthentication from "./useAuthentication";
-import { fetchNewComment } from "../services";
 
 const useActivities = () => {
   const { currentUser } = useAuthentication();
