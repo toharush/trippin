@@ -1,23 +1,17 @@
+import useUserCategoriesPriority from "../../hooks/useUserCategoriesPriority";
 import Category from "../Category/Category";
 import "./CategoriesGallery.css";
 
 export default function CategoriesGallery() {
-  const categories = [
-    "Museums",
-    "Night Life",
-    "Resturants",
-    "Atractions",
-    "Shows &Concerts",
-    "Shopping",
-    "Sport",
-    "Nature",
-  ];
+
+  const {userCategoriesPriority} = useUserCategoriesPriority();
+
 
   return (
     <div className="categories-grid">
       <div className="categories-list">
-        {categories.map((category) => (
-          <Category name={category}></Category>
+        {userCategoriesPriority.map((category) => (
+          <Category name={category.categoryName} value={category.categoryPreference}></Category>
         ))}
       </div>
     </div>
