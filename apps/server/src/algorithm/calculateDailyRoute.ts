@@ -2,6 +2,7 @@ import ICoordinate from '../../../client/src/interfaces/activity/coordinate';
 import { Activity } from '../../../client/src/interfaces';
 import { filter } from 'lodash';
 import {
+    AverageRate,
     AverageSpeed,
     MinimalTravelTimeSlot,
     SplitToQuarter,
@@ -12,13 +13,16 @@ export function findBestActivities(
     activities: Activity[],
     startHour: number,
     endHour: number,
-    startPosition: ICoordinate
+    startPosition: ICoordinate,
+    date: Date
 ): Activity[] {
+
     const availableActivities = filterActivitiesOutOfUserTimeRange(
         activities,
         startHour,
         endHour
     );
+
     const combinationsValue = new Array(availableActivities.length).fill(0);
     const selectedActivitiesCombinations: (Activity | null)[][] = initSelectedActivities(
         availableActivities,
@@ -72,7 +76,7 @@ export function findBestActivities(
                               distance
                           )
                         : activity.duration * SplitToQuarter;
-                const activityValue = activity.rate! / (distance + 1);
+                const activityValue = activity.rate ? activity.rate / (distance + 1) : AverageRate /(distance + 1);
                 if (
                     isActivityOpenNow(
                         activity,
@@ -94,12 +98,24 @@ export function findBestActivities(
                 selectedActivity !== null &&
                 selectedActivity.travelAndVisitTime !== undefined
             ) {
-                for (let i = 0; i < selectedActivity.travelAndVisitTime; i++) {
+                let activityStartTime =
+                    (currentTimeSlot +
+                        calcActivityTravelTime(
+                            selectedActivity.travelAndVisitTime,
+                            selectedActivity.duration!
+                        )) /
+                        SplitToQuarter + startHour;
+                selectedActivity = setActivityTimeRange(
+                    selectedActivity,
+                    activityStartTime,
+                    date
+                );
+                for (let i = 0; i < selectedActivity.travelAndVisitTime!; i++) {
                     selectedActivitiesCombinations[activitiesCombinationIndex][
                         currentTimeSlot + i
                     ] = selectedActivity;
                 }
-                currentHour += selectedActivity.travelAndVisitTime - 1;
+                currentHour += selectedActivity.travelAndVisitTime! - 1;
                 reorderedActivities = removeActivityById(
                     reorderedActivities,
                     selectedActivity.id
@@ -111,6 +127,12 @@ export function findBestActivities(
     return getBestDayRoute(combinationsValue, selectedActivitiesCombinations);
 }
 
+function convertHourToNumberFormat(hour : Date): number {
+    const hourValue = hour.getHours();
+    const minuteValue = hour.getMinutes();
+    return hourValue+(minuteValue/60);
+}
+
 function filterActivitiesOutOfUserTimeRange(
     activities: Activity[],
     startHour: number,
@@ -119,7 +141,8 @@ function filterActivitiesOutOfUserTimeRange(
     return filter(
         activities,
         activity =>
-            activity.open_hour <= endHour && activity.close_hour >= startHour
+            convertHourToNumberFormat(activity.open_hour) <= endHour && 
+            convertHourToNumberFormat(activity.close_hour) >= startHour
     );
 }
 
@@ -196,18 +219,24 @@ function calcActivityTravelAndVisitTime(
     );
 }
 
+function calcActivityTravelTime(travelAndVisitTime: number, duration:number): number {
+    return travelAndVisitTime-(duration*SplitToQuarter);
+}
+
 function isActivityOpenNow(
     activity: Activity,
     currentHour: number,
     startHour: number,
     endHour: number
 ): boolean {
+    const activityOpenHourInNumFormat = convertHourToNumberFormat(activity.open_hour);
+    const activityCloseHourInNumFormat = convertHourToNumberFormat(activity.close_hour);
     return activity.travelAndVisitTime
-        ? activity.open_hour <= currentHour &&
+        ? activityOpenHourInNumFormat <= currentHour &&
               currentHour + activity.travelAndVisitTime <=
                   calcActivityEndHour(
-                      activity.open_hour,
-                      activity.close_hour
+                      activityOpenHourInNumFormat,
+                      activityCloseHourInNumFormat
                   ) &&
               currentHour + activity.travelAndVisitTime <=
                   calcActivityEndHour(startHour, endHour)
@@ -225,11 +254,20 @@ const removeActivityById = (activities: Activity[], id: string): Activity[] => {
 };
 
 const getActivityDuration = (activity: Activity): number => {
-    if (activity.google.spend) {
-        return activity.google.spend / 3600000;
-    }
-    return 2;
+   return activity?.google?.spend ? roundToQuarterHour(activity.google.spend) : 2;
 };
+
+function roundToQuarterHour(durationMs: number): number {
+    const quarterMs = 15 * 60 * 1000; // 15 minutes in milliseconds
+  
+    const hours = Math.floor(durationMs / (60 * 60 * 1000));
+    const remainingMs = durationMs % (60 * 60 * 1000);
+    const quarters = Math.round(remainingMs / quarterMs);
+  
+    const roundedDuration = hours + quarters / 4;
+  
+    return roundedDuration;
+  }
 
 function filterDuplicateActivities(
     selectedActivities: (Activity | null)[]
@@ -240,12 +278,10 @@ function filterDuplicateActivities(
     console.log('selectedActivities', selectedActivities);
 
     for (let i = 0; i < selectedActivities?.length; i++) {
-        if (
-            selectedActivities[i] !== null &&
-            !activitySet.has(selectedActivities[i]!.id)
-        ) {
-            filteredActivities.push(selectedActivities[i]!);
-            activitySet.add(selectedActivities[i]!.id);
+        let currActivity = selectedActivities[i];
+        if (currActivity !== null && !activitySet.has(currActivity!.id)) {
+        filteredActivities.push(currActivity);
+        activitySet.add(currActivity.id);
         }
     }
     return filteredActivities;
@@ -259,3 +295,22 @@ function getBestDayRoute(
     const maxIndex = dp.indexOf(maxValue);
     return filterDuplicateActivities(selectedActivities[maxIndex]);
 }
+
+function convertTimeSlotToDate(date : Date, time: number) : Date {
+    const hour = Math.floor(time);
+    const minute = Math.round((time - hour) * 60);
+  
+    const convertedDate = new Date(date);
+    convertedDate.setHours(hour);
+    convertedDate.setMinutes(minute);
+    convertedDate.setSeconds(0);
+  
+    return convertedDate;
+  }
+  
+  function setActivityTimeRange(activity: Activity, startTime: number, date:Date) : Activity {
+    activity.startTime = convertTimeSlotToDate(date,startTime);
+    activity.endTime = convertTimeSlotToDate(date,startTime+activity.duration!);
+  
+    return activity;
+  }

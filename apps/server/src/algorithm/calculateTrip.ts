@@ -140,7 +140,8 @@ const findDailyRoute = async (
         rankedActivities,
         startHour,
         endHour,
-        startAlgoPoint
+        startAlgoPoint,
+        date
     );
 
     return {
