@@ -33,10 +33,10 @@ const MapBody = () => {
       <div className="leaflet-control search-control">
         {currentStep === stepperValues.Activities ? <ActivitiesSearch /> : null}
       </div>
-
-      <LayersControl>
+      {currentStep === stepperValues.Activities ?
+      (<LayersControl>
         <FloatingCategories />
-      </LayersControl>
+      </LayersControl>) : null}
       {(selectedActivitiesMarkers.filter((marker) => marker.show === true)).map((mark) => (
          <MapItem markerPoint={mark} />
       ))}
