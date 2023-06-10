@@ -17,7 +17,10 @@ import {
   defaultPosition,
 } from "../utils/database/config";
 import { upsert_google } from "./google";
-import { getGoogleImage } from "../utils/randomLocation";
+import {
+  getGoogleImage,
+  getRandomBusinessHours,
+} from "../utils/randomLocation";
 
 export const get_places = async (limit: number, offset: number = 0) =>
   await get_places_db(limit, limit * offset);
@@ -28,10 +31,11 @@ export const insert_place = async (item: DiscoverResponse) => {
   const rate = defaultGoogleRandomRate();
   const spend = defaultGoogleRandomSpend();
   const picture = await getGoogleImage(item.title);
+  const { closingTime, openingTime } = getRandomBusinessHours(item.ontologyId);
 
   let category = defaultCategories;
   let address = null;
-  let openHours = null;
+
   let pos = await get_position_id(item.position.lat, item.position.lng);
 
   if (!pos) {
@@ -66,7 +70,8 @@ export const insert_place = async (item: DiscoverResponse) => {
       item.id,
       item.title,
       item.resultType,
-      openHours,
+      closingTime,
+      openingTime,
       item.data_version || hash.sha1(item),
       new Date(),
       pos,

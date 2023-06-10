@@ -10,7 +10,6 @@ import { useSelector } from 'react-redux';
 import { selectIsDepartureDateValid, selectIsEndTimeValid, selectIsReturnDateValid } from '../../store/selectors/dateAndTime';
 
 export default function DateRangePicker() {
-
   const { dateAndTime, setDateAndTime, getDurationInDays } = useDateAndTime();
   const isDepartureDateValid = useSelector(selectIsDepartureDateValid);
   const isReturnDateValid = useSelector(selectIsReturnDateValid);
