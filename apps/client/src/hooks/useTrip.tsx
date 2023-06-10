@@ -15,21 +15,6 @@ const useTrip = () => {
   const { dateAndTime } = useDateAndTime();
 
   const createTrip = async () => {
-    console.log("createTrip", {
-      user_id: currentUser?.email ?? null,
-      name: defaultName,
-      cityCenter: {
-        lat: 55.5,
-        lng: 55.5,
-      },
-      radius: defaultRadius,
-      categoryPriorities: userCategoriesPriority,
-      selectedActivities: selectedActivities,
-      startDate: dateAndTime.departureDate.toDate().getTime(),
-      endDate: dateAndTime.returnDate.toDate().getTime(),
-      startHour: dateAndTime.daytripStartTime.toDate().getTime(),
-      endHour: dateAndTime.daytripEndTime.toDate().getTime(),
-    });
     await dispatch(
       fetchCreateTripToServer({
         user_id: currentUser?.email ?? null,

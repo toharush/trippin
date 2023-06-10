@@ -18,19 +18,6 @@ export const fetchCreateTripToServer = createAsyncThunk(
     startHour: number;
     endHour: number;
   }) => {
-    console.log(
-      "fetchCreateTripToServer",
-      props.user_id,
-      props.name,
-      props.cityCenter,
-      props.radius,
-      props.categoryPriorities,
-      props.selectedActivities,
-      props.startDate,
-      props.endDate,
-      props.startHour,
-      props.endHour
-    );
     return await fetchCreateTrip(
       props.user_id,
       props.name,

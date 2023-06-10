@@ -32,7 +32,6 @@ const fetchCreateTrip = async (
   startHour: number,
   endHour: number
 ) => {
-  console.log("fetchCreateTrip");
   return await fetchGql(
     `
     mutation createTrip {
@@ -57,12 +56,10 @@ const fetchCreateTrip = async (
   );
 };
 
-const getCategoryPrioritiesQuery = (
-  categoryPriorities: IClientCategory[]
-) => {
-  return categoryPriorities.map(cat => {
-    return `{key: "${cat.categoryName}", value: ${cat.categoryPreference}}`
-  })
+const getCategoryPrioritiesQuery = (categoryPriorities: IClientCategory[]) => {
+  return categoryPriorities.map((cat) => {
+    return `{key: "${cat.categoryName}", value: ${cat.categoryPreference}}`;
+  });
 };
 
 const getCommentsByPlaceId = async (place_id: string) => {
