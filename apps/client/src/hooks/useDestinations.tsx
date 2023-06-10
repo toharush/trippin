@@ -1,10 +1,20 @@
+import turf from "turf";
+import { selectDestination, useAppDispatch } from "../store";
+import { useSelector } from "react-redux";
+import { resetDestination, setDestination } from "../store/slices/destination";
+import ICoordinate from "../interfaces/activity/coordinate";
 import { groupBy, map, uniqBy } from "lodash";
 import useActivities from "./useActivities";
-import turf from "turf";
 import { Feature, GeoJsonProperties } from "geojson";
 
 const useDestinations = () => {
+  const dispatch = useAppDispatch();
   const { activities } = useActivities();
+  const selectedDestination = useSelector(selectDestination);
+
+  const setSelectedDestination = (name: string) => {
+    dispatch(setDestination({ name: name, cityCenter: getCityCenter(name) }));
+  }
 
   const LocationBy = groupBy(
     map(activities, (activity) => ({
@@ -14,9 +24,12 @@ const useDestinations = () => {
     "name"
   );
 
-  const getCityCenter = (name: string) => {
-    let feature: Feature<any, GeoJsonProperties>[] = [];
+  const resetSelectedDestination = () => {
+    dispatch(resetDestination);
+  }
 
+  const getCityCenter = (name: string): ICoordinate => {
+    let feature: Feature<any, GeoJsonProperties>[] = [];
     LocationBy[name].map((loc) =>
       feature.push(createPoint([loc.location[1], loc.location[0]]))
     );
@@ -39,6 +52,9 @@ const useDestinations = () => {
 
   return {
     destinations,
+    selectedDestination,
+    setSelectedDestination,
+    resetSelectedDestination
   };
 };
 

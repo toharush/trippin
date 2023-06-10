@@ -42,10 +42,12 @@ const ActivitiesSearch = () => {
   }, [filters, selectedActivities]);
 
   return (
-    <>
+    <div className="activity-search">
       <Search
         handleSearch={handleActivitySearch}
         title="Search for activities"
+        value={value}
+        textColor="black"
       />
 
       <div className="result scroller">
@@ -53,7 +55,7 @@ const ActivitiesSearch = () => {
           <Activity activity={activity} />
         ))}
       </div>
-    </>
+    </div>
   );
 };
 

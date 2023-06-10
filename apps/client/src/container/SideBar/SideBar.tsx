@@ -1,37 +1,46 @@
-import { useState } from "react";
+import AppStepper from "../../components/Stepper/Stepper";
 import SideBar from "../../components/SideBar/SideBar";
 import TravelsCategoryComponent from "../../components/TravelsCategoryComponent/TravelsCategoryComponent";
 import Dropdown from "../../components/Dropdown/Dropdown";
+import Authentication from "../Authentication/Authentication";
 import ActivitiesGallery from "../../components/ActivitiesGallery/ActivitiesGallery";
 import { useActivities, useTrip } from "../../hooks";
 import AppStepper from "../../components/Stepper/Stepper";
 import DateRangePicker from "../../components/DateRangePicker/DateRangePicker";
+import ActivitiesGallery from "../../components/ActivitiesGallery/ActivitiesGallery";
+import DestintionsSearch from "../DestinationsSearch/DestinationsSearch";
+import Logo from "../../components/Logo/Logo";
+import { useState } from "react";
+import { useActivities, useStepper } from "../../hooks";
 import { stepperValues } from "../../interfaces";
 import { Button } from "@mui/material";
-import Authentication from "../Authentication/Authentication";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import "./SideBar.css";
-import DestintionsSearch from "../DestinationsSearch/DestinationsSearch";
+import { useSelector } from "react-redux";
+import { selectIsDateAndTimeValid } from "../../store/selectors/dateAndTime";
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import "./SideBar.css"
 
 const SideBarContainer = () => {
-  const [currentStep, setCurrentStep] = useState(0);
+  const { currentStep, stepUp, stepDown } = useStepper();
   const { selectedActivities } = useActivities();
   const { createTrip } = useTrip();
   const [isActivitiesOpen, setIsActivitiesOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(true);
+  const isDateAndTimeValid = useSelector(selectIsDateAndTimeValid);
 
   const stepper = [
     {
-      label: stepperValues[stepperValues.Location],
-      component: (
+      label: stepperValues[stepperValues.Destination],
+      component:
         <>
-          <div style={{ marginLeft: "5%", marginRight: "11%" }}>
+          <div className="destination-header">
+            Where are you travelling to?
+          </div>
+          <div className="destination-search-wrapper">
             <DestintionsSearch />
           </div>
           <DateRangePicker />
-        </>
-      ),
+        </>,
     },
     {
       label: stepperValues[stepperValues.Activities],
@@ -57,13 +66,13 @@ const SideBarContainer = () => {
 
   const next = () => {
     if (stepper.length > currentStep + 1) {
-      setCurrentStep(currentStep + 1);
+      stepUp();
     }
   };
 
   const previous = () => {
     if (0 < currentStep) {
-      setCurrentStep(currentStep - 1);
+      stepDown();
     }
   };
 
@@ -73,20 +82,30 @@ const SideBarContainer = () => {
         <>
           <Authentication />
           {stepper[currentStep].component}
+          <div className="container">
+            {currentStep > 0 && (
+              <Button
+                className="icon-button"
+                onClick={previous}
+                endIcon={<ArrowBackIosIcon />}>
+              </Button>
+            )}
+            <div className="spacer" />
+            <Button
+              className="icon-button next"
+              onClick={next}
+              disabled={!isDateAndTimeValid}
+              endIcon={<ArrowForwardIosIcon />}>
+            </Button>
+          </div>
+          <div className="spacer" />
           <AppStepper
             labels={stepper.map((step) => step.label)}
             activeStep={currentStep}
           />
-          <div className="container">
-            <ArrowBackIosIcon className="i" onClick={previous}>
-              previous
-            </ArrowBackIosIcon>
-            <ArrowForwardIosIcon className="i" onClick={next}>
-              Next
-            </ArrowForwardIosIcon>
-          </div>
+          <Logo />
         </>
-      </SideBar>
+      </SideBar >
     </>
   );
 };

@@ -4,13 +4,17 @@ import map from "./map";
 import authentication from "./authentication";
 import dateAndTime from "./dateAndTime";
 import userCategoriesPriority from "./userCategoriesPriority";
+import stepper from "./stepper";
+import destination from "./destination";
 
 const rootReducer = combineReducers({
   activity: activity,
   map: map,
   authentication: authentication,
   dateAndTime: dateAndTime,
-  userCategoriesPriority: userCategoriesPriority
+  userCategoriesPriority: userCategoriesPriority,
+  stepper: stepper,
+  destination: destination,
 });
 
 export default rootReducer;
