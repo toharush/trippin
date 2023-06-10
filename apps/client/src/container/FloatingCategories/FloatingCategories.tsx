@@ -1,13 +1,14 @@
+import Box from "@mui/joy/Box";
 import FloatingCategory from "../../components/FloatingCategory/FloatingCategory";
 import { useActivities } from "../../hooks";
 import "./FloatingCategories.css";
 
 const FloatingCategories = () => {
   const { setFilter, filters } = useActivities();
-  const categories = ["restaurant", "bar", "museum","night club"];
+  const categories = ["restaurant", "bar", "museum", "night club"];
 
   return (
-    <div className="categoryControl">
+    <Box sx={{ "& > :not(style)": { marginTop: 1.5 } }}>
       {categories.map((category) => (
         <FloatingCategory
           name={category}
@@ -17,7 +18,7 @@ const FloatingCategories = () => {
           selected={filters.category === category}
         />
       ))}
-    </div>
+    </Box>
   );
 };
 
