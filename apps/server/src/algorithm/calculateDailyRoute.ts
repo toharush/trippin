@@ -6,7 +6,7 @@ import {
     MinimalTravelTimeSlot,
     SplitToQuarter,
 } from '../constants/algorithm';
-import { calculateDistance } from '../controllers/mapCalculation';
+import { calculateDistance } from '../controllers/MapCalculation';
 
 export function findBestActivities(
     activities: Activity[],
