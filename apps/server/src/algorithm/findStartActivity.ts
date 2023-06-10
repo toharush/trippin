@@ -4,6 +4,7 @@ import IGroup from '../../../client/src/interfaces/activity/group';
 import { calculateDistance, randomPoint } from '../controllers/mapCalculation';
 import turf from 'turf';
 import circle from '@turf/circle';
+import { Feature, GeoJsonProperties } from 'geojson';
 
 export const findStartAlgoPoint = (
     cityCenter: ICoordinate,
@@ -77,16 +78,19 @@ const groupPointsByRadius = (
 };
 
 const findCenterPoint = (activities: Activity[]): ICoordinate => {
-    const location: number[][][] = [[]];
+    let feature: Feature<any, GeoJsonProperties>[] = [];
+    activities.map(currentActivity =>
+        feature.push(
+            turf.point([
+                currentActivity.position.lng,
+                currentActivity.position.lat,
+            ])
+        )
+    );
 
-    activities.map(activity => {
-        location[0].push([activity.position.lng, activity.position.lat]);
-    });
-    location[0].push([activities[0].position.lng, activities[0].position.lat]);
+    const featureCollection = turf.featureCollection(feature);
 
-    const polygon = turf.polygon(location);
-
-    return randomPoint(turf.bbox(polygon));
+    return randomPoint(turf.bbox(featureCollection));
 };
 
 const findFarthestPoint = (
@@ -98,7 +102,6 @@ const findFarthestPoint = (
             type: 'Feature',
             geometry: {
                 type: 'Point',
-                // Note order: longitude, latitude.
                 coordinates: [cityCenter.lng, cityCenter.lat],
             },
             properties: {},
