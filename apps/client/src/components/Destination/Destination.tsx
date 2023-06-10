@@ -1,4 +1,3 @@
-import "./Destination.css";
 import {
   ListItem,
   ListItemButton,
@@ -19,7 +18,7 @@ return (
         onClick={handleClick}
         sx={{
           backgroundColor: "whitesmoke",
-          "&:hover": { backgroundColor: "rgba(0, 0, 0, .2)" },
+          "&:hover": { backgroundColor: "#d4d4d4" },
           borderRadius: "5px",
         }}
       >
