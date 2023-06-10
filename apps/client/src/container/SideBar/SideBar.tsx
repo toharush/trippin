@@ -9,9 +9,10 @@ import DateRangePicker from "../../components/DateRangePicker/DateRangePicker";
 import { stepperValues } from "../../interfaces";
 import { Button } from "@mui/material";
 import Authentication from "../Authentication/Authentication";
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import "./SideBar.css"
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import "./SideBar.css";
+import DestintionsSearch from "../DestinationsSearch/DestinationsSearch";
 
 const SideBarContainer = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -24,6 +25,9 @@ const SideBarContainer = () => {
       label: stepperValues[stepperValues.Location],
       component: (
         <>
+          <div style={{marginLeft: "5%", marginRight: "11%"}}>
+            <DestintionsSearch />
+          </div>
           <DateRangePicker />
         </>
       ),
@@ -72,8 +76,12 @@ const SideBarContainer = () => {
             activeStep={currentStep}
           />
           <div className="container">
-            <ArrowBackIosIcon className="i" onClick={previous}>previous</ArrowBackIosIcon>
-            <ArrowForwardIosIcon className="i" onClick={next}>Next</ArrowForwardIosIcon>
+            <ArrowBackIosIcon className="i" onClick={previous}>
+              previous
+            </ArrowBackIosIcon>
+            <ArrowForwardIosIcon className="i" onClick={next}>
+              Next
+            </ArrowForwardIosIcon>
           </div>
         </>
       </SideBar>
