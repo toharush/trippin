@@ -3,6 +3,9 @@ import SideBar from "../../components/SideBar/SideBar";
 import TravelsCategoryComponent from "../../components/TravelsCategoryComponent/TravelsCategoryComponent";
 import Dropdown from "../../components/Dropdown/Dropdown";
 import Authentication from "../Authentication/Authentication";
+import ActivitiesGallery from "../../components/ActivitiesGallery/ActivitiesGallery";
+import { useActivities, useTrip } from "../../hooks";
+import AppStepper from "../../components/Stepper/Stepper";
 import DateRangePicker from "../../components/DateRangePicker/DateRangePicker";
 import ActivitiesGallery from "../../components/ActivitiesGallery/ActivitiesGallery";
 import DestintionsSearch from "../DestinationsSearch/DestinationsSearch";
@@ -20,6 +23,7 @@ import "./SideBar.css"
 const SideBarContainer = () => {
   const { currentStep, stepUp, stepDown } = useStepper();
   const { selectedActivities } = useActivities();
+  const { createTrip } = useTrip();
   const [isActivitiesOpen, setIsActivitiesOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(true);
   const isDateAndTimeValid = useSelector(selectIsDateAndTimeValid);
@@ -54,6 +58,7 @@ const SideBarContainer = () => {
           {isActivitiesOpen ? (
             <ActivitiesGallery selectedActivities={selectedActivities} />
           ) : null}
+          <Button onClick={createTrip}>Calculate Trip</Button>
         </>
       ),
     },

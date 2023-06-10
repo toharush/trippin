@@ -13,7 +13,7 @@ import Grid from "@mui/system/Unstable_Grid/Grid";
 import { Stack } from "@mui/system";
 import "./Category.css";
 import useUserCategoriesPriority from "../../hooks/useUserCategoriesPriority";
-import { ChangeEvent, useEffect } from 'react';
+import { ChangeEvent, SyntheticEvent, useEffect } from 'react';
 
 interface props {
   name: string;
@@ -39,7 +39,7 @@ export default function Category({name,value}: props) {
 
   const {userCategoriesPriority ,setCategoriesPriority} = useUserCategoriesPriority();
 
-  const handleSliderChange = (event: Event, newValue: number | number[]) => {
+  const handleSliderChange = (event: Event | SyntheticEvent<Element, Event>, newValue: number | number[]) => {
     setCategoriesPriority(name,newValue as number);
   };
 
@@ -72,7 +72,7 @@ export default function Category({name,value}: props) {
             sx={{
               color: "#86EAF0",
             }}
-            onChange={(event, newVal)=>handleSliderChange(event,newVal)}
+            onChangeCommitted={(event, newVal)=>handleSliderChange(event,newVal)}
           />
         </Grid>
       </Grid>

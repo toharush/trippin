@@ -1,4 +1,6 @@
 import { Activity } from "../interfaces";
+import IClientCategory from "../interfaces/activity/clientCategory";
+import ICoordinate from "../interfaces/activity/coordinate";
 import IComment from "../interfaces/comment/comment";
 import fetchGql from "../lib/axios";
 
@@ -16,6 +18,48 @@ const fetchNewComment = async (
     }
     `
   );
+};
+
+const fetchCreateTrip = async (
+  user_id: string | null,
+  name: string,
+  cityCenter: ICoordinate,
+  radius: number,
+  categoryPriorities: IClientCategory[],
+  selectedActivities: string[],
+  startDate: number,
+  endDate: number,
+  startHour: number,
+  endHour: number
+) => {
+  return await fetchGql(
+    `
+    mutation createTrip {
+      createTrip(
+      user_id: "${user_id}",
+      name: "${name}",
+      cityCenter: {
+        lat: ${cityCenter.lat},
+        lng: ${cityCenter.lng}
+      } ,
+      radius: ${radius},
+      categoryPriorities: [${getCategoryPrioritiesQuery(categoryPriorities)}],
+      selectedActivitiesIds: ${JSON.stringify(selectedActivities)},
+      startDate: ${startDate},
+      endDate: ${endDate},
+      startHour: ${startHour},
+      endHour: ${endHour}) {
+        id
+      }
+    }
+    `
+  );
+};
+
+const getCategoryPrioritiesQuery = (categoryPriorities: IClientCategory[]) => {
+  return categoryPriorities.map((cat) => {
+    return `{key: "${cat.categoryName}", value: ${cat.categoryPreference}}`;
+  });
 };
 
 const getCommentsByPlaceId = async (place_id: string) => {
@@ -90,4 +134,9 @@ const getAllActivities = async () => {
   ).data.data.places as Activity[];
 };
 
-export { getAllActivities, fetchNewComment, getCommentsByPlaceId };
+export {
+  getAllActivities,
+  fetchNewComment,
+  getCommentsByPlaceId,
+  fetchCreateTrip,
+};

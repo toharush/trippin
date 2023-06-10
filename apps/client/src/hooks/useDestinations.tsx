@@ -1,11 +1,11 @@
-import { groupBy, map } from "lodash";
-import useActivities from "./useActivities";
 import turf from "turf";
-import { Feature, GeoJsonProperties } from "geojson";
 import { selectDestination, useAppDispatch } from "../store";
 import { useSelector } from "react-redux";
 import { resetDestination, setDestination } from "../store/slices/destination";
 import ICoordinate from "../interfaces/activity/coordinate";
+import { groupBy, map, uniqBy } from "lodash";
+import useActivities from "./useActivities";
+import { Feature, GeoJsonProperties } from "geojson";
 
 const useDestinations = () => {
   const dispatch = useAppDispatch();
@@ -49,7 +49,6 @@ const useDestinations = () => {
     name: dest,
     location: getCityCenter(dest),
   }));
-
 
   return {
     destinations,
