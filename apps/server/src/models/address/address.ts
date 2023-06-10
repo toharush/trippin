@@ -21,7 +21,7 @@ const Address = new GraphQLObjectType({
             extensions: {
                 joinMonster: {
                     ignoreTable: true,
-                    ignoreAll: true
+                    ignoreAll: true,
                 },
             },
         },

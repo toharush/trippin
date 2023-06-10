@@ -1,5 +1,11 @@
-.stepper-bottom {
-    position: fixed;
-    width: 31%;
-    bottom: 0;
+.label .css-1hv8oq8-MuiStepLabel-label {
+    color: white !important;
+}
+
+.Mui-active {
+    color: #936ae6 !important;
+}
+
+.Mui-completed {
+    color: #936ae6 !important;
 }

@@ -1,15 +1,14 @@
 import "./Loader.css";
 
-const Loader = () => {
+interface LoaderProps {
+  isBlack?: boolean;
+}
+const Loader = (props: LoaderProps) => {
+  const { isBlack } = props;
   return (
-    <svg
-      className="svg-calLoader"
-      xmlns="http://www.w3.org/2000/svg"
-      width="230"
-      height="230"
-    >
+    <svg className="svg-calLoader" xmlns="http://www.w3.org/2000/svg">
       <path
-        className="cal-loader__path"
+        className={isBlack ? "cal-loader__path_white" : "cal-loader__path"}
         d="M86.429 40c63.616-20.04 101.511 25.08 107.265 61.93 6.487 41.54-18.593 76.99-50.6 87.643-59.46 19.791-101.262-23.577-107.142-62.616C29.398 83.441 59.945 48.343 86.43 40z"
         fill="none"
         stroke="#0099cc"

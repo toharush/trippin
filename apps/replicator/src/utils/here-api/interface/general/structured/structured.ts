@@ -1,5 +1,5 @@
 export interface Structured {
-    start: string;
-    duration: string;
-    recurrence: string;
+  start: string;
+  duration: string;
+  recurrence: string;
 }

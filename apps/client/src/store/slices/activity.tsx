@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Activity } from "../../../../../interfaces";
-import { fetchAllActivities } from "../middlewares";
+import { Activity } from "../../interfaces";
+import { fetchAllActivities, fetchNewCommentToServer } from "../middlewares";
 
 interface ActivityState {
   activities: Activity[] | null;
@@ -9,6 +9,7 @@ interface ActivityState {
     category: string | null;
   };
   loading: boolean;
+  commentPending: boolean;
 }
 
 const initialState: ActivityState = {
@@ -18,6 +19,7 @@ const initialState: ActivityState = {
     category: null,
   },
   loading: false,
+  commentPending: false,
 };
 
 const stores = createSlice({
@@ -62,6 +64,15 @@ const stores = createSlice({
     });
     builder.addCase(fetchAllActivities.rejected, (state, action) => {
       state.loading = false;
+    });
+    builder.addCase(fetchNewCommentToServer.pending, (state, action) => {
+      state.commentPending = true;
+    });
+    builder.addCase(fetchNewCommentToServer.rejected, (state, action) => {
+      state.commentPending = false;
+    });
+    builder.addCase(fetchNewCommentToServer.fulfilled, (state, action) => {
+      state.commentPending = false;
     });
   },
 });

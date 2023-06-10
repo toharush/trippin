@@ -1,5 +1,5 @@
 export interface Google {
-    spend?: string;
-    rate?: string;
+    spend?: number;
+    rate?: number;
     image_url?: string;
 }

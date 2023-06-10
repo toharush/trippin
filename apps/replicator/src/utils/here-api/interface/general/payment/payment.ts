@@ -1,6 +1,6 @@
 export interface Payment {
-    methods: {
-        id: string;
-        accepted: boolean;
-    };
+  methods: {
+    id: string;
+    accepted: boolean;
+  };
 }

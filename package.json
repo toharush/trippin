@@ -12,13 +12,29 @@
     "start": "npm run start --workspace=apps/client & npm run start --workspace=apps/server",
     "start:server": "npm run start --workspace=apps/server",
     "start:client": "npm run start --workspace=apps/client",
-    "start:replicator": "npm run start --workspace=apps/replicator"
+    "start:replicator": "npm run start --workspace=apps/replicator",
+    "build:css": "npm run build:css --workspace=apps/client",
+    "watch:css": "npm run watch:css --workspace=apps/client"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@mui/joy": "^5.0.0-alpha.79",
+    "@mui/x-data-grid": "^6.4.0",
+    "@turf/circle": "^6.5.0",
     "@types/node": "^18.15.11",
+    "@types/turf": "^3.5.32",
+    "firebase": "^9.22.0",
+    "google-img-scrap": "^1.1.1",
     "graphql": "^15.8.0",
-    "react-perfect-scrollbar": "^1.5.8"
+    "react-apexcharts": "^1.4.0",
+    "react-perfect-scrollbar": "^1.5.8",
+    "turf": "^3.0.14"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.24",
+    "tailwindcss": "^3.3.2",
+    "vite": "^4.3.9"
   }
 }

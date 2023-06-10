@@ -1,16 +1,30 @@
 import "./SearchComponent.css";
-
+import { useTransition, useState, useEffect } from "react";
 interface props {
   title: string;
-  handleSearch: () => void;
-  value: React.RefObject<HTMLInputElement> | undefined;
+  handleSearch: (value: string) => void;
+  value: string;
+  textColor: string;
 }
 
 const Search = (props: props) => {
-  const { title, handleSearch, value } = props;
+  const [currentValue, setCurrentValue] = useState<string>(props.value);
+  const [isPending, startTransmition] = useTransition();
+  const { title, handleSearch,textColor } = props;
+
+  const handleNewSearch = (e: any) => {
+    setCurrentValue(e.target.value);
+    startTransmition(() => {
+      handleSearch(e.target.value);
+    });
+  };
+
+  useEffect(() => {
+    setCurrentValue(props.value); 
+  }, [props.value]);
 
   return (
-    <form className="group relative mx-3 mt-3">
+    <form className="group relative mt-3">
       <svg
         width="20"
         height="20"
@@ -25,12 +39,13 @@ const Search = (props: props) => {
         />
       </svg>
       <input
-        className="focus:ring-2 focus:ring-blue-500 focus:outline-none appearance-none w-full text-sm leading-6 text-slate-900 placeholder-slate-400 rounded-md py-2 pl-10 ring-1 ring-slate-200 shadow-sm"
+        className="search focus:ring-2 focus:ring-blue-500 focus:outline-none appearance-none w-full text-sm leading-6 text-slate-900 placeholder-slate-400 rounded-md py-2 pl-10 ring-1 ring-slate-200 shadow-sm"
+        style={{ color: textColor}}
         type="text"
         aria-label="Filter projects"
         placeholder={title}
-        ref={value}
-        onChange={handleSearch}
+        value={currentValue}
+        onChange={handleNewSearch}
       />
     </form>
   );

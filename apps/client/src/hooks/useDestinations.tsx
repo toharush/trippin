@@ -1,46 +1,61 @@
-import { useState } from "react";
-import { isEmpty, map, uniqBy } from "lodash";
+import turf from "turf";
+import { selectDestination, useAppDispatch } from "../store";
+import { useSelector } from "react-redux";
+import { resetDestination, setDestination } from "../store/slices/destination";
+import ICoordinate from "../interfaces/activity/coordinate";
+import { groupBy, map, uniqBy } from "lodash";
 import useActivities from "./useActivities";
-import L from 'leaflet';
-import { useMap } from "react-leaflet";
+import { Feature, GeoJsonProperties } from "geojson";
 
 const useDestinations = () => {
+  const dispatch = useAppDispatch();
+  const { activities } = useActivities();
+  const selectedDestination = useSelector(selectDestination);
 
-    const [searchString, setSearchString] = useState("");
-    const [searchResultsDests, setSearchResults] = useState<any[]>([]);
-    const { activities } = useActivities();
+  const setSelectedDestination = (name: string) => {
+    dispatch(setDestination({ name: name, cityCenter: getCityCenter(name) }));
+  }
 
-    const destinations = uniqBy(map(activities, (activity)=> ({
+  const LocationBy = groupBy(
+    map(activities, (activity) => ({
       name: activity.address.city,
-      location: [activity.position.lat,activity.position.lng]
-    })),'name');
-   
-    const searchDestination = async (name: string | undefined) => {
-        const newName = name ?? "";
-        await setSearchString(newName);
-        await find();
-      };
+      location: [activity.position.lat, activity.position.lng],
+    })),
+    "name"
+  );
 
-      const find = async () => {
-        let values:[] = [];
-        if (searchString !== "" && !isEmpty(searchString)) {
-          // @ts-ignore
-          values = destinations?.filter(
-            (dest) =>  dest.name.toLowerCase().includes(searchString.toLowerCase()) 
-          );
-        }
-        // @ts-ignore
-        console.log(values);
-        await setSearchResults(values);
-      };
+  const resetSelectedDestination = () => {
+    dispatch(resetDestination);
+  }
 
-      return {
-        destinations,
-        searchDestination,
-        searchResultsDests
+  const getCityCenter = (name: string): ICoordinate => {
+    let feature: Feature<any, GeoJsonProperties>[] = [];
+    LocationBy[name].map((loc) =>
+      feature.push(createPoint([loc.location[1], loc.location[0]]))
+    );
+
+    const featureCollection = turf.featureCollection(feature);
+    const centroid = turf.center(featureCollection);
+
+    return {
+      lat: centroid.geometry.coordinates[1],
+      lng: centroid.geometry.coordinates[0],
     };
+  };
+
+  const createPoint = (location: [number, number]) => turf.point(location);
+
+  const destinations = Object.keys(LocationBy).map((dest) => ({
+    name: dest,
+    location: getCityCenter(dest),
+  }));
+
+  return {
+    destinations,
+    selectedDestination,
+    setSelectedDestination,
+    resetSelectedDestination
+  };
 };
-
-
 
 export default useDestinations;
