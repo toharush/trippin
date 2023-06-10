@@ -58,7 +58,7 @@ const fetchCreateTrip = async (
 
 const getCategoryPrioritiesQuery = (categoryPriorities: IClientCategory[]) => {
   return categoryPriorities.map((cat) => {
-    return `{key: "${cat.categoryName}", value: ${cat.categoryPreference}}`;
+    return `{key: "${cat.key}", value: ${cat.value}}`;
   });
 };
 

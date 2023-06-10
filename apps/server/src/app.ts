@@ -264,7 +264,7 @@ const MutationRoot = new GraphQLObjectType({
                     new Date(endHour)
                 );
                 if (user_id) {
-                    trip.id = await createNewTrip(trip);
+                    trip.id = await createNewTrip(trip, user_id);
                 }
                 return trip;
             },

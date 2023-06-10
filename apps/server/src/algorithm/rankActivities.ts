@@ -19,11 +19,14 @@ const calculateActivityGrade = (
     activity: Activity,
     categoryPriorities: IClientCategory[]
 ): number => {
-    let clientCategory = convertDBCategoryToClientCategory(
+    const clientCategory = convertDBCategoryToClientCategory(
         activity.category.name
     );
 
-    let categoryPreference = getValueByKey(categoryPriorities, clientCategory);
+    const categoryPreference = getValueByKey(
+        categoryPriorities,
+        clientCategory
+    );
 
     if (!activity.google?.rate) {
         return ACTIVITY_DEFAULT_RATING;

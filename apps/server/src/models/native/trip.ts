@@ -1,3 +1,6 @@
-import ITrip from "../../../../client/src/interfaces/activity/trip";
+import ITrip from '../../../../client/src/interfaces/activity/trip';
 
-export const createNewTripInDb = async (trip: ITrip): Promise<number> => 1;
+export const createNewTripInDb = async (
+    trip: ITrip,
+    user_id: string
+): Promise<number> => 1;
