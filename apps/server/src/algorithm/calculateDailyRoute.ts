@@ -2,12 +2,12 @@ import ICoordinate from '../../../client/src/interfaces/activity/coordinate';
 import { Activity } from '../../../client/src/interfaces';
 import { filter } from 'lodash';
 import {
-    AverageRate,
-    AverageSpeed,
-    MinimalTravelTimeSlot,
-    SplitToQuarter,
+    AVERAGE_RATE,
+    AVERAGE_SPEED,
+    MINIMAL_TRAVEL_TIME_SLOT,
+    SPLIT_TO_QUARTER,
 } from '../constants/algorithm';
-import { calculateDistance } from '../controllers/MapCalculation';
+import { calculateDistance } from '../controllers/mapCalculation';
 
 export function findBestActivities(
     activities: Activity[],
@@ -16,7 +16,6 @@ export function findBestActivities(
     startPosition: ICoordinate,
     date: Date
 ): Activity[] {
-
     const availableActivities = filterActivitiesOutOfUserTimeRange(
         activities,
         startHour,
@@ -75,8 +74,10 @@ export function findBestActivities(
                               activity.duration,
                               distance
                           )
-                        : activity.duration * SplitToQuarter;
-                const activityValue = activity.rate ? activity.rate / (distance + 1) : AverageRate /(distance + 1);
+                        : activity.duration * SPLIT_TO_QUARTER;
+                const activityValue = activity.rate
+                    ? activity.rate / (distance + 1)
+                    : AVERAGE_RATE / (distance + 1);
                 if (
                     isActivityOpenNow(
                         activity,
@@ -104,7 +105,8 @@ export function findBestActivities(
                             selectedActivity.travelAndVisitTime,
                             selectedActivity.duration!
                         )) /
-                        SplitToQuarter + startHour;
+                        SPLIT_TO_QUARTER +
+                    startHour;
                 selectedActivity = setActivityTimeRange(
                     selectedActivity,
                     activityStartTime,
@@ -127,10 +129,10 @@ export function findBestActivities(
     return getBestDayRoute(combinationsValue, selectedActivitiesCombinations);
 }
 
-function convertHourToNumberFormat(hour : Date): number {
+function convertHourToNumberFormat(hour: Date): number {
     const hourValue = hour.getHours();
     const minuteValue = hour.getMinutes();
-    return hourValue+(minuteValue/60);
+    return hourValue + minuteValue / 60;
 }
 
 function filterActivitiesOutOfUserTimeRange(
@@ -141,7 +143,7 @@ function filterActivitiesOutOfUserTimeRange(
     return filter(
         activities,
         activity =>
-            convertHourToNumberFormat(activity.open_hour) <= endHour && 
+            convertHourToNumberFormat(activity.open_hour) <= endHour &&
             convertHourToNumberFormat(activity.close_hour) >= startHour
     );
 }
@@ -155,7 +157,7 @@ function initSelectedActivities(
         .fill(null)
         .map(() =>
             new Array(
-                endHour * SplitToQuarter - startHour * SplitToQuarter
+                endHour * SPLIT_TO_QUARTER - startHour * SPLIT_TO_QUARTER
             ).fill(null)
         );
 }
@@ -180,12 +182,12 @@ function initCurrentCombinationValues(
     endHour: number
 ): number[] {
     return new Array(
-        endHour * SplitToQuarter - startHour * SplitToQuarter
+        endHour * SPLIT_TO_QUARTER - startHour * SPLIT_TO_QUARTER
     ).fill(0);
 }
 
 function calcActivityEndHour(start: number, end: number): number {
-    return (end - start) * SplitToQuarter + start;
+    return (end - start) * SPLIT_TO_QUARTER + start;
 }
 
 function getLastSelectedActivity(
@@ -214,13 +216,16 @@ function calcActivityTravelAndVisitTime(
     distance: number
 ): number {
     return (
-        roundTravelTime(duration * SplitToQuarter) +
-        roundTravelTime((distance / AverageSpeed) * SplitToQuarter)
+        roundTravelTime(duration * SPLIT_TO_QUARTER) +
+        roundTravelTime((distance / AVERAGE_SPEED) * SPLIT_TO_QUARTER)
     );
 }
 
-function calcActivityTravelTime(travelAndVisitTime: number, duration:number): number {
-    return travelAndVisitTime-(duration*SplitToQuarter);
+function calcActivityTravelTime(
+    travelAndVisitTime: number,
+    duration: number
+): number {
+    return travelAndVisitTime - duration * SPLIT_TO_QUARTER;
 }
 
 function isActivityOpenNow(
@@ -229,8 +234,12 @@ function isActivityOpenNow(
     startHour: number,
     endHour: number
 ): boolean {
-    const activityOpenHourInNumFormat = convertHourToNumberFormat(activity.open_hour);
-    const activityCloseHourInNumFormat = convertHourToNumberFormat(activity.close_hour);
+    const activityOpenHourInNumFormat = convertHourToNumberFormat(
+        activity.open_hour
+    );
+    const activityCloseHourInNumFormat = convertHourToNumberFormat(
+        activity.close_hour
+    );
     return activity.travelAndVisitTime
         ? activityOpenHourInNumFormat <= currentHour &&
               currentHour + activity.travelAndVisitTime <=
@@ -244,9 +253,9 @@ function isActivityOpenNow(
 }
 
 function roundTravelTime(number: number): number {
-    return number > MinimalTravelTimeSlot
+    return number > MINIMAL_TRAVEL_TIME_SLOT
         ? Math.round(number)
-        : MinimalTravelTimeSlot;
+        : MINIMAL_TRAVEL_TIME_SLOT;
 }
 
 const removeActivityById = (activities: Activity[], id: string): Activity[] => {
@@ -254,20 +263,22 @@ const removeActivityById = (activities: Activity[], id: string): Activity[] => {
 };
 
 const getActivityDuration = (activity: Activity): number => {
-   return activity?.google?.spend ? roundToQuarterHour(activity.google.spend) : 2;
+    return activity?.google?.spend
+        ? roundToQuarterHour(activity.google.spend)
+        : 2;
 };
 
 function roundToQuarterHour(durationMs: number): number {
     const quarterMs = 15 * 60 * 1000; // 15 minutes in milliseconds
-  
+
     const hours = Math.floor(durationMs / (60 * 60 * 1000));
     const remainingMs = durationMs % (60 * 60 * 1000);
     const quarters = Math.round(remainingMs / quarterMs);
-  
+
     const roundedDuration = hours + quarters / 4;
-  
+
     return roundedDuration;
-  }
+}
 
 function filterDuplicateActivities(
     selectedActivities: (Activity | null)[]
@@ -280,8 +291,8 @@ function filterDuplicateActivities(
     for (let i = 0; i < selectedActivities?.length; i++) {
         let currActivity = selectedActivities[i];
         if (currActivity !== null && !activitySet.has(currActivity!.id)) {
-        filteredActivities.push(currActivity);
-        activitySet.add(currActivity.id);
+            filteredActivities.push(currActivity);
+            activitySet.add(currActivity.id);
         }
     }
     return filteredActivities;
@@ -296,21 +307,28 @@ function getBestDayRoute(
     return filterDuplicateActivities(selectedActivities[maxIndex]);
 }
 
-function convertTimeSlotToDate(date : Date, time: number) : Date {
+function convertTimeSlotToDate(date: Date, time: number): Date {
     const hour = Math.floor(time);
     const minute = Math.round((time - hour) * 60);
-  
+
     const convertedDate = new Date(date);
     convertedDate.setHours(hour);
     convertedDate.setMinutes(minute);
     convertedDate.setSeconds(0);
-  
+
     return convertedDate;
-  }
-  
-  function setActivityTimeRange(activity: Activity, startTime: number, date:Date) : Activity {
-    activity.startTime = convertTimeSlotToDate(date,startTime);
-    activity.endTime = convertTimeSlotToDate(date,startTime+activity.duration!);
-  
+}
+
+function setActivityTimeRange(
+    activity: Activity,
+    startTime: number,
+    date: Date
+): Activity {
+    activity.startTime = convertTimeSlotToDate(date, startTime);
+    activity.endTime = convertTimeSlotToDate(
+        date,
+        startTime + activity.duration!
+    );
+
     return activity;
-  }
+}

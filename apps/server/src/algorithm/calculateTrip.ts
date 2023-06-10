@@ -11,9 +11,10 @@ import {
 import { filterCoveredActivities } from './filterActivities';
 import { findStartAlgoPoint } from './findStartActivity';
 import { getRankedActivities } from './rankActivities';
-
-const MIN_ACTIVITIES_PER_DAY = 3;
-const MAX_RETRIES_AMOUNT = 10;
+import {
+    MAX_RETRIES_AMOUNT,
+    MIN_ACTIVITIES_PER_DAY,
+} from '../constants/algorithm';
 
 export const calculateTrip = async (
     name: string,
@@ -64,7 +65,6 @@ export const calculateTrip = async (
         creationDate: new Date(),
         startDate: startDate,
         endDate: endDate,
-        categoryPreferences: categoryPriorities,
     };
 };
 

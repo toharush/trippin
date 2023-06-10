@@ -8,5 +8,4 @@ export default interface ITrip {
   creationDate: Date;
   startDate: Date;
   endDate: Date;
-  categoryPreferences: IClientCategory[];
 }

@@ -1,25 +1,40 @@
-import { clientCategories } from "../enums/clientCategory";
+import { clientCategories } from '../enums/clientCategory';
+import { CATEGORIES_ARRAY } from '../constants/categoryArrays';
 
-export const dbCategoryToClientCategoryMapping = (
+export const convertDBCategoryToClientCategory = (
     dbCategory: string
-) => {
+): string => {
     if (dbCategory) {
-        if (dbCategory.toLowerCase().includes("dining" || "restaurant" || "food" || "bistro" || "coffee" || "tea")) {
+        if (isCategoryItemExist(dbCategory)) {
             return clientCategories.Resturants;
-        } else if (dbCategory.toLowerCase().includes("museum")) {
+        } else if (isCategoryItemExist(dbCategory)) {
             return clientCategories.Museums;
-        } else if (dbCategory.toLowerCase().includes("entertainment" || "live" || "show" || "music" || "concert" || "theatre" || "culture")) {
+        } else if (isCategoryItemExist(dbCategory)) {
             return clientCategories.Shows;
-        } else if (dbCategory.toLowerCase().includes("sport")) {
+        } else if (isCategoryItemExist(dbCategory)) {
             return clientCategories.Sport;
-        } else if (dbCategory.toLowerCase().includes("night" || "bar" || "pub" || "club" || "dance" || "beer" || "gambling" || "casino" || "cocktail")) {
+        } else if (isCategoryItemExist(dbCategory)) {
             return clientCategories.Night;
-        } else if (dbCategory.toLowerCase().includes("shopping" || "store" || "mall" || "clothing" || "accessories")) {
+        } else if (isCategoryItemExist(dbCategory)) {
             return clientCategories.Shopping;
-        } else if (dbCategory.toLowerCase().includes("nature" || "garden" || "wood" || "forest" || "trip" || "lake" || "park" || "camp")) {
+        } else if (isCategoryItemExist(dbCategory)) {
             return clientCategories.Nature;
         }
         return clientCategories.Atractions;
     }
     return clientCategories.Atractions;
-}
+};
+
+const isCategoryItemExist = (dbCategory: string): Boolean => {
+    let flag = false;
+
+    CATEGORIES_ARRAY.forEach(currentCategoryArray => {
+        currentCategoryArray.forEach(currentCategoryItem => {
+            if (dbCategory.toLowerCase().includes(currentCategoryItem)) {
+                flag = true;
+            }
+        });
+    });
+
+    return flag;
+};
