@@ -22,6 +22,7 @@ import client from './utils/dbClient';
 import Icoordinate from './models/Icoordinate/icoordinate';
 import Map from './models/map/map';
 
+
 dotenv.config();
 
 const PORT = process.env.APP_PORT || 8080;
@@ -264,6 +265,24 @@ const gqlSchema = new GraphQLSchema({
     query: QueryRoot,
     mutation: MutationRoot,
 });
+
+let date = new Date();
+date.setDate(date.getDate() + 3);
+
+// (async () =>
+//     console.log(
+//         await calculateTrip(
+//             'a',
+//             { lat: 57.57012, lng: -7.39597 },
+//             10,
+//             new ,
+//             [],
+//             new Date(),
+//             date,
+//             new Date(),
+//             date
+//         )
+//     ))();
 
 app.use(
     '/api/v1',
