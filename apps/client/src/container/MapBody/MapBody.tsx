@@ -1,7 +1,7 @@
 import { LayersControl, useMap } from "react-leaflet";
 import { useEffect } from "react";
-import { useStepper, useMapDrawer } from "../../hooks";
-import MapItem from "../../components/MarkerPoint/MapItem";
+import { useMapDrawer, useStepper } from "../../hooks";
+import MapItem from "../../components/MapItem/MapItem";
 import FloatingCategories from "../FloatingCategories/FloatingCategories";
 import ActivitiesSearch from "../ActivitiesSearch/ActivitiesSearch";
 import "./MapBody.css";
@@ -32,7 +32,6 @@ const MapBody = () => {
     <>
       <div className="leaflet-control search-control">
         {currentStep === stepperValues.Activities ? <ActivitiesSearch /> : null}
-        {currentStep === stepperValues.Location ? <DestintionsSearch /> : null}
       </div>
 
       <LayersControl>

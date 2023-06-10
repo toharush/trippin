@@ -2,15 +2,14 @@
   min-height: 100%;
 }
 .search {
-  width: 94%;
-  background-color: white;
-  border-radius: 8;
-  margin: 4% 0% 1% 3%;
-  position: relative;
+  background-color: transparent;
+  border: 1px solid white;
+  border-radius: 3px; 
+  width: 100%;
 }
-.search input {
+/* .search input {
   color: #282828;
-}
+} */
 
 .search
   input

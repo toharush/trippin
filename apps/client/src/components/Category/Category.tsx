@@ -12,9 +12,12 @@ import {
 import Grid from "@mui/system/Unstable_Grid/Grid";
 import { Stack } from "@mui/system";
 import "./Category.css";
+import useUserCategoriesPriority from "../../hooks/useUserCategoriesPriority";
+import { ChangeEvent, SyntheticEvent, useEffect } from 'react';
 
 interface props {
   name: string;
+  value:number;
 }
 
 interface MyObject {
@@ -26,13 +29,21 @@ const iconMapping: MyObject = {
   "Night Life": <NightlifeIcon />,
   Resturants: <FastfoodIcon />,
   Atractions: <AttractionsIcon />,
-  "Shows &Concerts": <TheaterComedyIcon />,
+  Shows: <TheaterComedyIcon />,
   Shopping: <LocalMallIcon />,
   Sport: <SportsBasketballIcon />,
   Nature: <ForestIcon />,
 };
 
-export default function Category({ name }: props) {
+export default function Category({name,value}: props) {
+
+  const {userCategoriesPriority ,setCategoriesPriority} = useUserCategoriesPriority();
+
+  const handleSliderChange = (event: Event | SyntheticEvent<Element, Event>, newValue: number | number[]) => {
+    setCategoriesPriority(name,newValue as number);
+  };
+
+
   function valuetext(value: number) {
     return `${value}`;
   }
@@ -51,7 +62,7 @@ export default function Category({ name }: props) {
         <Grid xs={8} sm={9} md={8}>
           <Slider
             aria-label="Temperature"
-            defaultValue={5}
+            defaultValue={value}
             getAriaValueText={valuetext}
             valueLabelDisplay="auto"
             step={1}
@@ -61,6 +72,7 @@ export default function Category({ name }: props) {
             sx={{
               color: "#86EAF0",
             }}
+            onChangeCommitted={(event, newVal)=>handleSliderChange(event,newVal)}
           />
         </Grid>
       </Grid>

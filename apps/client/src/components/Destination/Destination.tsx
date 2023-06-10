@@ -1,4 +1,3 @@
-import "./Destination.css";
 import {
   ListItem,
   ListItemButton,
@@ -9,17 +8,17 @@ import {
 
 interface props {
   name: string;
-  handleFlyTo: ()=>void;
+  handleClick: ()=>void;
 }
 
-export default function Destination({ name, handleFlyTo}: props) {
+export default function Destination({ name, handleClick}: props) {
 return (
     <ListItem key={name}>
       <ListItemButton
-        onClick={handleFlyTo}
+        onClick={handleClick}
         sx={{
           backgroundColor: "whitesmoke",
-          "&:hover": { backgroundColor: "rgba(0, 0, 0, .2)" },
+          "&:hover": { backgroundColor: "#d4d4d4" },
           borderRadius: "5px",
         }}
       >

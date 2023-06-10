@@ -1,8 +1,8 @@
 import { discover } from "./request";
-import { GlobalOptions } from '../../app';
+import { GlobalOptions } from "../../app";
 
 export class HereApis extends discover {
-    constructor(options: GlobalOptions) {
-        super(options);
-    }
+  constructor(options: GlobalOptions) {
+    super(options);
+  }
 }

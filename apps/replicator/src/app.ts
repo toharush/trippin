@@ -1,22 +1,37 @@
 import { TrippinReplicator } from "./replicators/trippinReplicator/trippingReplicator";
-import { GoogleScraper } from "./scrapers/google/app";
-import { getBrowser } from "./utils/browser/browser";
-import { drop_database, init_database } from "./utils/database/init-db";
+import { init_database } from "./utils/database/init-db";
 import logger from "./utils/logger/logger";
+import { getRandomLocation } from "./utils/randomLocation";
 
-(async() => {
-        await init_database();
-        new TrippinReplicator([{q: 'bar', at: "37.6,-95.665",  limit: 100},
-                                {q: 'place', at: "37.6,-95.665",  limit: 100},
-                                {q: 'restaurant', at: "37.6,-95.665",  limit: 100}], logger);
-        new TrippinReplicator([{q: 'bar', at: "39.6,-95.665",  limit: 100},
-                                {q: 'place', at: "39.6,-95.665",  limit: 100},
-                                {q: 'restaurant', at: "39.6,-95.665",  limit: 100}], logger);
-        new TrippinReplicator([{q: 'bar', at: "39.6,-96.665",  limit: 100},
-                                {q: 'place', at: "39.6,-96.665",  limit: 100},
-                                {q: 'restaurant', at: "39.6,-96.665",  limit: 100}], logger);
-        new TrippinReplicator([{q: 'bar', at: "33.6,-92.665",  limit: 100},
-                                {q: 'place', at: "33.6,-92.665",  limit: 100},
-                                {q: 'restaurant', at: "33.6,-92.665",  limit: 100}], logger);
-        new GoogleScraper(await getBrowser(true), logger, 10)
+const milliSeconds = 350000;
+
+const replicator = async () => {
+  console.time("replicator");
+  let loc = await getRandomLocation();
+
+  await new TrippinReplicator(
+    [
+      { q: "sport", at: loc, limit: 100 },
+      { q: "water sports", at: loc, limit: 100 },
+      { q: "shopping", at: loc, limit: 100 },
+      { q: "mall", at: loc, limit: 100 },
+      { q: "shows", at: loc, limit: 100 },
+      { q: "atractions", at: loc, limit: 100 },
+      { q: "nature", at: loc, limit: 100 },
+      { q: "park", at: loc, limit: 100 },
+      { q: "theatre", at: loc, limit: 100 },
+      { q: "bar", at: loc, limit: 100 },
+      { q: "museum", at: loc, limit: 100 },
+      { q: "night club", at: loc, limit: 100 },
+      { q: "restaurant", at: loc, limit: 100 },
+    ],
+    logger
+  );
+  console.timeEnd("replicator");
+};
+
+(async () => {
+  await init_database();
+  await replicator();
+  setInterval(async () => await replicator(), milliSeconds);
 })();

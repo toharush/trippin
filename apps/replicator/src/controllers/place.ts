@@ -10,34 +10,59 @@ import { get_address_id } from "./address";
 import { get_category_id } from "./category";
 import { set_categories } from "./extra_categories";
 import { get_position_id } from "./position";
+import {
+  defaultCategories,
+  defaultGoogleRandomRate,
+  defaultGoogleRandomSpend,
+  defaultPosition,
+} from "../utils/database/config";
+import { upsert_google } from "./google";
+import {
+  getGoogleImage,
+  getRandomBusinessHours,
+} from "../utils/randomLocation";
 
-export const get_places = async (limit: number, offset: number = 0) => {
-  const res = await get_places_db(limit, limit * offset);
-  return res;
-};
+export const get_places = async (limit: number, offset: number = 0) =>
+  await get_places_db(limit, limit * offset);
 
-export const get_place_count = async () => {
-  const res = await get_place_count_db();
-  return res;
-};
+export const get_place_count = async () => await get_place_count_db();
 
 export const insert_place = async (item: DiscoverResponse) => {
-  const pos = await get_position_id(item.position.lat, item.position.lng);
-  const category = item.ontologyId
-    ? await get_category_id(item.ontologyId)
-    : null;
-  const address = item.address?.label
-    ? await get_address_id(
-        item.address.label,
-        item.address.countryCode || null,
-        item.address.countryName || null,
-        item.address.state || null,
-        item.address.city || null,
-        item.address.district || null,
-        item.address.street || null,
-        item.address.postalCode || null
-      )
-    : null;
+  const rate = defaultGoogleRandomRate();
+  const spend = defaultGoogleRandomSpend();
+  const picture = await getGoogleImage(item.title);
+  const { closingTime, openingTime } = getRandomBusinessHours(item.ontologyId);
+
+  let category = defaultCategories;
+  let address = null;
+
+  let pos = await get_position_id(item.position.lat, item.position.lng);
+
+  if (!pos) {
+    pos = defaultPosition;
+  }
+
+  if (item.ontologyId) {
+    category = await get_category_id(item.ontologyId);
+  }
+
+  if (item.address?.label) {
+    address = await get_address_id(
+      item.address.label,
+      item.address.countryCode || null,
+      item.address.countryName || null,
+      item.address.state || null,
+      item.address.city || null,
+      item.address.district || null,
+      item.address.street || null,
+      item.address.postalCode || null
+    );
+  }
+
+  await item.categories?.map(async (cat) =>
+    set_categories(cat.name, item.id, cat.primary)
+  );
+
   let place = await get_place_by_id(item.id);
 
   if (place < 0) {
@@ -45,17 +70,22 @@ export const insert_place = async (item: DiscoverResponse) => {
       item.id,
       item.title,
       item.resultType,
-      item.openingHours ? JSON.stringify(item.openingHours) : null,
+      closingTime,
+      openingTime,
       item.data_version || hash.sha1(item),
       new Date(),
-      pos ? pos : null,
-      category ? category : null,
+      pos,
+      category,
       address
     );
+    await upsert_google({
+      place_id: item.id,
+      rate,
+      spend,
+      image_url: picture,
+    });
+    console.log(place);
   }
 
-  for (let cat of item.categories ?? []) {
-    set_categories(cat.name, item.id, cat.primary);
-  }
   return place;
 };

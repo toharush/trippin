@@ -1,5 +1,5 @@
 import { Stack } from "@mui/system";
-import { Activity as activity } from "../../../../../interfaces";
+import { Activity as activity } from "../../interfaces/activity/activity";
 import Activity from "../Activity/Activity";
 import "./ActivitiesGallery.css";
 

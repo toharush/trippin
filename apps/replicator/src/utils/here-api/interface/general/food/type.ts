@@ -1,5 +1,5 @@
 export interface foodType {
-    id: string;
-    name: string;
-    primary?: boolean;
+  id: string;
+  name: string;
+  primary?: boolean;
 }
