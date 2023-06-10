@@ -11,7 +11,7 @@ export default function CategoriesGallery() {
     <div className="categories-grid">
       <div className="categories-list">
         {userCategoriesPriority.map((category) => (
-          <Category name={category.categoryName} value={category.categoryPreference}></Category>
+          <Category name={category.key} value={category.value}></Category>
         ))}
       </div>
     </div>
