@@ -9,14 +9,14 @@ const DefaultPriorityValue = 5;
 
 const initialState: UserCategoriesPriorityState = {
   userCategoriesPriority: [
-    { categoryName: "Museums", categoryPreference: DefaultPriorityValue },
-    { categoryName: "Resturants", categoryPreference: DefaultPriorityValue },
-    { categoryName: "Shows", categoryPreference: DefaultPriorityValue },
-    { categoryName: "Sport", categoryPreference: DefaultPriorityValue },
-    { categoryName: "Night Life", categoryPreference: DefaultPriorityValue },
-    { categoryName: "Shopping", categoryPreference: DefaultPriorityValue },
-    { categoryName: "Nature", categoryPreference: DefaultPriorityValue },
-    { categoryName: "Atractions", categoryPreference: DefaultPriorityValue },
+    { key: "Museums", value: DefaultPriorityValue },
+    { key: "Resturants", value: DefaultPriorityValue },
+    { key: "Shows", value: DefaultPriorityValue },
+    { key: "Sport", value: DefaultPriorityValue },
+    { key: "Night Life", value: DefaultPriorityValue },
+    { key: "Shopping", value: DefaultPriorityValue },
+    { key: "Nature", value: DefaultPriorityValue },
+    { key: "Atractions", value: DefaultPriorityValue },
   ],
 };
 
@@ -31,8 +31,8 @@ const stores = createSlice({
       const { payload } = action;
       const { category, value } = payload;
       const newPreferences = state.userCategoriesPriority.map((cat) => {
-        if (cat.categoryName === category) {
-          return { ...cat, categoryPreference: value };
+        if (cat.key === category) {
+          return { ...cat, value: value };
         }
         return cat;
       });

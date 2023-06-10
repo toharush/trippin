@@ -4,4 +4,4 @@ import { differenceBy } from 'lodash';
 export const filterCoveredActivities = (
     activities: Activity[],
     coveredActivities: Activity[]
-): Activity[] => differenceBy(activities, coveredActivities, 'id');
+): Activity[] => differenceBy(activities, coveredActivities, 'title');

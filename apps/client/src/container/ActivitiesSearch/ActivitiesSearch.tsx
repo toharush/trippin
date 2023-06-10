@@ -18,9 +18,9 @@ const ActivitiesSearch = () => {
         differenceBy(activities, selectedActivities, "id"),
         (activity) =>
           (isEmpty(filters.category) ||
-            activity.category?.name
+            activity.category.name
               ?.toLowerCase()
-              .includes(filters.category)) &&
+              .includes(filters.category!)) &&
           activity.title.toLowerCase().includes(value.toLowerCase())
       );
       //@ts-ignore
