@@ -35,6 +35,7 @@ const useTrip = () => {
   };
 
   return {
+    defaultRadius,
     createTrip,
   };
 };

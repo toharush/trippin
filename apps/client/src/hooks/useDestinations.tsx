@@ -16,6 +16,7 @@ const useDestinations = () => {
 
   const getCityCenter = (name: string) => {
     let feature: Feature<any, GeoJsonProperties>[] = [];
+
     LocationBy[name].map((loc) =>
       feature.push(createPoint([loc.location[1], loc.location[0]]))
     );
