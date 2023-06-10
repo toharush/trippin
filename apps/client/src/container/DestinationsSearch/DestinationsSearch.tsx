@@ -1,4 +1,4 @@
-import { useRef, useTransition, useState } from "react";
+import { useEffect, useTransition, useState } from "react";
 import { useDestinations } from "../../hooks";
 import { List } from "@mui/material";
 import Search from "../../components/SearchComponent/SearchComponent";
@@ -9,8 +9,13 @@ export default function DestintionsSearch() {
   const [value, setValue] = useState<string>("");
   const [searchResultsDests, setSearchResultsDests] = useState<any[]>([]);
   const [isPending, startTransition] = useTransition();
+  const { destinations, selectedDestination } = useDestinations();
 
-  const { destinations } = useDestinations();
+  useEffect(() => {
+    if (selectedDestination) {
+      setValue(selectedDestination.name);
+    }
+  }, [selectedDestination]);
 
   const handleSearch = (value: string) => {
     setValue(value);
@@ -35,7 +40,7 @@ export default function DestintionsSearch() {
       <Search
         title="Search for destinations .."
         handleSearch={handleSearch}
-        // value={value}
+      // value={value}
       />
       <List
         id="list"

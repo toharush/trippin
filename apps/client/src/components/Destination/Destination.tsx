@@ -9,14 +9,14 @@ import {
 
 interface props {
   name: string;
-  handleFlyTo: ()=>void;
+  handleClick: ()=>void;
 }
 
-export default function Destination({ name, handleFlyTo}: props) {
+export default function Destination({ name, handleClick}: props) {
 return (
     <ListItem key={name}>
       <ListItemButton
-        onClick={handleFlyTo}
+        onClick={handleClick}
         sx={{
           backgroundColor: "whitesmoke",
           "&:hover": { backgroundColor: "rgba(0, 0, 0, .2)" },

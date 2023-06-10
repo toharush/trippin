@@ -5,6 +5,7 @@ import authentication from "./authentication";
 import dateAndTime from "./dateAndTime";
 import userCategoriesPriority from "./userCategoriesPriority";
 import stepper from "./stepper";
+import destination from "./destination";
 
 const rootReducer = combineReducers({
   activity: activity,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   dateAndTime: dateAndTime,
   userCategoriesPriority: userCategoriesPriority,
   stepper: stepper,
+  destination: destination,
 });
 
 export default rootReducer;
