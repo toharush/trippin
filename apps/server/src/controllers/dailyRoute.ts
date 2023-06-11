@@ -10,7 +10,12 @@ export const createNewDailyRoute = async (
 
   route.activities.map(
     async (currentActivity) =>
-      await createNewDailyRouteActivity(routeId, currentActivity.id)
+      await createNewDailyRouteActivity(
+        routeId,
+        currentActivity.id,
+        currentActivity.startTime!,
+        currentActivity.endTime!
+      )
   );
 
   return routeId;
