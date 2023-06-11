@@ -4,13 +4,13 @@ import { Google } from "./google";
 export interface Activity {
   id: string;
   title: string;
-  type: string;
+  type?: string;
   open_hour: Date;
   close_hour: Date;
-  extra: any;
+  extra?: any;
   category: ICategory;
   google: Google;
-  address: any;
+  address?: any;
   position: ICoordinate;
   rate?: number;
   duration?: number;
