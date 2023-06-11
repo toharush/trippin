@@ -71,16 +71,15 @@ const QueryRoot = new GraphQLObjectType({
       },
       extensions: {
         joinMonster: {
-          where: (placeTable, args) => {
-            return `${placeTable}.id = '${args.id}'`;
+          where: (tripTable, args) => {
+            return `${tripTable}.id = '${args.id}'`;
           },
         },
       },
       resolve: (parent, args, context, resolveInfo) => {
-        return joinMonster.default(resolveInfo, {}, (sql: any) => {
-          console.log(sql);
-          return client.query(sql);
-        });
+        return joinMonster.default(resolveInfo, {}, (sql: any) =>
+          client.query(sql)
+        );
       },
     },
     tripByUserId: {
@@ -90,16 +89,15 @@ const QueryRoot = new GraphQLObjectType({
       },
       extensions: {
         joinMonster: {
-          where: (placeTable, args) => {
-            return `${placeTable}.user_id = '${args.user_id}'`;
+          where: (tripTable, args) => {
+            return `${tripTable}.user_id = '${args.user_id}'`;
           },
         },
       },
       resolve: (parent, args, context, resolveInfo) => {
-        return joinMonster.default(resolveInfo, {}, (sql: any) => {
-          console.log(sql);
-          return client.query(sql);
-        });
+        return joinMonster.default(resolveInfo, {}, (sql: any) =>
+          client.query(sql)
+        );
       },
     },
     placeByTitle: {
