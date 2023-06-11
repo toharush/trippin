@@ -1,6 +1,8 @@
 import ICategory from "./category";
 import ICoordinate from "./coordinate";
 import { Google } from "./google";
+
+// Before the algo run
 export interface Activity {
   id: string;
   title: string;
@@ -14,7 +16,15 @@ export interface Activity {
   position: ICoordinate;
   rate?: number;
   duration?: number;
-  travelAndVisitTime?: number;
+  travelAndVisitTime?: number;  
   startTime?: Date;
   endTime?: Date;
+}
+
+
+// After the algo run
+export interface ITripActivity {
+  activity: Activity;
+  start_time: Date;
+  end_time: Date;
 }

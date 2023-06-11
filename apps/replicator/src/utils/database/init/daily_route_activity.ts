@@ -13,6 +13,8 @@ export const create_daily_route_activity = `
 CREATE TABLE IF NOT EXISTS ${schema}.${TABLES.DAILY_ROUTE_ACTIVITY}
 (
     daily_route_id integer NOT NULL,
+    start_time timestamp without time zone NOT NULL,
+    end_time timestamp without time zone NOT NULL,
     place_id text COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT daily_route_activity_pkey PRIMARY KEY (daily_route_id, place_id),
     CONSTRAINT daily_route_activity_daily_route_id_fkey FOREIGN KEY (daily_route_id)

@@ -1,4 +1,4 @@
-import { Activity } from "../../../client/src/interfaces";
+import { Activity, ITripActivity } from "../../../client/src/interfaces";
 import IClientCategory from "../../../client/src/interfaces/activity/clientCategory";
 import ICoordinate from "../../../client/src/interfaces/activity/coordinate";
 import IDailyRoute from "../../../client/src/interfaces/activity/dailyRoute";
@@ -139,6 +139,15 @@ const findDailyRoute = async (
   return {
     date: date,
     index: dailyIndex,
-    activities: algoResult,
+    activities: activitiesToItripActivities(algoResult),
   };
 };
+
+const activityToItripActivity = (activity: Activity): ITripActivity => ({
+  activity: activity,
+  start_time: activity.startTime!,
+  end_time: activity.endTime!,
+});
+
+const activitiesToItripActivities = (activities: Activity[]): ITripActivity[] =>
+  activities.map((currentActivity) => activityToItripActivity(currentActivity));

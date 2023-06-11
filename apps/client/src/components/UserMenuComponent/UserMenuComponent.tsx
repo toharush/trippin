@@ -93,25 +93,7 @@ export default function UserMenuComponent(props: UserMenuComponentProps) {
         <MenuItem onClick={() => handleOpenTab("profile")}>
           <Avatar /> {title}
         </MenuItem>
-        <MenuItem onClick={() => handleOpenTab("mytrips")}>
-          <Avatar>
-            <AirplanemodeActive />
-          </Avatar>
-          My Trips
-        </MenuItem>
         <Divider />
-        <MenuItem onClick={() => handleOpenTab("share")}>
-          <ListItemIcon>
-            <PersonAdd fontSize="small" />
-          </ListItemIcon>
-          Share This Trip
-        </MenuItem>
-        <MenuItem onClick={() => handleOpenTab("settings")}>
-          <ListItemIcon>
-            <Settings fontSize="small" />
-          </ListItemIcon>
-          Settings
-        </MenuItem>
         <MenuItem onClick={handleSignout}>
           <ListItemIcon>
             <Logout fontSize="small" />

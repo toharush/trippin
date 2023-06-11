@@ -8,6 +8,7 @@ import {
   GraphQLList,
   GraphQLNonNull,
   GraphQLFloat,
+  GraphQLInt,
 } from "graphql";
 import * as joinMonster from "join-monster";
 import Place, { InputPlace } from "./models/place/place";
@@ -22,7 +23,7 @@ import client from "./utils/dbClient";
 import Icoordinate from "./models/Icoordinate/icoordinate";
 import Map from "./models/map/map";
 import { Activity } from "../../client/src/interfaces";
-import Trip from "./models/trip/trip";
+import TripDb, { Trip } from "./models/trip/trip";
 import { createNewTrip } from "./controllers/trip";
 import { getActivitiesByIds } from "./controllers/activity";
 
@@ -61,6 +62,42 @@ const QueryRoot = new GraphQLObjectType({
         return joinMonster.default(resolveInfo, {}, (sql: any) => {
           return client.query(sql);
         });
+      },
+    },
+    tripById: {
+      type: TripDb,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLInt) },
+      },
+      extensions: {
+        joinMonster: {
+          where: (tripTable, args) => {
+            return `${tripTable}.id = '${args.id}'`;
+          },
+        },
+      },
+      resolve: (parent, args, context, resolveInfo) => {
+        return joinMonster.default(resolveInfo, {}, (sql: any) =>
+          client.query(sql)
+        );
+      },
+    },
+    tripByUserId: {
+      type: GraphQLList(TripDb),
+      args: {
+        user_id: { type: new GraphQLNonNull(GraphQLString) },
+      },
+      extensions: {
+        joinMonster: {
+          where: (tripTable, args) => {
+            return `${tripTable}.user_id = '${args.user_id}'`;
+          },
+        },
+      },
+      resolve: (parent, args, context, resolveInfo) => {
+        return joinMonster.default(resolveInfo, {}, (sql: any) =>
+          client.query(sql)
+        );
       },
     },
     placeByTitle: {
