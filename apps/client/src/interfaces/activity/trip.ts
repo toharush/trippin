@@ -1,4 +1,3 @@
-import IClientCategory from "./clientCategory";
 import IDailyRoute from "./dailyRoute";
 
 export default interface ITrip {
