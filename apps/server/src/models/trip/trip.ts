@@ -18,7 +18,7 @@ const Trip = new GraphQLObjectType({
 export const tripDb = new GraphQLObjectType({
   name: "trip_db",
   fields: () => ({
-    id: { type: GraphQLFloat },
+    id: { type: GraphQLInt },
     name: { type: GraphQLString },
     routes: {
       type: GraphQLList(DailyRoute),
