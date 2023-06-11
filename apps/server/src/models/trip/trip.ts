@@ -1,17 +1,7 @@
 import { GraphQLObjectType, GraphQLString } from "graphql";
 import { GraphQLFloat, GraphQLInt, GraphQLList } from "graphql/type";
 import { schema, TABLES } from "../../../../../utils";
-import Place from "../place/place";
-import DailyRoute from "./route";
-
-const Route = new GraphQLObjectType({
-  name: "route",
-  fields: () => ({
-    date: { type: GraphQLFloat },
-    index: { type: GraphQLInt },
-    activities: { type: GraphQLList(Place) },
-  }),
-});
+import DailyRoute, { Route } from "./route";
 
 const Trip = new GraphQLObjectType({
   name: "trip",

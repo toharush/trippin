@@ -2,6 +2,7 @@ import { GraphQLObjectType } from "graphql";
 import { GraphQLFloat, GraphQLInt, GraphQLList } from "graphql/type";
 import { schema, TABLES } from "../../../../../utils";
 import DailyRouteActivity from "./routeActivity";
+import Place from "../place/place";
 
 const DailyRoute = new GraphQLObjectType({
   name: "daily_route",
@@ -30,4 +31,14 @@ const DailyRoute = new GraphQLObjectType({
     },
   },
 });
+
 export default DailyRoute;
+
+export const Route = new GraphQLObjectType({
+  name: "route",
+  fields: () => ({
+    date: { type: GraphQLFloat },
+    index: { type: GraphQLInt },
+    activities: { type: GraphQLList(Place) },
+  }),
+});
