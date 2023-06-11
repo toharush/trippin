@@ -1,27 +1,27 @@
 import { GraphQLObjectType, GraphQLString } from "graphql";
 import { GraphQLFloat, GraphQLInt, GraphQLList } from "graphql/type";
 import { schema, TABLES } from "../../../../../utils";
-import DailyRoute, { Route } from "./route";
+import DailyRouteDb, { DailyRoute } from "./route";
 
-const Trip = new GraphQLObjectType({
+export const Trip = new GraphQLObjectType({
   name: "trip",
   fields: () => ({
     id: { type: GraphQLInt },
     name: { type: GraphQLString },
-    routes: { type: GraphQLList(Route) },
+    routes: { type: GraphQLList(DailyRoute) },
     creationDate: { type: GraphQLFloat },
     startDate: { type: GraphQLFloat },
     endDate: { type: GraphQLFloat },
   }),
 });
 
-export const tripDb = new GraphQLObjectType({
+const TripDb = new GraphQLObjectType({
   name: "trip_db",
   fields: () => ({
     id: { type: GraphQLInt },
     name: { type: GraphQLString },
     routes: {
-      type: GraphQLList(DailyRoute),
+      type: GraphQLList(DailyRouteDb),
       extensions: {
         joinMonster: {
           ignoreAll: false,
@@ -44,4 +44,4 @@ export const tripDb = new GraphQLObjectType({
     },
   },
 });
-export default Trip;
+export default TripDb;

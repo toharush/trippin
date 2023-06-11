@@ -23,7 +23,7 @@ import client from "./utils/dbClient";
 import Icoordinate from "./models/Icoordinate/icoordinate";
 import Map from "./models/map/map";
 import { Activity } from "../../client/src/interfaces";
-import Trip, { tripDb } from "./models/trip/trip";
+import TripDb, { Trip } from "./models/trip/trip";
 import { createNewTrip } from "./controllers/trip";
 import { getActivitiesByIds } from "./controllers/activity";
 
@@ -65,7 +65,7 @@ const QueryRoot = new GraphQLObjectType({
       },
     },
     tripById: {
-      type: tripDb,
+      type: TripDb,
       args: {
         id: { type: new GraphQLNonNull(GraphQLInt) },
       },
@@ -83,7 +83,7 @@ const QueryRoot = new GraphQLObjectType({
       },
     },
     tripByUserId: {
-      type: GraphQLList(tripDb),
+      type: GraphQLList(TripDb),
       args: {
         user_id: { type: new GraphQLNonNull(GraphQLString) },
       },

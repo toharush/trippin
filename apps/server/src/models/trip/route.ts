@@ -3,7 +3,7 @@ import { GraphQLFloat, GraphQLInt, GraphQLList } from "graphql/type";
 import { schema, TABLES } from "../../../../../utils";
 import DailyRouteActivityDb, { DailyRouteActivity } from "./routeActivity";
 
-const DailyRoute = new GraphQLObjectType({
+const DailyRouteDb = new GraphQLObjectType({
   name: "daily_route_db",
   fields: () => ({
     id: { type: GraphQLInt },
@@ -31,9 +31,9 @@ const DailyRoute = new GraphQLObjectType({
   },
 });
 
-export default DailyRoute;
+export default DailyRouteDb;
 
-export const Route = new GraphQLObjectType({
+export const DailyRoute = new GraphQLObjectType({
   name: "route",
   fields: () => ({
     date: { type: GraphQLFloat },
