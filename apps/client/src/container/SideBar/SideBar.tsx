@@ -16,6 +16,7 @@ import { selectIsDateAndTimeValid } from "../../store/selectors/dateAndTime";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import "./SideBar.css";
+import CalculatedTripContainer from "../CalculatedTripPage/CalculatedTripPage";
 
 const SideBarContainer = () => {
   const { currentStep, stepUp, stepDown } = useStepper();
@@ -55,6 +56,14 @@ const SideBarContainer = () => {
             <ActivitiesGallery selectedActivities={selectedActivities} />
           ) : null}
           <Button onClick={createTrip}>Calculate Trip</Button>
+        </>
+      ),
+    },
+    {
+      label: stepperValues[stepperValues.Results],
+      component: (
+        <>
+          <CalculatedTripContainer></CalculatedTripContainer>
         </>
       ),
     },
