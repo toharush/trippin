@@ -55,24 +55,26 @@ const fetchCreateTrip = async (
           index
           date
           activities {
-            id
-            title
-            type
-            close_hour
-            open_hour
-            startTime 
-            endTime
-            category {
-              name
-            }
-            google {
-              spend
-              rate
-              image_url
-            }
-            position {
-              lat
-              lng
+            start_time
+            end_time
+            activity {
+              id
+              title
+              type
+              close_hour
+              open_hour
+              category {
+                name
+              }
+              google {
+                spend
+                rate
+                image_url
+              }
+              position {
+                lat
+                lng
+              }
             }
           }
         }
