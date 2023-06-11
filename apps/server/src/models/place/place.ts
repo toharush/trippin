@@ -20,8 +20,6 @@ const Place = new GraphQLObjectType({
         type: { type: GraphQLString },
         close_hour: { type: GraphQLFloat },
         open_hour: { type: GraphQLFloat },
-        startTime: { type: GraphQLFloat },
-        endTime: { type: GraphQLFloat },
         extra: {
             type: extraCategories,
             extensions: {
