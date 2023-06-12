@@ -14,8 +14,8 @@ interface MapState {
 const initialState: MapState = {
   selectedActivitiesMarkerPoints: [],
   flyTo: {
-    latlng: [56.6, 56.8],
-    zoom: 4,
+    latlng: [51.92949138694931, -2.0648223468551428],
+    zoom: 6,
   },
   loading: false,
 };
