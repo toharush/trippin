@@ -3,7 +3,7 @@ import TravelsCategoryComponent from "../../components/TravelsCategoryComponent/
 import Dropdown from "../../components/Dropdown/Dropdown";
 import Authentication from "../Authentication/Authentication";
 import ActivitiesGallery from "../../components/ActivitiesGallery/ActivitiesGallery";
-import { useActivities, useStepper, useTrip } from "../../hooks";
+import { useActivities, useAuthentication, useStepper, useTrip } from "../../hooks";
 import AppStepper from "../../components/Stepper/Stepper";
 import DateRangePicker from "../../components/DateRangePicker/DateRangePicker";
 import DestintionsSearch from "../DestinationsSearch/DestinationsSearch";
@@ -15,7 +15,9 @@ import { useSelector } from "react-redux";
 import { selectIsDateAndTimeValid } from "../../store/selectors/dateAndTime";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import BookmarkAddedIcon from "@mui/icons-material/BookmarkAdded";
 import "./SideBar.css";
+import MyPlannedTrips from "../../components/MyPlannedTrips/MyPlannedTrips";
 
 const SideBarContainer = () => {
   const { currentStep, stepUp, stepDown } = useStepper();
@@ -24,6 +26,8 @@ const SideBarContainer = () => {
   const [isActivitiesOpen, setIsActivitiesOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(true);
   const isDateAndTimeValid = useSelector(selectIsDateAndTimeValid);
+  const [isPlannedTripOpen, setIsPlannedTripOpen] = useState(false);
+  const { currentUser } = useAuthentication();
 
   const stepper = [
     {
@@ -72,33 +76,53 @@ const SideBarContainer = () => {
     }
   };
 
+  const onOpenSavedTrips = () => {
+    setIsPlannedTripOpen(true);
+  }
+
   return (
     <>
       <SideBar>
         <>
           <Authentication />
-          {stepper[currentStep].component}
-          <div className="container">
-            {currentStep > 0 && (
+          {(currentUser !== null && !isPlannedTripOpen) && <Button
+            className="icon-button saved"
+            onClick={onOpenSavedTrips}
+            endIcon={<BookmarkAddedIcon />}>
+          </Button>}
+
+          {isPlannedTripOpen ?
+            <>
+              <MyPlannedTrips />
               <Button
                 className="icon-button"
-                onClick={previous}
+                onClick={() => setIsPlannedTripOpen(false)}
                 endIcon={<ArrowBackIosIcon />}
               ></Button>
-            )}
-            <div className="spacer" />
-            <Button
-              className="icon-button next"
-              onClick={next}
-              disabled={!isDateAndTimeValid}
-              endIcon={<ArrowForwardIosIcon />}
-            ></Button>
-          </div>
-          <div className="spacer" />
-          <AppStepper
-            labels={stepper.map((step) => step.label)}
-            activeStep={currentStep}
-          />
+            </> : <>
+              {stepper[currentStep].component}
+              <div className="container">
+                {currentStep > 0 && (
+                  <Button
+                    className="icon-button"
+                    onClick={previous}
+                    endIcon={<ArrowBackIosIcon />}
+                  ></Button>
+                )}
+                <div className="spacer" />
+                <Button
+                  className="icon-button next"
+                  onClick={next}
+                  disabled={!isDateAndTimeValid}
+                  endIcon={<ArrowForwardIosIcon />}
+                ></Button>
+              </div>
+              <div className="spacer" />
+              <AppStepper
+                labels={stepper.map((step) => step.label)}
+                activeStep={currentStep}
+              />
+            </>}
           <Logo />
         </>
       </SideBar>
