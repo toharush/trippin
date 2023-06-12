@@ -2,17 +2,18 @@ import CalculatedTripComponent from "../../components/CalculatedTripComponent/Ca
 import Destination from "../../components/Destination/Destination";
 import { useDestinations, useMapDrawer, useTrip } from "../../hooks";
 import ITrip from "../../interfaces/activity/trip";
-import { tripTest } from "./trip";
-
-interface props {
-  
-}
 
 const CalculatedTripContainer = () => {
+  const { trip } = useTrip();
+  
     
 
   return (
-    <CalculatedTripComponent trip={tripTest}></CalculatedTripComponent>
+    <>
+    {trip && 
+      <CalculatedTripComponent trip={trip}></CalculatedTripComponent>
+    }
+    </>
   );
 }
 

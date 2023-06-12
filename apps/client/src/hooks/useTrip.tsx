@@ -1,4 +1,5 @@
-import { useAppDispatch } from "../store";
+import { useSelector } from "react-redux";
+import { selectTrip, useAppDispatch } from "../store";
 import { fetchCreateTripToServer } from "../store/middlewares/trip";
 import useActivities from "./useActivities";
 import useAuthentication from "./useAuthentication";
@@ -8,6 +9,7 @@ import useUserCategoriesPriority from "./useUserCategoriesPriority";
 
 const useTrip = () => {
   const dispatch = useAppDispatch();
+  const trip = useSelector(selectTrip);
   const defaultRadius = 50;
   const { selectedDestination } = useDestinations();
   const { currentUser } = useAuthentication();
@@ -35,9 +37,11 @@ const useTrip = () => {
     );
   };
 
+
   return {
     defaultRadius,
     createTrip,
+    trip
   };
 };
 

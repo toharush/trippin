@@ -26,6 +26,11 @@ const SideBarContainer = () => {
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(true);
   const isDateAndTimeValid = useSelector(selectIsDateAndTimeValid);
 
+  const handleCalculateTrip = () => {
+    createTrip();
+    stepUp();
+  }
+
   const stepper = [
     {
       label: stepperValues[stepperValues.Destination],
@@ -55,7 +60,7 @@ const SideBarContainer = () => {
           {isActivitiesOpen ? (
             <ActivitiesGallery selectedActivities={selectedActivities} />
           ) : null}
-          <Button onClick={createTrip}>Calculate Trip</Button>
+          <Button onClick={handleCalculateTrip}>Calculate Trip</Button>
         </>
       ),
     },

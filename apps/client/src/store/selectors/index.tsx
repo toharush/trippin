@@ -4,3 +4,4 @@ export * from "./global";
 export * from "./authentication";
 export * from "./stepper";
 export * from "./destination";
+export * from "./trip";

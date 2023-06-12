@@ -2,6 +2,7 @@ import { useState } from "react";
 import ITrip from "../../interfaces/activity/trip";
 import { Grid, Pagination, ThemeProvider, createTheme } from "@mui/material";
 import DayRouteComponent from "../DayRouteComponent/DayRouteComponent";
+import "./CalculatedTripComponent.css"
 
 interface props {
   trip: ITrip;
@@ -32,7 +33,7 @@ const CalculatedTripComponent = ({ trip }: props) => {
     <ThemeProvider theme={theme}>
       <div className="nav-container vertical-align">
         <Pagination
-          count={trip.routes.length}
+          count={trip.routes ? trip.routes.length : 5}
           shape="rounded"
           siblingCount={1}
           boundaryCount={2}
@@ -40,7 +41,9 @@ const CalculatedTripComponent = ({ trip }: props) => {
           onChange={(event, index) => handleDayChange(index - 1)}
         ></Pagination>
       </div>
-      <DayRouteComponent dayRoute={trip.routes[activeDayTrip]} />
+      {
+        trip.routes && <DayRouteComponent dayRoute={trip.routes[activeDayTrip]} />
+      }
     </ThemeProvider>
   );
 };
