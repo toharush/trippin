@@ -21,7 +21,7 @@ const stores = createSlice({
     builder.addCase(
       fetchCreateTripToServer.fulfilled,
       (state, action: PayloadAction<any>) => {
-        state.trip = action.payload;
+        state.trip = action.payload.data.data.createTrip;
         state.loading = false;
       }
     );

@@ -1,4 +1,4 @@
-import { Stack } from "@mui/material";
+import { Paper, Stack } from "@mui/material";
 import IDailyRoute from "../../interfaces/activity/dailyRoute";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import OneStopInDayRouteComponent from "../OneStopInDayRouteComponent/OneStopInDayRouteComponent";
@@ -10,14 +10,21 @@ interface props {
 
 const DayRouteComponent = ({ dayRoute }: props) => {
   return (
-    <Stack sx={{ maxWidth: 400, margin: "8%" }} spacing={1}>
+    <Paper
+    style={{
+      height: '600px', // Set the height to occupy the full height
+      overflow: 'auto', // Enable scrolling if the content exceeds the height
+      backgroundColor:'transparent',
+      margin: '8%'
+    }}
+  >
       <LocationOnIcon sx={{ color: "#86eaf0" }}></LocationOnIcon>
       {dayRoute.activities.map((activity) => (
         <OneStopInDayRouteComponent
           activity={activity as ITripActivity}
         ></OneStopInDayRouteComponent>
       ))}
-    </Stack>
+    </Paper>
   );
 };
 
