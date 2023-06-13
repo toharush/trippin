@@ -43,7 +43,7 @@ const useActivities = () => {
       name: activity.activity.title,
       location: [activity.activity.position.lat, activity.activity.position.lng],
       show: true,
-      data: activity.activity.category,
+      data: activity.activity,
     }));
     await addMarkerPointsOfRoute(markerPoints);
   }
