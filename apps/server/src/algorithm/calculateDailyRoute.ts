@@ -88,6 +88,7 @@ export function findBestActivities(
                     activityValue > maxValueOfTimeSlot
                 ) {
                     maxValueOfTimeSlot = activityValue;
+                    activity.travelTime = slotsToMilliseconds(activity.travelAndVisitTime)- slotsToMilliseconds(roundTravelTime(activity.duration * SPLIT_TO_QUARTER));
                     currentCombinationValues[
                         currentTimeSlot
                     ] = maxValueOfTimeSlot;
@@ -332,3 +333,13 @@ function setActivityTimeRange(
 
     return activity;
 }
+
+function slotsToMilliseconds(slots: number): number {
+    const minutesPerSlot = 15;
+    const millisecondsPerMinute = 60 * 1000;
+  
+    const durationMs = slots * minutesPerSlot * millisecondsPerMinute;
+  
+    return durationMs;
+  }
+  

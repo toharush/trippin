@@ -147,6 +147,7 @@ const activityToItripActivity = (activity: Activity): ITripActivity => ({
   activity: activity,
   start_time: activity.startTime!,
   end_time: activity.endTime!,
+  travelTime: activity.travelTime!
 });
 
 const activitiesToItripActivities = (activities: Activity[]): ITripActivity[] =>
