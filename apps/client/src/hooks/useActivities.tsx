@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { Activity, EntityTypes } from "../interfaces";
+import { Activity, EntityTypes, ITripActivity, MarkerPoint } from "../interfaces";
 import {
   fetchAllActivities,
   fetchNewCommentToServer,
@@ -9,7 +9,7 @@ import {
   selectSelectedActivities,
   useAppDispatch,
 } from "../store";
-import {
+import activity, {
   setCatehoryFilter,
   setSelectedActivities,
 } from "../store/slices/activity";
@@ -18,7 +18,7 @@ import useAuthentication from "./useAuthentication";
 
 const useActivities = () => {
   const { currentUser } = useAuthentication();
-  const { addMarkerPoint, removeMarkerPoint, setFlyTo } = useMapDrawer();
+  const { addMarkerPoint, removeMarkerPoint, setFlyTo, addMarkerPointsOfRoute} = useMapDrawer();
   const dispatch = useAppDispatch();
   const commentPending = useSelector(selectIsCommentPending);
 
@@ -34,6 +34,19 @@ const useActivities = () => {
     await removeMarkerPoint(activity.id);
     await dispatch(setSelectedActivities(activity));
   };
+
+  const setActivitiesRouteOnMap = async(activities: ITripActivity[]) => {
+    console.log(JSON.stringify(activities));
+    const markerPoints : MarkerPoint[] = activities.map((activity) => ({
+      id: activity.activity.id,
+      type: EntityTypes.activity,
+      name: activity.activity.title,
+      location: [activity.activity.position.lat, activity.activity.position.lng],
+      show: true,
+      data: activity.activity.category,
+    }));
+    await addMarkerPointsOfRoute(markerPoints);
+  }
 
   const addSelectedActivity = async (activity: Activity) => {
     setFlyTo([activity.position.lat, activity.position.lng], 8);
@@ -80,6 +93,7 @@ const useActivities = () => {
     addComment,
     filters,
     commentPending,
+    setActivitiesRouteOnMap
   };
 };
 

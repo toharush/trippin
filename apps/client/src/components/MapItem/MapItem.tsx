@@ -28,10 +28,10 @@ const MapItem = (props: MarkerPointProps) => {
     switch (markerPoint.type) {
       case EntityTypes.activity: {
         let newIconOptions: IconOptions = icon;
-        if (markerPoint.data.category.name.toLowerCase().includes("bar")) {
+        if (markerPoint.data.name.toLowerCase().includes("bar")) {
           newIconOptions.iconUrl = barPin;
         } else if (
-          markerPoint.data.category.name.toLowerCase().includes("restaurant")
+          markerPoint.data.name.toLowerCase().includes("restaurant")
         ) {
           newIconOptions.iconUrl = restaurantPin;
         }

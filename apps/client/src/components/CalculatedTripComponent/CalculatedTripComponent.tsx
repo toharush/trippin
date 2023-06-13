@@ -1,11 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ITrip from "../../interfaces/activity/trip";
 import { Grid, Pagination, ThemeProvider, createTheme } from "@mui/material";
 import DayRouteComponent from "../DayRouteComponent/DayRouteComponent";
 import "./CalculatedTripComponent.css"
+import { useActivities } from "../../hooks";
+import { Activity, ITripActivity } from "../../interfaces";
 
 interface props {
   trip: ITrip;
+  activeDayTrip: number;
+  setActiveDayTrip: (index:number)=>void;
 }
 
 const theme = createTheme({
@@ -22,8 +26,8 @@ const theme = createTheme({
   },
 });
 
-const CalculatedTripComponent = ({ trip }: props) => {
-  const [activeDayTrip, setActiveDayTrip] = useState(0);
+const CalculatedTripComponent = ({ trip, activeDayTrip, setActiveDayTrip }: props) => {
+
 
   const handleDayChange = (index: number) => {
     setActiveDayTrip(index);
@@ -33,7 +37,7 @@ const CalculatedTripComponent = ({ trip }: props) => {
     <ThemeProvider theme={theme}>
       <div className="nav-container vertical-align">
         <Pagination
-          count={trip.routes ? trip.routes.length : 5}
+          count={trip.routes.length}
           shape="rounded"
           siblingCount={1}
           boundaryCount={2}
