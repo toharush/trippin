@@ -101,12 +101,14 @@ const SideBarContainer = () => {
               ></Button>
             )}
             <div className="spacer" />
+            { currentStep < stepperValues.Activities &&
             <Button
               className="icon-button next"
               onClick={next}
               disabled={!isDateAndTimeValid}
               endIcon={<ArrowForwardIosIcon />}
             ></Button>
+            }
           </div>
           <div className="spacer" />
           <AppStepper
