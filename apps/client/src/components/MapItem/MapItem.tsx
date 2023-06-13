@@ -8,6 +8,7 @@ import Activity from "../Activity/Activity";
 const basicPin = require("./pins/basic.png");
 const restaurantPin = require("./pins/restaurant.png");
 const barPin = require("./pins/bar.png");
+const museumPin = require("./pins/museum.png");
 
 const iconSize: PointTuple = [25, 41];
 const iconAnchor: PointTuple = [12, 41];
@@ -32,6 +33,10 @@ const MapItem = (props: MarkerPointProps) => {
           newIconOptions.iconUrl = barPin;
         } else if (
           markerPoint.name.toLowerCase().includes("restaurant")
+        ) {
+          newIconOptions.iconUrl = restaurantPin;
+        } else if (
+          markerPoint.name.toLowerCase().includes("museums")
         ) {
           newIconOptions.iconUrl = restaurantPin;
         }
