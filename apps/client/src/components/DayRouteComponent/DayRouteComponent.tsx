@@ -13,9 +13,10 @@ const DayRouteComponent = ({ dayRoute }: props) => {
     <Paper
     style={{
       height: '600px', // Set the height to occupy the full height
-      overflow: 'auto', // Enable scrolling if the content exceeds the height
+      overflow: 'scroll', // Enable scrolling if the content exceeds the height
       backgroundColor:'transparent',
-      margin: '8%'
+      margin: '8%',
+      boxShadow: 'none',
     }}
   >
       <LocationOnIcon sx={{ color: "#86eaf0" }}></LocationOnIcon>

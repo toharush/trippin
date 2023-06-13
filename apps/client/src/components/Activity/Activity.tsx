@@ -20,7 +20,7 @@ export default function Activity({
 }: ActivityProps) {
   const [showMore, setShowMore] = useState(false);
   const { addSelectedActivity, removeSelectedActivity } = useActivities();
-  const {currentStep} = useStepper();
+  const { currentStep } = useStepper();
 
   const handleAddSelectedActivity = () => {
     addSelectedActivity(activity);
@@ -59,18 +59,19 @@ export default function Activity({
                 ))}
             </p>
           </div>
-          { currentStep !=  stepperValues.Results && 
-          <button
-            className="bg-main text-white font-bold py-2 px-4 rounded"
-            style={{ marginBottom: "5px" }}
-            onClick={
-              isSelected
-                ? handleRemoveSelectedActivity
-                : handleAddSelectedActivity
-            }
-          >
-            {isSelected ? `Remove` : `Add`}
-          </button>}
+          {currentStep != stepperValues.Results && (
+            <button
+              className="bg-main text-white font-bold py-2 px-4 rounded"
+              style={{ marginBottom: "5px" }}
+              onClick={
+                isSelected
+                  ? handleRemoveSelectedActivity
+                  : handleAddSelectedActivity
+              }
+            >
+              {isSelected ? `Remove` : `Add`}
+            </button>
+          )}
           <button onClick={() => setShowMore(true)}>Show More</button>
         </div>
       </div>
