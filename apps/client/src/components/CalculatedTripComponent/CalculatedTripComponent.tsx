@@ -2,14 +2,15 @@ import { useState, useEffect } from "react";
 import ITrip from "../../interfaces/activity/trip";
 import { Grid, Pagination, ThemeProvider, createTheme } from "@mui/material";
 import DayRouteComponent from "../DayRouteComponent/DayRouteComponent";
-import "./CalculatedTripComponent.css"
-import { useActivities } from "../../hooks";
+import "./CalculatedTripComponent.css";
+import { useActivities, useMapDrawer } from "../../hooks";
 import { Activity, ITripActivity } from "../../interfaces";
+import { calculateCenterPointOfActivity } from "../../utils/cityCenter";
 
 interface props {
   trip: ITrip;
   activeDayTrip: number;
-  setActiveDayTrip: (index:number)=>void;
+  setActiveDayTrip: (index: number) => void;
 }
 
 const theme = createTheme({
@@ -26,10 +27,22 @@ const theme = createTheme({
   },
 });
 
-const CalculatedTripComponent = ({ trip, activeDayTrip, setActiveDayTrip }: props) => {
+const CalculatedTripComponent = ({
+  trip,
+  activeDayTrip,
+  setActiveDayTrip,
+}: props) => {
+  const { setFlyTo } = useMapDrawer();
+  const { setActivitiesRouteOnMap } = useActivities();
 
+  useEffect(() => handleDayChange(0), []);
 
   const handleDayChange = (index: number) => {
+    const cityCenter = calculateCenterPointOfActivity(
+      trip.routes[index].activities
+    );
+    setFlyTo([cityCenter.lat, cityCenter.lng], 10);
+    setActivitiesRouteOnMap(trip.routes[index].activities);
     setActiveDayTrip(index);
   };
 
@@ -43,11 +56,11 @@ const CalculatedTripComponent = ({ trip, activeDayTrip, setActiveDayTrip }: prop
           boundaryCount={2}
           color="primary"
           onChange={(event, index) => handleDayChange(index - 1)}
-        ></Pagination>
+        />
       </div>
-      {
-        trip.routes && <DayRouteComponent dayRoute={trip.routes[activeDayTrip]} />
-      }
+      {trip?.routes && (
+        <DayRouteComponent dayRoute={trip.routes[activeDayTrip]} />
+      )}
     </ThemeProvider>
   );
 };

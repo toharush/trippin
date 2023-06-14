@@ -11,19 +11,17 @@ interface props {
 const DayRouteComponent = ({ dayRoute }: props) => {
   return (
     <Paper
-    style={{
-      height: '600px', // Set the height to occupy the full height
-      overflow: 'scroll', // Enable scrolling if the content exceeds the height
-      backgroundColor:'transparent',
-      margin: '8%',
-      boxShadow: 'none',
-    }}
-  >
-      <LocationOnIcon sx={{ color: "#86eaf0" }}></LocationOnIcon>
+      style={{
+        height: "600px", // Set the height to occupy the full height
+        overflow: "scroll", // Enable scrolling if the content exceeds the height
+        backgroundColor: "transparent",
+        margin: "8%",
+        boxShadow: "none",
+      }}
+    >
+      <LocationOnIcon sx={{ color: "#86eaf0" }} />
       {dayRoute.activities.map((activity) => (
-        <OneStopInDayRouteComponent
-          activity={activity as ITripActivity}
-        ></OneStopInDayRouteComponent>
+        <OneStopInDayRouteComponent activity={activity as ITripActivity} />
       ))}
     </Paper>
   );
