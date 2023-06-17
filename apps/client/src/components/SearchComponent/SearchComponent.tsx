@@ -24,7 +24,7 @@ const Search = (props: props) => {
   }, [props.value]);
 
   return (
-    <form className="group relative mt-3">
+    <div className="group relative mt-3">
       <svg
         width="20"
         height="20"
@@ -47,7 +47,7 @@ const Search = (props: props) => {
         value={currentValue}
         onChange={handleNewSearch}
       />
-    </form>
+    </div>
   );
 };
 export default Search;
