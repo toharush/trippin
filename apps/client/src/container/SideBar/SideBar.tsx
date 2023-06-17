@@ -18,6 +18,7 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import BookmarkAddedIcon from "@mui/icons-material/BookmarkAdded";
 import "./SideBar.css";
 import MyPlannedTrips from "../../components/MyPlannedTrips/MyPlannedTrips";
+import { selectIsDestinationValid } from "../../store";
 
 const SideBarContainer = () => {
   const { currentStep, stepUp, stepDown } = useStepper();
@@ -28,6 +29,7 @@ const SideBarContainer = () => {
   const isDateAndTimeValid = useSelector(selectIsDateAndTimeValid);
   const [isPlannedTripOpen, setIsPlannedTripOpen] = useState(false);
   const { currentUser } = useAuthentication();
+  const isDestinationValid = useSelector(selectIsDestinationValid);
 
   const stepper = [
     {
@@ -113,7 +115,7 @@ const SideBarContainer = () => {
                 <Button
                   className="icon-button next"
                   onClick={next}
-                  disabled={!isDateAndTimeValid}
+                  disabled={!isDateAndTimeValid || !isDestinationValid }
                   endIcon={<ArrowForwardIosIcon />}
                 ></Button>
               </div>
