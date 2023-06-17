@@ -4,12 +4,16 @@ import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import ITrip from '../../interfaces/activity/trip';
+import { useTrip } from '../../hooks';
+import './MyPlannedTrips.css';
 
 interface Props {
     realTrips: ITrip[];
 }
 
 export default function MyPlannedTrips() {
+
+    // const { trips , SetSelectedTrip, ResetSelectedTrip } = useTrip();
 
     const formatTripDisplayName = (destination: string, days: number): string =>
         (`${days} days in ${destination}`);
@@ -47,39 +51,41 @@ export default function MyPlannedTrips() {
     const orderedTrips = orderByCreationDate(mappedTripsWithDisplayName);
 
     return (
-        <ImageList sx={{ cols:2, gap:2 }}>
-            {orderedTrips.map((trip: PlannedTrip) => (
-                <ImageListItem key={trip.id}>
-                    <img
-                        src={`${trip.name.toLowerCase()}.png?w=30&h=45&fit=crop&auto=format`}
-                        srcSet={`${trip.name.toLocaleLowerCase}.png?w=45&h=45&fit=crop&auto=format&dpr=2 2x`}
-                        // alt={trip.title}
-                        loading="lazy"
-                    />
-                    <ImageListItemBar
-                        sx={{
-                            background:
-                                'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
-                                'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
-                        }}
-                        title={trip.displayName}
-                        position="top"
-                        actionIcon={
-                            <IconButton
-                                sx={{ color: 'white' }}
-                                aria-label={`delete ${trip.name}`}
-                                onClick={() => {
-                                    //deleteTrip
-                                 }}
-                            >
-                                <DeleteOutlineIcon />
-                            </IconButton>
-                        }
-                        actionPosition="right"
-                    />
-                </ImageListItem>
-            ))}
-        </ImageList>
+        <div className="my-planned-trips">
+            <ImageList sx={{ cols: 2, gap: 3, rowHeight: 'auto' }}>
+                {orderedTrips.map((trip: PlannedTrip) => (
+                    <ImageListItem key={trip.id}>
+                        <img
+                            src={`/cities/${trip.name.toLowerCase()}.png?w=45&h=45&fit=crop&auto=format`}
+                            // alt={trip.title}
+                            loading="lazy"
+                        />
+                        <ImageListItemBar
+                            sx={{
+                                background:
+                                    'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
+                                    'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
+                                fontSize: '1.5rem',
+                            }}
+                            title={<span className="image-list-item-bar-title">{trip.displayName}</span>}
+                            position="top"
+                            actionIcon={
+                                <IconButton
+                                    sx={{ color: 'white' }}
+                                    aria-label={`delete ${trip.name}`}
+                                    onClick={() => {
+                                        //deleteTrip
+                                    }}
+                                >
+                                    <DeleteOutlineIcon />
+                                </IconButton>
+                            }
+                            actionPosition="right"
+                        />
+                    </ImageListItem>
+                ))}
+            </ImageList>
+        </div>
     );
 }
 
@@ -99,7 +105,6 @@ const trips: Partial<ITrip>[] = [
         creationDate: new Date(),
         startDate: new Date("2023-10-10"),
         endDate: new Date("2023-10-20"),
-        // destination: "London",
     },
     {
         id: 2,
@@ -107,29 +112,88 @@ const trips: Partial<ITrip>[] = [
         creationDate: new Date(),
         startDate: new Date("2023-08-18"),
         endDate: new Date("2023-08-23"),
-        // destination: "Leeds",
     },
     {
-        id: 1,
+        id: 3,
         name: "Manchester",
         creationDate: new Date(),
         startDate: new Date("2023-11-04"),
         endDate: new Date("2023-11-16"),
-        // destination: "Manchester",
     },
     {
-        id: 1,
+        id: 4,
         name: "Liverpool",
         creationDate: new Date(),
         startDate: new Date("2023-11-21"),
         endDate: new Date("2023-12-15"),
-        // destination: "Liverpool",
     },
     {
-        id: 1,
+        id: 5,
         name: "Glasgow",
         creationDate: new Date(),
         startDate: new Date("2023-07-09"),
         endDate: new Date("2023-07-13"),
-        // destination: "Glasgow",
+    },
+    {
+        id: 6,
+        name: "Bristol",
+        creationDate: new Date(),
+        startDate: new Date("2023-07-09"),
+        endDate: new Date("2023-07-13"),
+    },
+    {
+        id: 7,
+        name: "Cambridge",
+        creationDate: new Date(),
+        startDate: new Date("2023-07-09"),
+        endDate: new Date("2023-07-13"),
+    },
+    {
+        id: 8,
+        name: "City of London",
+        creationDate: new Date(),
+        startDate: new Date("2023-07-09"),
+        endDate: new Date("2023-07-13"),
+    },
+    {
+        id: 9,
+        name: "Lancaster",
+        creationDate: new Date(),
+        startDate: new Date("2023-07-09"),
+        endDate: new Date("2023-07-13"),
+    },
+    {
+        id: 10,
+        name: "Leicester",
+        creationDate: new Date(),
+        startDate: new Date("2023-07-09"),
+        endDate: new Date("2023-07-13"),
+    },
+    {
+        id: 11,
+        name: "Nottigham",
+        creationDate: new Date(),
+        startDate: new Date("2023-07-09"),
+        endDate: new Date("2023-07-13"),
+    },
+    {
+        id: 12,
+        name: "Oxford",
+        creationDate: new Date(),
+        startDate: new Date("2023-07-09"),
+        endDate: new Date("2023-07-13"),
+    },
+    {
+        id: 13,
+        name: "Wells",
+        creationDate: new Date(),
+        startDate: new Date("2023-07-09"),
+        endDate: new Date("2023-07-13"),
+    },
+    {
+        id: 14,
+        name: "York",
+        creationDate: new Date(),
+        startDate: new Date("2023-07-09"),
+        endDate: new Date("2023-07-13"),
     }];

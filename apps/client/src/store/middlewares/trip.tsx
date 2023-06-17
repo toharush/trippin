@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchCreateTrip } from "../../services";
+import { fetchAllTripsByUserId, fetchCreateTrip } from "../../services";
 import ICoordinate from "../../interfaces/activity/coordinate";
 import IClientCategory from "../../interfaces/activity/clientCategory";
 import { Activity } from "../../interfaces";
@@ -32,3 +32,14 @@ export const fetchCreateTripToServer = createAsyncThunk(
     );
   }
 );
+
+export const getAllTripsByUserId = createAsyncThunk(
+  "trips/fetchByUserId",
+  async (props: { user_id: string | null }) => {
+    return await fetchAllTripsByUserId(props.user_id);
+  }
+);
+
+
+
+

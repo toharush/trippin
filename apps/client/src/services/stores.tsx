@@ -1,6 +1,7 @@
 import { Activity } from "../interfaces";
 import IClientCategory from "../interfaces/activity/clientCategory";
 import ICoordinate from "../interfaces/activity/coordinate";
+import ITrip from "../interfaces/activity/trip";
 import IComment from "../interfaces/comment/comment";
 import fetchGql from "../lib/axios";
 
@@ -162,9 +163,50 @@ const getAllActivities = async () => {
   ).data.data.places as Activity[];
 };
 
+const fetchAllTripsByUserId = async (user_id: string | null) => {
+  return (
+    await fetchGql(`
+  {
+    tripsByUserId(user_id: "${user_id}") {
+      id
+      name
+      routes {
+        index
+        date
+        activities {
+          start_time
+          end_time
+          activity {
+            id
+            title
+            type
+            close_hour
+            open_hour
+            category {
+              name
+            }
+            google {
+              spend
+              rate
+              image_url
+            }
+            position {
+              lat
+              lng
+            }
+          }
+        }
+      }
+    }
+  }
+  `)
+  ).data.data.tripsByUserId as ITrip[];
+}
+
 export {
   getAllActivities,
   fetchNewComment,
   getCommentsByPlaceId,
   fetchCreateTrip,
+  fetchAllTripsByUserId,
 };

@@ -12,10 +12,10 @@ const useDestinations = () => {
   const { activities } = useActivities();
   const selectedDestination = useSelector(selectDestination);
 
-  const setSelectedDestination = (name: string) => {
+ const setSelectedDestination = (name: string) => {
     dispatch(setDestination({ name: name, cityCenter: getCityCenter(name) }));
   }
-
+  
   const LocationBy = groupBy(
     map(activities, (activity) => ({
       name: activity.address.city,

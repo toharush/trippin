@@ -6,6 +6,7 @@ import dateAndTime from "./dateAndTime";
 import userCategoriesPriority from "./userCategoriesPriority";
 import stepper from "./stepper";
 import destination from "./destination";
+import trip from "./trip";
 
 const rootReducer = combineReducers({
   activity: activity,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   userCategoriesPriority: userCategoriesPriority,
   stepper: stepper,
   destination: destination,
+  trip: trip,
 });
 
 export default rootReducer;
