@@ -1,15 +1,21 @@
 import { useState, useEffect } from "react";
 import ITrip from "../../interfaces/activity/trip";
-import { Grid, Pagination, ThemeProvider, createTheme } from "@mui/material";
+import {
+  Button,
+  Grid,
+  Pagination,
+  ThemeProvider,
+  createTheme,
+} from "@mui/material";
 import DayRouteComponent from "../DayRouteComponent/DayRouteComponent";
-import "./CalculatedTripComponent.css"
+import "./CalculatedTripComponent.css";
 import { useActivities } from "../../hooks";
 import { Activity, ITripActivity } from "../../interfaces";
 
 interface props {
   trip: ITrip;
   activeDayTrip: number;
-  setActiveDayTrip: (index:number)=>void;
+  setActiveDayTrip: (index: number) => void;
 }
 
 const theme = createTheme({
@@ -21,14 +27,16 @@ const theme = createTheme({
       hover: "rgba(0, 0, 0, .2)", // Custom color for hover state
     },
     text: {
-      primary: "white",
+      primary: "#FFFFFF",
     },
   },
 });
 
-const CalculatedTripComponent = ({ trip, activeDayTrip, setActiveDayTrip }: props) => {
-
-
+const CalculatedTripComponent = ({
+  trip,
+  activeDayTrip,
+  setActiveDayTrip,
+}: props) => {
   const handleDayChange = (index: number) => {
     setActiveDayTrip(index);
   };
@@ -45,9 +53,21 @@ const CalculatedTripComponent = ({ trip, activeDayTrip, setActiveDayTrip }: prop
           onChange={(event, index) => handleDayChange(index - 1)}
         ></Pagination>
       </div>
-      {
-        trip.routes && <DayRouteComponent dayRoute={trip.routes[activeDayTrip]} />
-      }
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          paddingRight: "8%",
+          paddingTop: "5%",
+        }}
+      >
+        <Button variant="outlined" color="primary">
+          Edit
+        </Button>
+      </div>
+      {trip.routes && (
+        <DayRouteComponent dayRoute={trip.routes[activeDayTrip]} />
+      )}
     </ThemeProvider>
   );
 };
