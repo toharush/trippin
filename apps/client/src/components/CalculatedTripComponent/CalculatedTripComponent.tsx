@@ -63,19 +63,16 @@ const CalculatedTripComponent = ({
           onChange={(event, index) => handleDayChange(index - 1)}
         />
       </div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "flex-end",
-          paddingRight: "8%",
-          paddingTop: "5%",
-          height:"60px"
-        }}
-      >
-        <Button variant="outlined" color="primary">
-          Edit
-        </Button>
-      </div>
+      <Grid container spacing={2} alignItems="center" justifyContent="space-between" >
+        <Grid item sx={{ margin:'4%', color:"white", fontSize:"large" }}>
+          <h1>{trip.name}</h1>
+        </Grid>
+        <Grid item sx={{marginRight:'4%'}}>
+          <Button variant="outlined" color="primary">
+            Edit
+          </Button>
+        </Grid>
+      </Grid>
       {trip.routes && (
         <DayRouteComponent dayRoute={trip.routes[activeDayTrip]} />
       )}

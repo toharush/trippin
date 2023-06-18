@@ -22,7 +22,7 @@ const DayRouteComponent = ({ dayRoute }: props) => {
     <Paper
       ref={paperRef}
       style={{
-        height: "580px", 
+        height: "58vh", 
         overflow: "scroll", 
         backgroundColor: "transparent",
         marginLeft: "8%",
