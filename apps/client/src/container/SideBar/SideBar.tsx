@@ -16,6 +16,7 @@ import { selectIsDateAndTimeValid } from "../../store/selectors/dateAndTime";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import "./SideBar.css";
+import CalculatedTripContainer from "../CalculatedTripPage/CalculatedTripPage";
 
 const SideBarContainer = () => {
   const { currentStep, stepUp, stepDown } = useStepper();
@@ -24,6 +25,11 @@ const SideBarContainer = () => {
   const [isActivitiesOpen, setIsActivitiesOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(true);
   const isDateAndTimeValid = useSelector(selectIsDateAndTimeValid);
+
+  const handleCalculateTrip = () => {
+    createTrip();
+    stepUp();
+  }
 
   const stepper = [
     {
@@ -54,7 +60,15 @@ const SideBarContainer = () => {
           {isActivitiesOpen ? (
             <ActivitiesGallery selectedActivities={selectedActivities} />
           ) : null}
-          <Button onClick={createTrip}>Calculate Trip</Button>
+          <Button onClick={handleCalculateTrip}>Calculate Trip</Button>
+        </>
+      ),
+    },
+    {
+      label: stepperValues[stepperValues.Results],
+      component: (
+        <>
+          <CalculatedTripContainer></CalculatedTripContainer>
         </>
       ),
     },
@@ -87,12 +101,14 @@ const SideBarContainer = () => {
               ></Button>
             )}
             <div className="spacer" />
+            { currentStep < stepperValues.Activities &&
             <Button
               className="icon-button next"
               onClick={next}
               disabled={!isDateAndTimeValid}
               endIcon={<ArrowForwardIosIcon />}
             ></Button>
+            }
           </div>
           <div className="spacer" />
           <AppStepper

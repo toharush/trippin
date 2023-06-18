@@ -2,9 +2,10 @@ import { Activity as activity } from "../../interfaces/activity/activity";
 import "./Activity.css";
 import { Rating } from "@mui/material";
 import { useState } from "react";
-import { useActivities } from "../../hooks";
+import { useActivities, useStepper } from "../../hooks";
 import MissingPlaceImage from "../MissingPlaceImage/MissingPlaceImage";
 import FullScreenActivity from "../FullScreenActivity/FullScreenActivity";
+import { stepperValues } from "../../interfaces";
 
 interface ActivityProps {
   activity: activity;
@@ -19,6 +20,7 @@ export default function Activity({
 }: ActivityProps) {
   const [showMore, setShowMore] = useState(false);
   const { addSelectedActivity, removeSelectedActivity } = useActivities();
+  const { currentStep } = useStepper();
 
   const handleAddSelectedActivity = () => {
     addSelectedActivity(activity);
@@ -57,17 +59,19 @@ export default function Activity({
                 ))}
             </p>
           </div>
-          <button
-            className="bg-main text-white font-bold py-2 px-4 rounded"
-            style={{ marginBottom: "5px" }}
-            onClick={
-              isSelected
-                ? handleRemoveSelectedActivity
-                : handleAddSelectedActivity
-            }
-          >
-            {isSelected ? `Remove` : `Add`}
-          </button>
+          {currentStep != stepperValues.Results && (
+            <button
+              className="bg-main text-white font-bold py-2 px-4 rounded"
+              style={{ marginBottom: "5px" }}
+              onClick={
+                isSelected
+                  ? handleRemoveSelectedActivity
+                  : handleAddSelectedActivity
+              }
+            >
+              {isSelected ? `Remove` : `Add`}
+            </button>
+          )}
           <button onClick={() => setShowMore(true)}>Show More</button>
         </div>
       </div>

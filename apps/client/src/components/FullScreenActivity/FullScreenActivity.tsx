@@ -8,10 +8,10 @@ import {
   Typography,
 } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import { Activity } from "../../interfaces";
+import { Activity, stepperValues } from "../../interfaces";
 import Comment from "../Comment/Comment";
 import MissingPlaceImage from "../MissingPlaceImage/MissingPlaceImage";
-import { useActivities, useAuthentication } from "../../hooks";
+import { useActivities, useAuthentication, useStepper } from "../../hooks";
 import { useTransition, useRef, useEffect, useState } from "react";
 import NewComment from "../Comment/NewComment";
 import { getCommentsByPlaceId } from "../../services";
@@ -37,6 +37,7 @@ const FullScreenActivity = (props: FullScreenActivityProps) => {
   } = useActivities();
 
   const { currentUser } = useAuthentication();
+  const { currentStep } = useStepper();
 
   useEffect(() => {
     fetchComments();
@@ -111,16 +112,18 @@ const FullScreenActivity = (props: FullScreenActivityProps) => {
                   ))}
               </Stack>
             </div>
-            <button
-              className="bg-main text-white font-bold py-2 px-4 rounded"
-              onClick={
-                isSelected
-                  ? handleRemoveSelectedActivity
-                  : handleAddSelectedActivity
-              }
-            >
-              {isSelected ? `Remove` : `Add`}
-            </button>
+            {currentStep != stepperValues.Results && (
+              <button
+                className="bg-main text-white font-bold py-2 px-4 rounded"
+                onClick={
+                  isSelected
+                    ? handleRemoveSelectedActivity
+                    : handleAddSelectedActivity
+                }
+              >
+                {isSelected ? `Remove` : `Add`}
+              </button>
+            )}
           </div>
         </div>
 

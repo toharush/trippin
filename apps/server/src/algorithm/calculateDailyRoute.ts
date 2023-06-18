@@ -369,3 +369,4 @@ function getCategoryDiversityFactor(
     }
     return 1;
 }
+

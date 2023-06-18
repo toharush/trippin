@@ -1,0 +1,10 @@
+.vertical-line {
+    border-left: 1px solid #ffffff;
+    height: 30px;
+    margin-left: 2.125%;
+  }
+
+  .icon-details {
+    color: white;
+    margin-left: 10px;
+  }
