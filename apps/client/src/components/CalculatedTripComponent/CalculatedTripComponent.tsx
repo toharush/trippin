@@ -69,6 +69,7 @@ const CalculatedTripComponent = ({
           justifyContent: "flex-end",
           paddingRight: "8%",
           paddingTop: "5%",
+          height:"60px"
         }}
       >
         <Button variant="outlined" color="primary">
