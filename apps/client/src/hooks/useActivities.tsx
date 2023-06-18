@@ -1,5 +1,10 @@
 import { useSelector } from "react-redux";
-import { Activity, EntityTypes, ITripActivity, MarkerPoint } from "../interfaces";
+import {
+  Activity,
+  EntityTypes,
+  ITripActivity,
+  MarkerPoint,
+} from "../interfaces";
 import {
   fetchAllActivities,
   fetchNewCommentToServer,
@@ -18,7 +23,12 @@ import useAuthentication from "./useAuthentication";
 
 const useActivities = () => {
   const { currentUser } = useAuthentication();
-  const { addMarkerPoint, removeMarkerPoint, setFlyTo, addMarkerPointsOfRoute} = useMapDrawer();
+  const {
+    addMarkerPoint,
+    removeMarkerPoint,
+    setFlyTo,
+    addMarkerPointsOfRoute,
+  } = useMapDrawer();
   const dispatch = useAppDispatch();
   const commentPending = useSelector(selectIsCommentPending);
 
@@ -35,18 +45,25 @@ const useActivities = () => {
     await dispatch(setSelectedActivities(activity));
   };
 
-  const setActivitiesRouteOnMap = async(activities: ITripActivity[]) => {
+  const setActivitiesRouteOnMap = async (
+    activities: (Activity | ITripActivity)[]
+  ) => {
     console.log(JSON.stringify(activities));
-    const markerPoints : MarkerPoint[] = activities.map((activity) => ({
-      id: activity.activity.id,
-      type: EntityTypes.activity,
-      name: activity.activity.title,
-      location: [activity.activity.position.lat, activity.activity.position.lng],
-      show: true,
-      data: activity.activity,
-    }));
+    const markerPoints: MarkerPoint[] = activities.map((activity) => {
+      if ("activity" in activity) {
+        activity = activity.activity;
+      }
+      return {
+        id: activity.id,
+        type: EntityTypes.activity,
+        name: activity.title,
+        location: [activity.position.lat, activity.position.lng],
+        show: true,
+        data: activity,
+      };
+    });
     await addMarkerPointsOfRoute(markerPoints);
-  }
+  };
 
   const addSelectedActivity = async (activity: Activity) => {
     setFlyTo([activity.position.lat, activity.position.lng], 8);
@@ -93,7 +110,7 @@ const useActivities = () => {
     addComment,
     filters,
     commentPending,
-    setActivitiesRouteOnMap
+    setActivitiesRouteOnMap,
   };
 };
 

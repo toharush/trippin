@@ -9,8 +9,8 @@ import {
 } from "@mui/material";
 import DayRouteComponent from "../DayRouteComponent/DayRouteComponent";
 import "./CalculatedTripComponent.css";
-import { useActivities } from "../../hooks";
-import { Activity, ITripActivity } from "../../interfaces";
+import { useActivities, useMapDrawer } from "../../hooks";
+import { calculateCenterPointOfActivity } from "../../utils/cityCenter";
 
 interface props {
   trip: ITrip;
@@ -37,7 +37,17 @@ const CalculatedTripComponent = ({
   activeDayTrip,
   setActiveDayTrip,
 }: props) => {
+  const { setFlyTo } = useMapDrawer();
+  const { setActivitiesRouteOnMap } = useActivities();
+
+  useEffect(() => handleDayChange(0), []);
+
   const handleDayChange = (index: number) => {
+    const cityCenter = calculateCenterPointOfActivity(
+      trip.routes[index].activities
+    );
+    setFlyTo([cityCenter.lat, cityCenter.lng], 10);
+    setActivitiesRouteOnMap(trip.routes[index].activities);
     setActiveDayTrip(index);
   };
 
@@ -51,7 +61,7 @@ const CalculatedTripComponent = ({
           boundaryCount={2}
           color="primary"
           onChange={(event, index) => handleDayChange(index - 1)}
-        ></Pagination>
+        />
       </div>
       <div
         style={{
