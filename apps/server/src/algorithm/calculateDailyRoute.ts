@@ -7,7 +7,7 @@ import {
     MINIMAL_TRAVEL_TIME_SLOT,
     SPLIT_TO_QUARTER,
 } from '../constants/algorithm';
-import { calculateDistance } from '../controllers/mapCalculation';
+import { calculateDistance } from '../controllers/mapCalc';
 import { clientCategories } from '../enums/clientCategory';
 
 export function findBestActivities(
