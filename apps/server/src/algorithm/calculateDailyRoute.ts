@@ -80,8 +80,12 @@ export function findBestActivities(
                     ? activity.rate / (distance + 1)
                     : AVERAGE_RATE / (distance + 1);
 
-                const categoryDiversityFactor = getCategoryDiversityFactor(selectedActivitiesCombinations[activitiesCombinationIndex], activity.category.name);
-                const weightedActivityValue = activityValue * categoryDiversityFactor;
+                const categoryDiversityFactor = getCategoryDiversityFactor(
+                    selectedActivitiesCombinations[activitiesCombinationIndex],
+                    activity.category.name
+                );
+                const weightedActivityValue =
+                    activityValue * categoryDiversityFactor;
                 if (
                     isActivityOpenNow(
                         activity,
@@ -337,23 +341,31 @@ function setActivityTimeRange(
     return activity;
 }
 
-function getCategoryDiversityFactor(selectedActivities: (Activity | null)[], category: string): number {
+function getCategoryDiversityFactor(
+    selectedActivities: (Activity | null)[],
+    category: string
+): number {
     const categoryCounts = new Map<string, number>();
 
-    for (const activity of selectedActivities) {
-        if (activity !== null) {
-            const categoryName = activity.category.name;
-            categoryCounts.set(categoryName, (categoryCounts.get(categoryName) || 0) + 1);
+    if (selectedActivities) {
+        for (const activity of selectedActivities) {
+            if (activity !== null) {
+                const categoryName = activity.category.name;
+                categoryCounts.set(
+                    categoryName,
+                    (categoryCounts.get(categoryName) || 0) + 1
+                );
+            }
         }
+
+        const categoryCount = categoryCounts.get(category) || 0;
+        const diversityFactor =
+            categoryCount > 0
+                ? category === clientCategories.Resturants
+                    ? 1 / (2 * categoryCount)
+                    : 1 / categoryCount
+                : 1;
+        return diversityFactor;
     }
-
-    const categoryCount = categoryCounts.get(category) || 0;
-    const diversityFactor = categoryCount > 0 ? (category===clientCategories.Resturants ? 1 / (2 * categoryCount) : (1 / categoryCount )): 1;
-    
-
-    return diversityFactor;
+    return 1;
 }
-
-
-
-
