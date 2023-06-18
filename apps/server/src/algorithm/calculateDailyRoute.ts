@@ -7,7 +7,8 @@ import {
     MINIMAL_TRAVEL_TIME_SLOT,
     SPLIT_TO_QUARTER,
 } from '../constants/algorithm';
-import { calculateDistance } from '../controllers/mapCalculation';
+import { calculateDistance } from '../controllers/MapCalculation';
+import { clientCategories } from '../enums/clientCategory';
 
 export function findBestActivities(
     activities: Activity[],
@@ -78,6 +79,13 @@ export function findBestActivities(
                 const activityValue = activity.rate
                     ? activity.rate / (distance + 1)
                     : AVERAGE_RATE / (distance + 1);
+
+                const categoryDiversityFactor = getCategoryDiversityFactor(
+                    selectedActivitiesCombinations[activitiesCombinationIndex],
+                    activity.category.name
+                );
+                const weightedActivityValue =
+                    activityValue * categoryDiversityFactor;
                 if (
                     isActivityOpenNow(
                         activity,
@@ -85,9 +93,9 @@ export function findBestActivities(
                         startHour,
                         endHour
                     ) &&
-                    activityValue > maxValueOfTimeSlot
+                    weightedActivityValue > maxValueOfTimeSlot
                 ) {
-                    maxValueOfTimeSlot = activityValue;
+                    maxValueOfTimeSlot = weightedActivityValue;
                     currentCombinationValues[
                         currentTimeSlot
                     ] = maxValueOfTimeSlot;
@@ -331,4 +339,33 @@ function setActivityTimeRange(
     );
 
     return activity;
+}
+
+function getCategoryDiversityFactor(
+    selectedActivities: (Activity | null)[],
+    category: string
+): number {
+    const categoryCounts = new Map<string, number>();
+
+    if (selectedActivities) {
+        for (const activity of selectedActivities) {
+            if (activity !== null) {
+                const categoryName = activity.category.name;
+                categoryCounts.set(
+                    categoryName,
+                    (categoryCounts.get(categoryName) || 0) + 1
+                );
+            }
+        }
+
+        const categoryCount = categoryCounts.get(category) || 0;
+        const diversityFactor =
+            categoryCount > 0
+                ? category === clientCategories.Resturants
+                    ? 1 / (2 * categoryCount)
+                    : 1 / categoryCount
+                : 1;
+        return diversityFactor;
+    }
+    return 1;
 }
