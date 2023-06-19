@@ -20,7 +20,7 @@ import CalculatedTripContainer from "../CalculatedTripPage/CalculatedTripPage";
 
 const SideBarContainer = () => {
   const { currentStep, stepUp, stepDown } = useStepper();
-  const { selectedActivities } = useActivities();
+  const { selectedActivities, removeAllSelectedActivity } = useActivities();
   const { createTrip } = useTrip();
   const [isActivitiesOpen, setIsActivitiesOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(true);
@@ -29,7 +29,7 @@ const SideBarContainer = () => {
   const handleCalculateTrip = () => {
     createTrip();
     stepUp();
-  }
+  };
 
   const stepper = [
     {
@@ -103,14 +103,14 @@ const SideBarContainer = () => {
               ></Button>
             )}
             <div className="spacer" />
-            { currentStep < stepperValues.Activities &&
-            <Button
-              className="icon-button next"
-              onClick={next}
-              disabled={!isDateAndTimeValid}
-              endIcon={<ArrowForwardIosIcon />}
-            ></Button>
-            }
+            {currentStep < stepperValues.Activities && (
+              <Button
+                className="icon-button next"
+                onClick={next}
+                disabled={!isDateAndTimeValid}
+                endIcon={<ArrowForwardIosIcon />}
+              ></Button>
+            )}
           </div>
           <div className="spacer" />
           <AppStepper

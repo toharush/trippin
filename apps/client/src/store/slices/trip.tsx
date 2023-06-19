@@ -18,19 +18,19 @@ const stores = createSlice({
   initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(
-      fetchCreateTripToServer.fulfilled,
-      (state, action: PayloadAction<any>) => {
-        state.trip = action.payload.data.data.createTrip;
-        state.loading = false;
-      }
-    );
-    builder.addCase(fetchCreateTripToServer.pending, (state, action) => {
-      state.loading = true;
-    });
-    builder.addCase(fetchCreateTripToServer.rejected, (state, action) => {
-      state.loading = false;
-    });
+    builder.addCase(fetchCreateTripToServer.fulfilled, (state, action) => ({
+      ...state,
+      trip: action.payload.data.data.createTrip,
+      loading: false,
+    }));
+    builder.addCase(fetchCreateTripToServer.pending, (state, action) => ({
+      ...state,
+      loading: true,
+    }));
+    builder.addCase(fetchCreateTripToServer.rejected, (state, action) => ({
+      ...state,
+      loading: false,
+    }));
   },
 });
 
