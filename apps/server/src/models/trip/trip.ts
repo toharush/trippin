@@ -9,9 +9,9 @@ export const Trip = new GraphQLObjectType({
     id: { type: GraphQLInt },
     name: { type: GraphQLString },
     routes: { type: GraphQLList(DailyRoute) },
-    creationDate: { type: GraphQLFloat },
-    startDate: { type: GraphQLFloat },
-    endDate: { type: GraphQLFloat },
+    creation_date: { type: GraphQLFloat },
+    start_date: { type: GraphQLFloat },
+    end_date: { type: GraphQLFloat },
   }),
 });
 

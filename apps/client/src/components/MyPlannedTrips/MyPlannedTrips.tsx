@@ -6,66 +6,111 @@ import ImageListItemBar from '@mui/material/ImageListItemBar';
 import ITrip from '../../interfaces/activity/trip';
 import { useTrip } from '../../hooks';
 import './MyPlannedTrips.css';
+import CityImagesResourceService from './CityImagesResourceService';
+import { useEffect, useState } from 'react';
+import { setSelectedTrip } from '../../store/slices/trip';
 
-interface Props {
-    realTrips: ITrip[];
-}
 
 export default function MyPlannedTrips() {
 
-    // const { trips , SetSelectedTrip, ResetSelectedTrip } = useTrip();
+    const { trips, SetSelectedTrip, ResetSelectedTrip, deleteTripById } = useTrip();
+    const [mappedTripsWithDisplayName, setMappedTripsWithDisplayName] = useState<PlannedTrip[]>([]);
+    const [orderedTrips, setOrderedTrips] = useState<PlannedTrip[]>([]);
 
     const formatTripDisplayName = (destination: string, days: number): string =>
-        (`${days} days in ${destination}`);
+        (`${days} Days In ${destination}`);
 
-    const calculateDays = (startDate: Date, endDate: Date): number =>
-        Math.floor((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
+    const calculateDaysInclusive = (startDate: Date, endDate: Date): number => {
+        const start = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
+        const end = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
+        const millisecondsPerDay = 24 * 60 * 60 * 1000; // Number of milliseconds in a day
+      
+        const days = Math.round(Math.abs((end.getTime() - start.getTime()) / millisecondsPerDay)) + 1;
+        return days;
+      };
 
     const orderByCreationDate = (trips: PlannedTrip[]): PlannedTrip[] => {
-        return trips.sort((a, b) => {
-            if (a.creationDate && b.creationDate) {
-                return b.creationDate.getTime() - a.creationDate.getTime();
+        return trips?.sort((a, b) => {
+            if (a.creation_date && b.creation_date) {
+                return new Date(b.creation_date).getTime() - new Date(a.creation_date).getTime();
             }
             return 0;
         });
     };
 
-    const mapTripsToPlannedTrips = (trips: Partial<ITrip>[]): PlannedTrip[] => {
-        return trips.map((trip) => {
-            let days = calculateDays(trip.startDate!, trip.endDate!);
-            let displayName = formatTripDisplayName(trip.name!, days);
-            return {
-                id: trip.id!,
-                name: trip.name!,
-                creationDate: trip.creationDate!,
-                startDate: trip.startDate!,
-                endDate: trip.endDate!,
-                displayName: displayName
-            }
+    const mapTripsToPlannedTrips = async (trips: ITrip[] | null): Promise<PlannedTrip[]> => {
+        if (!trips) return [];
+
+        const plannedTrips: PlannedTrip[] = [];
+
+        for (const trip of trips) {
+            const days = calculateDaysInclusive(new Date(trip.start_date), new Date(trip.end_date));
+            const displayName = formatTripDisplayName(trip.name!, days);
+            const image = await fetchCityImage(trip.name!); // Fetch the city image
+
+            const plannedTrip: PlannedTrip = {
+                ...trip,
+                displayName: displayName,
+                image: image, // Include the image URL in the trip object
+            };
+
+            plannedTrips.push(plannedTrip);
         }
-        )
+
+        return plannedTrips;
     };
 
+    const fetchCityImage = async (city: string) => {
+        try {
+            const response = await CityImagesResourceService.getCityImages(city);
+            const image = response?.results[0]?.urls?.regular;
+            return image || '/cities/default.png'; // Return the image URL or an empty string if not found
+        } catch (error) {
+            console.error('Error fetching city image:', error);
+            return '/cities/default.png'; // Return an empty string on error
+        }
+    };
 
-    const mappedTripsWithDisplayName = mapTripsToPlannedTrips(trips);
-    const orderedTrips = orderByCreationDate(mappedTripsWithDisplayName);
+    useEffect(() => {
+        (async () => {
+            const mappedTrips = await mapTripsToPlannedTrips(trips);
+            setMappedTripsWithDisplayName(mappedTrips);
+        })();
+    }, [trips]);
+
+    useEffect(() => {
+        (async () => {
+            const orderedTrips = orderByCreationDate(mappedTripsWithDisplayName);
+            setOrderedTrips(orderedTrips);
+            setSelectedTrip(orderedTrips[0]);
+        })();
+    }, [mappedTripsWithDisplayName]);
 
     return (
         <div className="my-planned-trips">
-            <ImageList sx={{ cols: 2, gap: 3, rowHeight: 'auto' }}>
+            <div className="my-planned-trips-header">
+                My Planned Trips
+            </div>
+            <ImageList sx={{ maxHeight: '70vh' }} cols={2} gap={10} rowHeight={'auto'}>
                 {orderedTrips.map((trip: PlannedTrip) => (
                     <ImageListItem key={trip.id}>
                         <img
-                            src={`/cities/${trip.name.toLowerCase()}.png?w=45&h=45&fit=crop&auto=format`}
-                            // alt={trip.title}
+                            src={trip.image}
+                            alt={trip.name}
                             loading="lazy"
+                            style={{ objectFit: 'cover', width: '15vw', height: 'auto', aspectRatio: '1/1', borderRadius: '10px' }}
+                            onClick={() => {
+                                SetSelectedTrip(trip);
+                            }}
                         />
                         <ImageListItemBar
                             sx={{
+                                borderRadius: '10px',
                                 background:
                                     'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
-                                    'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
+                                    'rgba(0,0,0,0.5) 70%, rgba(0,0,0,0) 100%)',
                                 fontSize: '1.5rem',
+                                width: '15vw',
                             }}
                             title={<span className="image-list-item-bar-title">{trip.displayName}</span>}
                             position="top"
@@ -74,7 +119,7 @@ export default function MyPlannedTrips() {
                                     sx={{ color: 'white' }}
                                     aria-label={`delete ${trip.name}`}
                                     onClick={() => {
-                                        //deleteTrip
+                                        deleteTripById(trip.id)
                                     }}
                                 >
                                     <DeleteOutlineIcon />
@@ -86,114 +131,11 @@ export default function MyPlannedTrips() {
                 ))}
             </ImageList>
         </div>
+
     );
 }
 
-export interface PlannedTrip {
-    id: number,
-    name: string,
-    creationDate: Date,
-    startDate: Date,
-    endDate: Date,
-    displayName: string
+export interface PlannedTrip extends ITrip {
+    displayName: string,
+    image: string
 }
-
-const trips: Partial<ITrip>[] = [
-    {
-        id: 1,
-        name: "London",
-        creationDate: new Date(),
-        startDate: new Date("2023-10-10"),
-        endDate: new Date("2023-10-20"),
-    },
-    {
-        id: 2,
-        name: "Leeds",
-        creationDate: new Date(),
-        startDate: new Date("2023-08-18"),
-        endDate: new Date("2023-08-23"),
-    },
-    {
-        id: 3,
-        name: "Manchester",
-        creationDate: new Date(),
-        startDate: new Date("2023-11-04"),
-        endDate: new Date("2023-11-16"),
-    },
-    {
-        id: 4,
-        name: "Liverpool",
-        creationDate: new Date(),
-        startDate: new Date("2023-11-21"),
-        endDate: new Date("2023-12-15"),
-    },
-    {
-        id: 5,
-        name: "Glasgow",
-        creationDate: new Date(),
-        startDate: new Date("2023-07-09"),
-        endDate: new Date("2023-07-13"),
-    },
-    {
-        id: 6,
-        name: "Bristol",
-        creationDate: new Date(),
-        startDate: new Date("2023-07-09"),
-        endDate: new Date("2023-07-13"),
-    },
-    {
-        id: 7,
-        name: "Cambridge",
-        creationDate: new Date(),
-        startDate: new Date("2023-07-09"),
-        endDate: new Date("2023-07-13"),
-    },
-    {
-        id: 8,
-        name: "City of London",
-        creationDate: new Date(),
-        startDate: new Date("2023-07-09"),
-        endDate: new Date("2023-07-13"),
-    },
-    {
-        id: 9,
-        name: "Lancaster",
-        creationDate: new Date(),
-        startDate: new Date("2023-07-09"),
-        endDate: new Date("2023-07-13"),
-    },
-    {
-        id: 10,
-        name: "Leicester",
-        creationDate: new Date(),
-        startDate: new Date("2023-07-09"),
-        endDate: new Date("2023-07-13"),
-    },
-    {
-        id: 11,
-        name: "Nottigham",
-        creationDate: new Date(),
-        startDate: new Date("2023-07-09"),
-        endDate: new Date("2023-07-13"),
-    },
-    {
-        id: 12,
-        name: "Oxford",
-        creationDate: new Date(),
-        startDate: new Date("2023-07-09"),
-        endDate: new Date("2023-07-13"),
-    },
-    {
-        id: 13,
-        name: "Wells",
-        creationDate: new Date(),
-        startDate: new Date("2023-07-09"),
-        endDate: new Date("2023-07-13"),
-    },
-    {
-        id: 14,
-        name: "York",
-        creationDate: new Date(),
-        startDate: new Date("2023-07-09"),
-        endDate: new Date("2023-07-13"),
-    }];

@@ -3,13 +3,14 @@ import ITrip from "../interfaces/activity/trip";
 import { useAppDispatch } from "../store";
 import { fetchCreateTripToServer, getAllTripsByUserId } from "../store/middlewares/trip";
 import { selectAllTripsOfCurrentUser, selectSelectedTrip } from "../store/selectors/trip";
-import { resetSelectedTrip, setSelectedTrip } from "../store/slices/trip";
+import { addTrip, removeTrip, resetSelectedTrip, setSelectedTrip, setTrips } from "../store/slices/trip";
 import useActivities from "./useActivities";
 import useAuthentication from "./useAuthentication";
 import useDateAndTime from "./useDateAndTime";
 import useDestinations from "./useDestinations";
 import useUserCategoriesPriority from "./useUserCategoriesPriority";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
+import { deleteTrip } from "../store/middlewares/trip";
 
 const useTrip = () => {
   const dispatch = useAppDispatch();
@@ -21,9 +22,10 @@ const useTrip = () => {
   const { dateAndTime } = useDateAndTime();
   const selectedTrip = useSelector(selectSelectedTrip);
   const trips = useSelector(selectAllTripsOfCurrentUser);
+  const memoizedCurrentUser = useMemo(() => currentUser, [currentUser]);
 
   const createTrip = async () => {
-    await dispatch(
+    const newTrip = await dispatch(
       fetchCreateTripToServer({
         user_id: currentUser?.email ?? null,
         cityName: selectedDestination.name,
@@ -40,6 +42,10 @@ const useTrip = () => {
         endHour: dateAndTime.daytripEndTime.toDate().getTime(),
       })
     );
+    if (newTrip.payload) {
+      const trip = newTrip.payload as ITrip;
+      dispatch(addTrip(trip));
+    }
   };
 
   const SetSelectedTrip = (trip: ITrip) => {
@@ -51,22 +57,33 @@ const useTrip = () => {
   }
 
   const getAllTripsOfCurrentUser = async () => {
-    await dispatch(
-      getAllTripsByUserId({ user_id: currentUser?.email ?? null }));
+    const tripsOfCurrentUser = await dispatch(getAllTripsByUserId({ user_id: currentUser?.email ?? null }));
+    if (tripsOfCurrentUser.payload) {
+      const trips = tripsOfCurrentUser.payload as ITrip[];
+      dispatch(setTrips(trips));
+    }
   };
 
   useEffect(() => {
     getAllTripsOfCurrentUser(); // Fetch trips when the user ID changes
-  }, [currentUser?.email]);
+  }, [memoizedCurrentUser]);
 
-    return {
-      defaultRadius,
-      createTrip,
-      getAllTripsOfCurrentUser,
-      SetSelectedTrip,
-      ResetSelectedTrip,
-      trips
-    };
+  const deleteTripById = async (trip_id: number) => {
+    const result = await dispatch(deleteTrip({ trip_id }));
+    if (result) {
+      dispatch(removeTrip(trip_id));
+    }
   };
 
-  export default useTrip;
+  return {
+    defaultRadius,
+    createTrip,
+    getAllTripsOfCurrentUser,
+    SetSelectedTrip,
+    ResetSelectedTrip,
+    trips,
+    deleteTripById,
+  };
+};
+
+export default useTrip;

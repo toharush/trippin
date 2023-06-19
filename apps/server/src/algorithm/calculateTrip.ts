@@ -58,9 +58,9 @@ export const calculateTrip = async (
     id: 1,
     name: cityName,
     routes: dailyRoutes,
-    creationDate: new Date(),
-    startDate: startDate,
-    endDate: endDate,
+    creation_date: new Date(),
+    start_date: startDate,
+    end_date: endDate,
   };
 };
 

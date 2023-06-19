@@ -7,10 +7,9 @@ interface TripState {
 }
 
 const initialState: TripState = {
-    trips: null,
+    trips: [],
     selectedTrip: null,
 };
-
 
 const tripsSlice = createSlice({
     name: "trip",
@@ -28,8 +27,24 @@ const tripsSlice = createSlice({
             ...state,
             selectedTrip: null,
         }),
+        removeTrip: (state, action: PayloadAction<number>) => {
+            const tripId = action.payload;
+            const updatedTrips = state.trips?.filter((trip) => trip.id !== tripId);
+            return {
+                ...state,
+                trips: updatedTrips || [],
+            };
+        },
+        addTrip: (state, action: PayloadAction<ITrip>) => {
+            const newTrip = action.payload;
+            const updatedTrips = state.trips ? [...state.trips, newTrip] : [newTrip];
+            return {
+                ...state,
+                trips: updatedTrips,
+            };
+        }
     }
 });
 
-export const { setTrips, setSelectedTrip, resetSelectedTrip } = tripsSlice.actions;
+export const { setTrips, setSelectedTrip, resetSelectedTrip, removeTrip, addTrip } = tripsSlice.actions;
 export default tripsSlice.reducer;

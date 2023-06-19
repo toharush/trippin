@@ -16,7 +16,7 @@ class CityImagesResourceService {
     try {
       const response = await this.httpClient.get('/search/photos', {
         params: {
-          query: city,
+          query: city + '-city',
         },
       });
 

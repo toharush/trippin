@@ -1,8 +1,14 @@
 .my-planned-trips {
-    margin: 1vh;
+    margin: 1.2vh;
+}
+.my-planned-trips-header {
+    color: var(--primary-color);
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-top: 1vh;
+    margin-bottom: 2vh;
 }
 
 .image-list-item-bar-title {
-    font-size: 1.2rem;
-    font-weight: bold;
+    font-size: 1rem;
   }

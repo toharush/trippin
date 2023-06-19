@@ -86,16 +86,19 @@ const SideBarContainer = () => {
     <>
       <SideBar>
         <>
-          <Authentication />
-          {(currentUser !== null && !isPlannedTripOpen) && <Button
-            className="icon-button saved"
-            onClick={onOpenSavedTrips}
-            endIcon={<BookmarkAddedIcon />}>
-          </Button>}
+          <div className="sidebar-header">
+            <Authentication />
+            {(currentUser !== null && !isPlannedTripOpen) && <Button
+              className="icon-button"
+              onClick={onOpenSavedTrips}
+              endIcon={<BookmarkAddedIcon />}>
+            </Button>}
+          </div>
 
           {isPlannedTripOpen ?
             <>
               <MyPlannedTrips />
+              <div className="spacer" />
               <Button
                 className="icon-button"
                 onClick={() => setIsPlannedTripOpen(false)}

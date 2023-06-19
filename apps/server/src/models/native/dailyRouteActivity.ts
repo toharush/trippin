@@ -11,3 +11,8 @@ export const createNewDailyRouteActivityInDb = async (
     [route_id, place_id, start_time, end_time]
   );
 };
+
+export const deleteDailyRouteActivityByRouteIdFromDb = async (route_id: number): Promise<boolean> => {
+  let result = await query(`DELETE FROM trippin.daily_route_activity WHERE daily_route_id = $1`, [route_id]);
+  return result.rowCount > 0;
+}
