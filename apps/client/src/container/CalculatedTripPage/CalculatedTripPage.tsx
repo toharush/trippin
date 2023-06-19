@@ -1,5 +1,5 @@
 import { useState } from "react";
-import CalculatedTripComponent from "../../components/CalculatedTripComponent/CalculatedTripComponent";
+import CalculatedTripComponent from "../../components/CalculatedTripComponent/CalcTripComponent";
 import { useTrip } from "../../hooks";
 import Loader from "../../components/loader/Loader";
 
