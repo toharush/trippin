@@ -7,3 +7,4 @@ export const selectSelectedTrip = (state: RootState) => {
     return selectedTrip;
 }
 export const selectTripLoading = (state: RootState) => state.trip.loading;
+export const selectSelectedTripId = (state: RootState) => state.trip.selectedTripId;

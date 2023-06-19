@@ -18,10 +18,11 @@ interface props {
 
 export default function MyPlannedTrips({ onBack }: props) {
 
-    const { trips, SetSelectedTripId, ResetSelectedTripId, deleteTripById } = useTrip();
+    const { trips, SetSelectedTripId, ResetSelectedTripId, deleteTripById, selectedTripId } = useTrip();
     const [mappedTripsWithDisplayName, setMappedTripsWithDisplayName] = useState<PlannedTrip[]>([]);
     const [orderedTrips, setOrderedTrips] = useState<PlannedTrip[]>([]);
     const [isPlannedTripDetailsOpen, setIsPlannedTripDetailsOpen] = useState(false);
+    const [lastCalculatedTripId, setLastCalculatedTripId] = useState<number | null>(null);
 
     const formatTripTitle = (destination: string, days: number): string =>
         (`${days} Days In ${destination}`);
@@ -111,9 +112,13 @@ export default function MyPlannedTrips({ onBack }: props) {
     }
 
     const handleBackToAllTrips = () => {
-        ResetSelectedTripId();
+        lastCalculatedTripId ? SetSelectedTripId(lastCalculatedTripId): ResetSelectedTripId();
         setIsPlannedTripDetailsOpen(false);
     }
+
+    useEffect(() => {
+        setLastCalculatedTripId(selectedTripId);
+    }, []);
 
     return (<>
         {isPlannedTripDetailsOpen ?

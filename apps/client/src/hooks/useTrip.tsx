@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import ITrip from "../interfaces/activity/trip";
 import { useAppDispatch } from "../store";
 import { fetchCreateTripToServer, getAllTripsByUserId } from "../store/middlewares/trip";
-import { selectAllTripsOfCurrentUser, selectSelectedTrip, selectTripLoading } from "../store/selectors/trip";
+import { selectAllTripsOfCurrentUser, selectSelectedTrip, selectSelectedTripId, selectTripLoading } from "../store/selectors/trip";
 import { addTrip, removeTrip, resetSelectedTripId, setSelectedTripId, setTrips } from "../store/slices/trip";
 import useActivities from "./useActivities";
 import useAuthentication from "./useAuthentication";
@@ -24,6 +24,7 @@ const useTrip = () => {
   const selectedTrip = useSelector(selectSelectedTrip);
   const trips = useSelector(selectAllTripsOfCurrentUser);
   const memoizedCurrentUser = useMemo(() => currentUser, [currentUser]);
+  const selectedTripId = useSelector(selectSelectedTripId);
 
   const createTrip = async () => {
     await dispatch(
@@ -83,6 +84,7 @@ const useTrip = () => {
     deleteTripById,
     selectedTrip,
     loading,
+    selectedTripId
   };
 };
 
