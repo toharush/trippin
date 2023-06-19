@@ -100,7 +100,6 @@ const SideBarContainer = () => {
       component: (
         <>
           <CalculatedTripContainer></CalculatedTripContainer>
-          <div className="spacer" />
         </>
       ),
     },
