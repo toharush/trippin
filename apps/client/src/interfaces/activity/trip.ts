@@ -4,7 +4,7 @@ export default interface ITrip {
   id: number;
   name: string;
   routes: IDailyRoute[];
-  creationDate: Date;
-  startDate: Date;
-  endDate: Date;
+  creation_date: Date;
+  start_date: Date;
+  end_date: Date;
 }

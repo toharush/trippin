@@ -40,3 +40,14 @@
   justify-content: center;
   margin-top: auto;
 }
+
+.sidebar-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.flex-start {
+  display: flex;
+  align-self: flex-start;
+}

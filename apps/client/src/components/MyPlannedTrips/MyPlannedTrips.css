@@ -1,0 +1,38 @@
+.my-planned-trips {
+    margin: 1.2vh;
+}
+
+.my-planned-trips-header {
+    color: var(--primary-color);
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    margin-left: 1vw;
+}
+
+
+.image-list-item {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0);
+    /* Start with a transparent box shadow */
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.image-list-item:hover {
+    box-shadow: 0 0 10px var(--primary-color);
+    /* Apply the desired box shadow on hover */
+}
+
+.icon-button {
+    color: var(--primary-color) !important;
+}
+
+.spacer {
+    flex-grow: 1;
+}
+
+.button-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 2vh;
+}

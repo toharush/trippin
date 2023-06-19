@@ -23,11 +23,12 @@ const AuthHeader = (props: AuthHeaderProps) => {
           maxWidth: "100px",
           width: "10px",
           cursor: "pointer",
+          alignItems: "center"
         }}
         onClick={handleOnClick}
       >
         <AccountCircleIcon className="sidebar-icon" />
-        <span className="sidebar-text">{title ? title : "Login"}</span>
+        <span className="username">{title ? title : "Login"}</span>
       </div>
     </Box>
   );

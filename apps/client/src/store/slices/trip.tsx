@@ -1,28 +1,63 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Activity } from "../../interfaces";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import ITrip from "../../interfaces/activity/trip";
 import { fetchCreateTripToServer } from "../middlewares/trip";
 
 interface TripState {
-  trip: ITrip | null;
+  trips: ITrip[] | null;
+  selectedTripId: number | null;
   loading: boolean;
 }
 
 const initialState: TripState = {
-  trip: null,
+  trips: [],
+  selectedTripId: null,
   loading: false,
 };
 
-const stores = createSlice({
+const tripsSlice = createSlice({
   name: "trip",
   initialState: initialState,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder.addCase(fetchCreateTripToServer.fulfilled, (state, action) => ({
+  reducers: {
+    setTrips: (state, action: PayloadAction<ITrip[] | null>) => ({
       ...state,
-      trip: action.payload.data.data.createTrip,
-      loading: false,
-    }));
+      trips: action.payload,
+    }),
+    setSelectedTripId: (state, action: PayloadAction<number | null>) => ({
+      ...state,
+      selectedTripId: action.payload,
+    }),
+    resetSelectedTripId: (state) => ({
+      ...state,
+      selectedTripId: null,
+    }),
+    removeTrip: (state, action: PayloadAction<number>) => {
+      const tripId = action.payload;
+      const updatedTrips = state.trips?.filter((trip) => trip.id !== tripId);
+      return {
+        ...state,
+        trips: updatedTrips || [],
+      };
+    },
+    addTrip: (state, action: PayloadAction<ITrip>) => {
+      const newTrip = action.payload;
+      const updatedTrips = state.trips ? [...state.trips, newTrip] : [newTrip];
+      return {
+        ...state,
+        trips: updatedTrips,
+      };
+    }
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchCreateTripToServer.fulfilled, (state, action) => {
+      const newTrip = action.payload;
+      const updatedTrips = state.trips ? [...state.trips, newTrip] : [newTrip];
+      return {
+        ...state,
+        selectedTripId: newTrip.id,
+        trips: updatedTrips,
+        loading: false,
+      };
+    });
     builder.addCase(fetchCreateTripToServer.pending, (state, action) => ({
       ...state,
       loading: true,
@@ -34,4 +69,5 @@ const stores = createSlice({
   },
 });
 
-export default stores.reducer;
+export const { setTrips, setSelectedTripId, resetSelectedTripId, removeTrip, addTrip } = tripsSlice.actions;
+export default tripsSlice.reducer;

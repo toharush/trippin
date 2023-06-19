@@ -1,10 +1,11 @@
 import { useState } from "react";
-import CalculatedTripComponent from "../../components/CalculatedTripComponent/CalcTripComponent";
+import CalculatedTripComponent from "../../components/CalculatedTripComponent/CalculatedTripComponent";
 import { useTrip } from "../../hooks";
 import Loader from "../../components/loader/Loader";
+import "./CalculatedTripPage.css";
 
 const CalculatedTripContainer = () => {
-  const { trip, loading } = useTrip();
+  const { selectedTrip, loading } = useTrip();
   const [activeDayTrip, setActiveDayTrip] = useState(0);
 
   return (
@@ -14,14 +15,16 @@ const CalculatedTripContainer = () => {
           style={{
             display: "flex",
             justifyContent: "space-around",
+            alignItems: "center",
+            flexGrow: 1,
           }}
         >
           <Loader isBlack={true} />
         </div>
       ) : (
-        trip && (
+        selectedTrip && (
           <CalculatedTripComponent
-            trip={trip}
+            trip={selectedTrip}
             activeDayTrip={activeDayTrip}
             setActiveDayTrip={setActiveDayTrip}
           />

@@ -10,3 +10,6 @@ export const selectDestinationName = (state: RootState): string =>
 
 export const selectDestinationCityCenter = (state: RootState): ICoordinate =>
   state.destination.cityCenter;
+
+export const selectIsDestinationValid = (state: RootState): boolean => selectDestinationName(state) !== '' &&
+  selectDestinationCityCenter(state).lat !== 0 && selectDestinationCityCenter(state).lng !== 0;

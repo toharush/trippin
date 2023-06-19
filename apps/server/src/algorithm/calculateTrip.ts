@@ -58,14 +58,14 @@ export const calculateTrip = async (
         dailyRoutes.push(currentDailyRoute);
     }
 
-    return {
-        id: 1,
-        name: cityName,
-        routes: dailyRoutes,
-        creationDate: new Date(),
-        startDate: startDate,
-        endDate: endDate,
-    };
+  return {
+    id: 1,
+    name: cityName,
+    routes: dailyRoutes,
+    creation_date: new Date(),
+    start_date: startDate,
+    end_date: endDate,
+  };
 };
 
 const findDailyRoute = async (
@@ -153,10 +153,10 @@ const findDailyRoute = async (
 };
 
 const activityToItripActivity = (activity: Activity): ITripActivity => ({
-    activity: activity,
-    start_time: activity.startTime!,
-    end_time: activity.endTime!,
-    travelTime: activity.travelTime!,
+  activity: activity,
+  start_time: activity.startTime!,
+  end_time: activity.endTime!,
+  travelTime: activity.travelTime!
 });
 
 const activitiesToItripActivities = (activities: Activity[]): ITripActivity[] =>

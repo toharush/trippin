@@ -9,6 +9,7 @@ import {
   GraphQLNonNull,
   GraphQLFloat,
   GraphQLInt,
+  GraphQLBoolean,
 } from "graphql";
 import * as joinMonster from "join-monster";
 import Place, { InputPlace } from "./models/place/place";
@@ -22,9 +23,9 @@ import { calculateTrip } from "./algorithm/calculateTrip";
 import client from "./utils/dbClient";
 import Icoordinate from "./models/Icoordinate/icoordinate";
 import Map from "./models/map/map";
-import { Activity } from "../../client/src/interfaces";
 import TripDb, { Trip } from "./models/trip/trip";
 import { createNewTrip } from "./controllers/trip";
+import { deleteTripFromDb } from "./models/native/trip";
 import { getActivitiesByIds } from "./controllers/activity";
 
 dotenv.config();
@@ -308,6 +309,21 @@ const MutationRoot = new GraphQLObjectType({
         }
 
         return trip;
+      },
+    },
+    deleteTrip: {
+      type: GraphQLBoolean,
+      args: {
+        tripId: { type: GraphQLNonNull(GraphQLInt) },
+      },
+      resolve: async (parent, { tripId }) => {
+        try {
+          const deleted = await deleteTripFromDb(tripId);
+          return deleted;
+        } catch (error) {
+          console.error(error);
+          return false;
+        }
       },
     },
   }),
