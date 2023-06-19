@@ -1,23 +1,26 @@
 import { Activity } from '../../../client/src/interfaces';
 import { convertDBCategoryToClientCategory } from '../controllers/mapCategory';
 import IClientCategory from '../../../client/src/interfaces/activity/clientCategory';
-import { ACTIVITY_DEFAULT_RATING } from '../constants/algorithm';
+import { ACTIVITY_DEFAULT_RATING, MAX_RATE } from '../constants/algorithm';
 
 export const getRankedActivities = (
     categoryPriorities: IClientCategory[],
-    potentialActivities: Activity[]
+    potentialActivities: Activity[],
+    selectedActivities: Activity[]
 ): Activity[] =>
     potentialActivities.map(currentActivity => {
         currentActivity.rate = calculateActivityGrade(
             currentActivity,
-            categoryPriorities
+            categoryPriorities,
+            selectedActivities
         );
         return currentActivity;
     });
 
 const calculateActivityGrade = (
     activity: Activity,
-    categoryPriorities: IClientCategory[]
+    categoryPriorities: IClientCategory[],
+    selectedActivities: Activity[]
 ): number => {
     const clientCategory = convertDBCategoryToClientCategory(
         activity.category.name
@@ -28,15 +31,23 @@ const calculateActivityGrade = (
         clientCategory
     );
 
+    let grade = 0;
+
     if (!activity.google?.rate) {
-        return ACTIVITY_DEFAULT_RATING;
+        grade = ACTIVITY_DEFAULT_RATING;
     } else {
         if (activity.google?.rate !== 0) {
-            return categoryPreference * activity.google.rate!;
+            grade = categoryPreference * activity.google.rate!;
         } else {
-            return categoryPreference * ACTIVITY_DEFAULT_RATING;
+            grade = categoryPreference * ACTIVITY_DEFAULT_RATING;
         }
     }
+
+    if (isActivitySelected(activity, selectedActivities)) {
+        grade = MAX_RATE;
+    }
+
+    return grade;
 };
 
 const getValueByKey = (
@@ -52,4 +63,19 @@ const getValueByKey = (
     }
 
     return clientPriority;
+};
+
+const isActivitySelected = (
+    activity: Activity,
+    selectedActivities: Activity[]
+): Boolean => {
+    let flag = false;
+
+    selectedActivities.forEach(currentActivity => {
+        if (currentActivity.title === activity.title) {
+            flag = true;
+        }
+    });
+
+    return flag;
 };
