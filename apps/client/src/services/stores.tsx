@@ -1,3 +1,4 @@
+import { MAX_ACTIVITIES } from "../config";
 import { Activity } from "../interfaces";
 import IClientCategory from "../interfaces/activity/clientCategory";
 import ICoordinate from "../interfaces/activity/coordinate";
@@ -110,9 +111,10 @@ const getCommentsByPlaceId = async (place_id: string) => {
 
 const getAllActivities = async () => {
   return (
-    await fetchGql(`
+    ((
+      await fetchGql(`
   {
-    places {
+    places(limit: ${MAX_ACTIVITIES}) {
       id
       title
       type
@@ -159,7 +161,8 @@ const getAllActivities = async () => {
     }
   }
   `)
-  ).data.data.places as Activity[] ?? [];
+    ).data.data.places as Activity[]) ?? []
+  );
 };
 
 export {
