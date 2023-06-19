@@ -6,9 +6,15 @@ import { useMapDrawer } from "../../hooks";
 
 interface props {
   activity: ITripActivity;
+  travelTime: string;
+  lastStop: boolean;
 }
 
-const OneStopInDayRouteComponent = ({ activity }: props) => {
+const OneStopInDayRouteComponent = ({
+  activity,
+  travelTime,
+  lastStop,
+}: props) => {
   const { setFlyTo } = useMapDrawer();
   const formattedTime = (time: Date) => {
     const date = new Date(time);
@@ -32,14 +38,18 @@ const OneStopInDayRouteComponent = ({ activity }: props) => {
         )
       }
     >
-      <div className="vertical-line" />
-      <DirectionsCarOutlinedIcon sx={{ color: "white" }} />
-      <span className="icon-details"></span>
-      <div className="vertical-line" />
       <LocationOnIcon sx={{ color: "#86eaf0" }} />
       <span className="icon-details">
         {activity.activity.title} ({startTime}-{endTime})
       </span>
+      {!lastStop && (
+        <>
+          <div className="vertical-line" />
+          <DirectionsCarOutlinedIcon sx={{ color: "white" }} />
+          <span className="icon-details">{travelTime}</span>
+          <div className="vertical-line" />
+        </>
+      )}
     </div>
   );
 };
