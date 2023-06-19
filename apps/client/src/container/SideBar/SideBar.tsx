@@ -10,7 +10,7 @@ import DestintionsSearch from "../DestinationsSearch/DestinationsSearch";
 import Logo from "../../components/Logo/Logo";
 import { useState } from "react";
 import { stepperValues } from "../../interfaces";
-import { Button } from "@mui/material";
+import { Button, ThemeProvider, createTheme } from "@mui/material";
 import { useSelector } from "react-redux";
 import { selectIsDateAndTimeValid } from "../../store/selectors/dateAndTime";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
@@ -36,6 +36,21 @@ const SideBarContainer = () => {
     createTrip();
     stepUp();
   };
+
+
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#86eaf0",
+      },
+      action: {
+        hover: "rgba(0, 0, 0, .2)",
+      },
+      text: {
+        primary: "#86eaf0",
+      },
+    },
+  });
 
   const stepper = [
     {
@@ -66,7 +81,16 @@ const SideBarContainer = () => {
           {isActivitiesOpen ? (
             <ActivitiesGallery selectedActivities={selectedActivities} />
           ) : null}
-          <Button onClick={handleCalculateTrip}>Calculate Trip</Button>
+          <ThemeProvider theme={theme}>
+            <Button
+              variant="outlined"
+              onClick={handleCalculateTrip}
+              color="primary"
+              style={{ width: "30%", alignSelf: "center" }}
+            >
+              Calculate Trip
+            </Button>
+          </ThemeProvider>
           <div className="spacer" />
         </>
       ),

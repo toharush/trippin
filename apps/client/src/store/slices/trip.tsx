@@ -1,7 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import ITrip from "../../interfaces/activity/trip";
 import { fetchCreateTripToServer } from "../middlewares/trip";
-import { add } from "lodash";
 
 interface TripState {
   trips: ITrip[] | null;
