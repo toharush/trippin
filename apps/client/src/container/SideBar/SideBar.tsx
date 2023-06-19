@@ -48,6 +48,7 @@ const SideBarContainer = () => {
       label: stepperValues[stepperValues.Activities],
       component: (
         <>
+        <div className="scrollBug">
           <TravelsCategoryComponent
             isCategoriesOpen={isCategoriesOpen}
             setIsCategoriesOpen={() => setIsCategoriesOpen(!isCategoriesOpen)}
@@ -60,6 +61,7 @@ const SideBarContainer = () => {
           {isActivitiesOpen ? (
             <ActivitiesGallery selectedActivities={selectedActivities} />
           ) : null}
+          </div>
           <Button onClick={handleCalculateTrip}>Calculate Trip</Button>
         </>
       ),
