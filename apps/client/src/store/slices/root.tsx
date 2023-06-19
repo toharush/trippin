@@ -16,7 +16,7 @@ const rootReducer = combineReducers({
   userCategoriesPriority: userCategoriesPriority,
   stepper: stepper,
   destination: destination,
-  trip: trip,
+  trip: trip
 });
 
 export default rootReducer;

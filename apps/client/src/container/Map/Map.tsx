@@ -1,4 +1,4 @@
-import { MapContainer, TileLayer } from "react-leaflet";
+import { MapContainer, TileLayer, ZoomControl } from "react-leaflet";
 import { ReactElement } from "react";
 import "leaflet/dist/leaflet.css";
 import "./Map.css";
@@ -25,6 +25,7 @@ export default function Map({ children }: MapsProps) {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       {children}
+      <ZoomControl position="bottomright" />
     </MapContainer>
   );
 }

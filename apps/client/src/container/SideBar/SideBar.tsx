@@ -19,10 +19,11 @@ import BookmarkAddedIcon from "@mui/icons-material/BookmarkAdded";
 import "./SideBar.css";
 import MyPlannedTrips from "../../components/MyPlannedTrips/MyPlannedTrips";
 import { selectIsDestinationValid } from "../../store";
+import CalculatedTripContainer from "../CalculatedTripPage/CalculatedTripPage";
 
 const SideBarContainer = () => {
   const { currentStep, stepUp, stepDown } = useStepper();
-  const { selectedActivities } = useActivities();
+  const { selectedActivities, removeAllSelectedActivity } = useActivities();
   const { createTrip } = useTrip();
   const [isActivitiesOpen, setIsActivitiesOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(true);
@@ -30,6 +31,11 @@ const SideBarContainer = () => {
   const [isPlannedTripOpen, setIsPlannedTripOpen] = useState(false);
   const { currentUser } = useAuthentication();
   const isDestinationValid = useSelector(selectIsDestinationValid);
+
+  const handleCalculateTrip = () => {
+    createTrip();
+    stepUp();
+  };
 
   const stepper = [
     {
@@ -60,7 +66,17 @@ const SideBarContainer = () => {
           {isActivitiesOpen ? (
             <ActivitiesGallery selectedActivities={selectedActivities} />
           ) : null}
-          <Button onClick={createTrip}>Calculate Trip</Button>
+          <Button onClick={handleCalculateTrip}>Calculate Trip</Button>
+          <div className="spacer" />
+        </>
+      ),
+    },
+    {
+      label: stepperValues[stepperValues.Results],
+      component: (
+        <>
+          <CalculatedTripContainer></CalculatedTripContainer>
+          <div className="spacer" />
         </>
       ),
     },
@@ -82,6 +98,10 @@ const SideBarContainer = () => {
     setIsPlannedTripOpen(true);
   }
 
+  const handleBackToSideBar = () => {
+    setIsPlannedTripOpen(false);
+  };
+
   return (
     <>
       <SideBar>
@@ -97,13 +117,7 @@ const SideBarContainer = () => {
 
           {isPlannedTripOpen ?
             <>
-              <MyPlannedTrips />
-              <div className="spacer" />
-              <Button
-                className="icon-button"
-                onClick={() => setIsPlannedTripOpen(false)}
-                endIcon={<ArrowBackIosIcon />}
-              ></Button>
+              <MyPlannedTrips onBack={handleBackToSideBar} />
             </> : <>
               {stepper[currentStep].component}
               <div className="container">
@@ -115,14 +129,15 @@ const SideBarContainer = () => {
                   ></Button>
                 )}
                 <div className="spacer" />
+                {currentStep < stepperValues.Activities && (
                 <Button
                   className="icon-button next"
                   onClick={next}
                   disabled={!isDateAndTimeValid || !isDestinationValid }
                   endIcon={<ArrowForwardIosIcon />}
                 ></Button>
+                )}
               </div>
-              <div className="spacer" />
               <AppStepper
                 labels={stepper.map((step) => step.label)}
                 activeStep={currentStep}

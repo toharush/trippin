@@ -19,6 +19,7 @@ export interface Activity {
   travelAndVisitTime?: number;  
   startTime?: Date;
   endTime?: Date;
+  travelTime?: number;
 }
 
 
@@ -27,4 +28,5 @@ export interface ITripActivity {
   activity: Activity;
   start_time: Date;
   end_time: Date;
+  travelTime: number;
 }

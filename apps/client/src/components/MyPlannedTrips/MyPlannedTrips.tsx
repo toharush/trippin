@@ -8,26 +8,44 @@ import { useTrip } from '../../hooks';
 import './MyPlannedTrips.css';
 import CityImagesResourceService from './CityImagesResourceService';
 import { useEffect, useState } from 'react';
-import { setSelectedTrip } from '../../store/slices/trip';
+import CalculatedTripContainer from '../../container/CalculatedTripPage/CalculatedTripPage';
+import { Button } from '@mui/material';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
+interface props {
+    onBack: () => void;
+}
 
-export default function MyPlannedTrips() {
+export default function MyPlannedTrips({ onBack }: props) {
 
-    const { trips, SetSelectedTrip, ResetSelectedTrip, deleteTripById } = useTrip();
+    const { trips, SetSelectedTripId, ResetSelectedTripId, deleteTripById } = useTrip();
     const [mappedTripsWithDisplayName, setMappedTripsWithDisplayName] = useState<PlannedTrip[]>([]);
     const [orderedTrips, setOrderedTrips] = useState<PlannedTrip[]>([]);
+    const [isPlannedTripDetailsOpen, setIsPlannedTripDetailsOpen] = useState(false);
 
-    const formatTripDisplayName = (destination: string, days: number): string =>
+    const formatTripTitle = (destination: string, days: number): string =>
         (`${days} Days In ${destination}`);
+
+    const formatTripSubtitle = (startDate: Date, endDate: Date): string => {
+        const startDay = startDate.getDate();
+        const startMonth = startDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
+        const startYear = startDate.getFullYear();
+
+        const endDay = endDate.getDate();
+        const endMonth = endDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
+        const endYear = endDate.getFullYear();
+
+        return `${startDay} ${startMonth} ${startYear} - ${endDay} ${endMonth} ${endYear}`;
+    }
 
     const calculateDaysInclusive = (startDate: Date, endDate: Date): number => {
         const start = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
         const end = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
         const millisecondsPerDay = 24 * 60 * 60 * 1000; // Number of milliseconds in a day
-      
+
         const days = Math.round(Math.abs((end.getTime() - start.getTime()) / millisecondsPerDay)) + 1;
         return days;
-      };
+    };
 
     const orderByCreationDate = (trips: PlannedTrip[]): PlannedTrip[] => {
         return trips?.sort((a, b) => {
@@ -45,12 +63,14 @@ export default function MyPlannedTrips() {
 
         for (const trip of trips) {
             const days = calculateDaysInclusive(new Date(trip.start_date), new Date(trip.end_date));
-            const displayName = formatTripDisplayName(trip.name!, days);
+            const title = formatTripTitle(trip.name!, days);
+            const subtitle = formatTripSubtitle(new Date(trip.start_date), new Date(trip.end_date));
             const image = await fetchCityImage(trip.name!); // Fetch the city image
 
             const plannedTrip: PlannedTrip = {
                 ...trip,
-                displayName: displayName,
+                title: title,
+                subtitle: subtitle,
                 image: image, // Include the image URL in the trip object
             };
 
@@ -82,60 +102,91 @@ export default function MyPlannedTrips() {
         (async () => {
             const orderedTrips = orderByCreationDate(mappedTripsWithDisplayName);
             setOrderedTrips(orderedTrips);
-            setSelectedTrip(orderedTrips[0]);
         })();
     }, [mappedTripsWithDisplayName]);
 
-    return (
-        <div className="my-planned-trips">
-            <div className="my-planned-trips-header">
-                My Planned Trips
-            </div>
-            <ImageList sx={{ maxHeight: '70vh' }} cols={2} gap={10} rowHeight={'auto'}>
-                {orderedTrips.map((trip: PlannedTrip) => (
-                    <ImageListItem key={trip.id}>
-                        <img
-                            src={trip.image}
-                            alt={trip.name}
-                            loading="lazy"
-                            style={{ objectFit: 'cover', width: '15vw', height: 'auto', aspectRatio: '1/1', borderRadius: '10px' }}
-                            onClick={() => {
-                                SetSelectedTrip(trip);
-                            }}
-                        />
-                        <ImageListItemBar
-                            sx={{
-                                borderRadius: '10px',
-                                background:
-                                    'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
-                                    'rgba(0,0,0,0.5) 70%, rgba(0,0,0,0) 100%)',
-                                fontSize: '1.5rem',
-                                width: '15vw',
-                            }}
-                            title={<span className="image-list-item-bar-title">{trip.displayName}</span>}
-                            position="top"
-                            actionIcon={
-                                <IconButton
-                                    sx={{ color: 'white' }}
-                                    aria-label={`delete ${trip.name}`}
-                                    onClick={() => {
-                                        deleteTripById(trip.id)
-                                    }}
-                                >
-                                    <DeleteOutlineIcon />
-                                </IconButton>
-                            }
-                            actionPosition="right"
-                        />
-                    </ImageListItem>
-                ))}
-            </ImageList>
-        </div>
+    const handleClickOnPlannedTrip = (id: number) => {
+        SetSelectedTripId(id);
+        setIsPlannedTripDetailsOpen(true);
+    }
 
+    const handleBackToAllTrips = () => {
+        ResetSelectedTripId();
+        setIsPlannedTripDetailsOpen(false);
+    }
+
+    return (<>
+        {isPlannedTripDetailsOpen ?
+            <>
+                <CalculatedTripContainer />
+                <div className="spacer" />
+                <div className="button-wrapper">
+                    <Button
+                        className="icon-button"
+                        onClick={handleBackToAllTrips}
+                        startIcon={<ArrowBackIosIcon />}
+                    >My Planned Trips</Button>
+                </div>
+            </>
+            :
+            <>
+                <div className="my-planned-trips">
+                    <div className="my-planned-trips-header">
+                        My Planned Trips
+                    </div>
+                    <ImageList sx={{ maxHeight: '70vh', padding: '1vh' }} cols={2} gap={10} rowHeight={'auto'}>
+                        {orderedTrips.map((trip: PlannedTrip) => (
+                            <ImageListItem key={trip.id}>
+                                <img
+                                    src={trip.image}
+                                    alt={trip.name}
+                                    loading="lazy"
+                                    style={{ objectFit: 'cover', width: '15vw', height: 'auto', aspectRatio: '1/1', borderRadius: '10px' }}
+                                    onClick={() => handleClickOnPlannedTrip(trip.id)}
+                                    className="image-list-item"
+                                />
+                                <ImageListItemBar
+                                    sx={{
+                                        borderRadius: '10px',
+                                        background:
+                                            'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
+                                            'rgba(0,0,0,0.5) 70%, rgba(0,0,0,0) 100%)',
+                                        fontSize: '1.5rem',
+                                        width: 'auto',
+                                        height: 'auto'
+                                    }}
+                                    title={<span className="image-list-item-bar-title">{trip.title}</span>}
+                                    subtitle={<span className="image-list-item-bar-subtitle">{trip.subtitle}</span>}
+                                    position="top"
+                                    actionIcon={
+                                        <IconButton
+                                            sx={{ color: 'white' }}
+                                            aria-label={`delete ${trip.name}`}
+                                            onClick={() => deleteTripById(trip.id)}
+                                        >
+                                            <DeleteOutlineIcon />
+                                        </IconButton>
+                                    }
+                                    actionPosition="right"
+                                />
+                            </ImageListItem>
+                        ))}
+                    </ImageList>
+                </div>
+                <div className="spacer" />
+                <Button
+                    className="icon-button flex-start"
+                    onClick={onBack}
+                    endIcon={<ArrowBackIosIcon />}
+                ></Button>
+            </>
+        }
+    </>
     );
 }
 
 export interface PlannedTrip extends ITrip {
-    displayName: string,
+    title: string,
+    subtitle: string,
     image: string
 }

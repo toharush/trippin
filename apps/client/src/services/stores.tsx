@@ -1,40 +1,41 @@
-  import { Activity } from "../interfaces";
-  import IClientCategory from "../interfaces/activity/clientCategory";
-  import ICoordinate from "../interfaces/activity/coordinate";
-  import ITrip from "../interfaces/activity/trip";
-  import IComment from "../interfaces/comment/comment";
-  import fetchGql from "../lib/axios";
+import { MAX_ACTIVITIES } from "../config";
+import { Activity } from "../interfaces";
+import IClientCategory from "../interfaces/activity/clientCategory";
+import ICoordinate from "../interfaces/activity/coordinate";
+import ITrip from "../interfaces/activity/trip";
+import IComment from "../interfaces/comment/comment";
+import fetchGql from "../lib/axios";
 
-  const fetchNewComment = async (
-    place_id: string,
-    user_id: string,
-    text: string
-  ) => {
-    return await fetchGql(
-      `
+const fetchNewComment = async (
+  place_id: string,
+  user_id: string,
+  text: string
+) => {
+  return await fetchGql(
+    `
       mutation newComment {
         addComment(place_id: "${place_id}", user_id: "${user_id}", text: "${text}") {
           id
         }
       }
       `
-    );
-  };
+  );
+};
 
-  const fetchCreateTrip = async (
-    user_id: string | null,
-    cityName: string,
-    cityCenter: ICoordinate,
-    radius: number,
-    categoryPriorities: IClientCategory[],
-    selectedActivities: string[],
-    startDate: number,
-    endDate: number,
-    startHour: number,
-    endHour: number
-  ) => {
-    return (await fetchGql(
-      `
+const fetchCreateTrip = async (
+  user_id: string | null,
+  cityName: string,
+  cityCenter: ICoordinate,
+  radius: number,
+  categoryPriorities: IClientCategory[],
+  selectedActivities: string[],
+  startDate: number,
+  endDate: number,
+  startHour: number,
+  endHour: number
+) => {
+  return (await fetchGql(
+    `
       mutation createTrip {
         createTrip(
         user_id: "${user_id}",
@@ -85,19 +86,19 @@
         }
       }
       `
-    )).data.data.createTrip as ITrip;
-  };
+  )).data.data.createTrip as ITrip;
+};
 
-  const getCategoryPrioritiesQuery = (categoryPriorities: IClientCategory[]) => {
-    return categoryPriorities.map((cat) => {
-      return `{key: "${cat.key}", value: ${cat.value}}`;
-    });
-  };
+const getCategoryPrioritiesQuery = (categoryPriorities: IClientCategory[]) => {
+  return categoryPriorities.map((cat) => {
+    return `{key: "${cat.key}", value: ${cat.value}}`;
+  });
+};
 
-  const getCommentsByPlaceId = async (place_id: string) => {
-    return (await (
-      await fetchGql(
-        `
+const getCommentsByPlaceId = async (place_id: string) => {
+  return (await (
+    await fetchGql(
+      `
       {
         commentsByPlaceId(place_id: "${place_id}") {
           id
@@ -108,67 +109,13 @@
         }
       }
       `
-      )
-    ).data.data.commentsByPlaceId) as IComment[];
-  };
+    )
+  ).data.data.commentsByPlaceId) as IComment[];
+};
 
-  const getAllActivities = async () => {
-    return (
-      await fetchGql(`
-    {
-      places {
-        id
-        title
-        type
-        position {
-          id
-          lat
-          lng
-        }
-        address {
-          label
-          country_name
-          country_code
-          state
-          city
-          district
-          street
-          postal_code
-          presets {
-            museums
-            resturants
-            sport
-            shopping
-            nature
-            atractions
-            night_life
-            shows_Concerts
-          }
-        }
-        extra {
-          categories {
-            name
-          }
-        }
-        category {
-          name
-        }
-        google {
-          spend
-          rate
-          image_url
-        }
-        close_hour
-        open_hour
-      }
-    }
-    `)
-    ).data.data.places as Activity[];
-  };
-
-  const fetchAllTripsByUserId = async (user_id: string | null) => {
-    return (
-      await fetchGql(`
+const fetchAllTripsByUserId = async (user_id: string | null) => {
+  return (
+    await fetchGql(`
     {
       tripByUserId(user_id: "${user_id}") {
         id
@@ -206,24 +153,80 @@
       }
     }
     `)
-    ).data.data.tripByUserId as ITrip[];
-  }
+  ).data.data.tripByUserId as ITrip[];
+}
 
-  const deleteTripById = async (trip_id: number) => {
-    return (
+const getAllActivities = async () => {
+  return (
+    ((
       await fetchGql(`
+  {
+    places(limit: ${MAX_ACTIVITIES}) {
+      id
+      title
+      type
+      position {
+        id
+        lat
+        lng
+      }
+      address {
+        label
+        country_name
+        country_code
+        state
+        city
+        district
+        street
+        postal_code
+        presets {
+          museums
+          resturants
+          sport
+          shopping
+          nature
+          atractions
+          night_life
+          shows_Concerts
+        }
+      }
+      extra {
+        categories {
+          name
+        }
+      }
+      category {
+        name
+      }
+      google {
+        spend
+        rate
+        image_url
+      }
+      close_hour
+      open_hour
+    }
+  }
+  `)
+    ).data.data.places as Activity[]) ?? []
+  );
+};
+
+const deleteTripById = async (trip_id: number) => {
+  return (
+    await fetchGql(`
     mutation deleteTrip {
       deleteTrip(tripId: ${trip_id}) 
     }
     `)
-    ).data.data.deleteTrip as boolean;
-  }
+  ).data.data.deleteTrip as boolean;
+}
 
-  export {
-    getAllActivities,
-    fetchNewComment,
-    getCommentsByPlaceId,
-    fetchCreateTrip,
-    fetchAllTripsByUserId,
-    deleteTripById
-  };
+export {
+  getAllActivities,
+  fetchNewComment,
+  getCommentsByPlaceId,
+  fetchCreateTrip,
+  fetchAllTripsByUserId,
+  deleteTripById
+};

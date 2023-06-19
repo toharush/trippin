@@ -16,7 +16,6 @@ const useDateAndTime = () => {
     const departureDate = dateAndTime.departureDate;
     const returnDate = dateAndTime.returnDate;
     const duration = returnDate.diff(departureDate, "day") + 1;
-    console.log(duration);
     return duration;
   };
 

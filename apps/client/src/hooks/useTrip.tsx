@@ -2,8 +2,8 @@ import { useSelector } from "react-redux";
 import ITrip from "../interfaces/activity/trip";
 import { useAppDispatch } from "../store";
 import { fetchCreateTripToServer, getAllTripsByUserId } from "../store/middlewares/trip";
-import { selectAllTripsOfCurrentUser, selectSelectedTrip } from "../store/selectors/trip";
-import { addTrip, removeTrip, resetSelectedTrip, setSelectedTrip, setTrips } from "../store/slices/trip";
+import { selectAllTripsOfCurrentUser, selectSelectedTrip, selectTripLoading } from "../store/selectors/trip";
+import { addTrip, removeTrip, resetSelectedTripId, setSelectedTripId, setTrips } from "../store/slices/trip";
 import useActivities from "./useActivities";
 import useAuthentication from "./useAuthentication";
 import useDateAndTime from "./useDateAndTime";
@@ -14,6 +14,7 @@ import { deleteTrip } from "../store/middlewares/trip";
 
 const useTrip = () => {
   const dispatch = useAppDispatch();
+  const loading = useSelector(selectTripLoading);
   const defaultRadius = 50;
   const { selectedDestination } = useDestinations();
   const { currentUser } = useAuthentication();
@@ -25,7 +26,7 @@ const useTrip = () => {
   const memoizedCurrentUser = useMemo(() => currentUser, [currentUser]);
 
   const createTrip = async () => {
-    const newTrip = await dispatch(
+    await dispatch(
       fetchCreateTripToServer({
         user_id: currentUser?.email ?? null,
         cityName: selectedDestination.name,
@@ -42,18 +43,15 @@ const useTrip = () => {
         endHour: dateAndTime.daytripEndTime.toDate().getTime(),
       })
     );
-    if (newTrip.payload) {
-      const trip = newTrip.payload as ITrip;
-      dispatch(addTrip(trip));
-    }
   };
 
-  const SetSelectedTrip = (trip: ITrip) => {
-    dispatch(setSelectedTrip(trip));
+  const SetSelectedTripId = (id: number) => {
+    dispatch(setSelectedTripId(id));
   };
 
-  const ResetSelectedTrip = () => {
-    dispatch(resetSelectedTrip());
+
+  const ResetSelectedTripId = () => {
+    dispatch(resetSelectedTripId());
   }
 
   const getAllTripsOfCurrentUser = async () => {
@@ -79,10 +77,12 @@ const useTrip = () => {
     defaultRadius,
     createTrip,
     getAllTripsOfCurrentUser,
-    SetSelectedTrip,
-    ResetSelectedTrip,
+    SetSelectedTripId,
+    ResetSelectedTripId,
     trips,
     deleteTripById,
+    selectedTrip,
+    loading,
   };
 };
 
