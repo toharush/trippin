@@ -9,6 +9,7 @@ import {
   fetchAllActivities,
   fetchNewCommentToServer,
   selectAllActivities,
+  selectDestination,
   selectFilters,
   selectIsCommentPending,
   selectSelectedActivities,
@@ -20,6 +21,9 @@ import activity, {
 } from "../store/slices/activity";
 import useMapDrawer from "./useMapDrawer";
 import useAuthentication from "./useAuthentication";
+import useDestinations from "./useDestinations";
+import { filter, isEmpty } from "lodash";
+import { calculateDistance } from "../utils/cityCenter";
 
 const useActivities = () => {
   const { currentUser } = useAuthentication();
@@ -30,25 +34,45 @@ const useActivities = () => {
     addMarkerPointsOfRoute,
   } = useMapDrawer();
   const dispatch = useAppDispatch();
+
+  const selectedDestination = useSelector(selectDestination);
   const commentPending = useSelector(selectIsCommentPending);
 
   const selectedActivities = useSelector(selectSelectedActivities);
-  const activities = useSelector(selectAllActivities);
   const filters = useSelector(selectFilters);
 
-  const fetchActivities = async () => {
-    await dispatch(fetchAllActivities());
-  };
+  const activities = useSelector(selectAllActivities);
+
+  const filterActivities = activities
+    ?.filter((activity) =>
+      !isEmpty(selectedDestination.name)
+        ? calculateDistance(activity.position, selectedDestination.cityCenter) <
+          50
+        : true
+    )
+    .filter((activity) =>
+      !isEmpty(filters.category)
+        ? activity.category.name?.toLowerCase().includes(filters.category!)
+        : true
+    );
+
+  const fetchActivities = async () => await dispatch(fetchAllActivities());
 
   const removeSelectedActivity = async (activity: Activity) => {
     await removeMarkerPoint(activity.id);
     await dispatch(setSelectedActivities(activity));
   };
 
+  const removeAllSelectedActivity = async () => {
+    await selectedActivities.map(async (activity) => {
+      await removeMarkerPoint(activity.id);
+      await dispatch(setSelectedActivities(activity));
+    });
+  };
+
   const setActivitiesRouteOnMap = async (
     activities: (Activity | ITripActivity)[]
   ) => {
-    console.log(JSON.stringify(activities));
     const markerPoints: MarkerPoint[] = activities.map((activity) => {
       if ("activity" in activity) {
         activity = activity.activity;
@@ -102,15 +126,17 @@ const useActivities = () => {
 
   return {
     activities,
+    filterActivities,
     selectedActivities,
+    filters,
+    commentPending,
     addSelectedActivity,
     removeSelectedActivity,
     fetchActivities,
     setFilter,
     addComment,
-    filters,
-    commentPending,
     setActivitiesRouteOnMap,
+    removeAllSelectedActivity
   };
 };
 

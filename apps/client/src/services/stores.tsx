@@ -159,7 +159,7 @@ const getAllActivities = async () => {
     }
   }
   `)
-  ).data.data.places as Activity[];
+  ).data.data.places as Activity[] ?? [];
 };
 
 export {
