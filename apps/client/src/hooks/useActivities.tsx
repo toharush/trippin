@@ -24,6 +24,7 @@ import useAuthentication from "./useAuthentication";
 import useDestinations from "./useDestinations";
 import { filter, isEmpty } from "lodash";
 import { calculateDistance } from "../utils/cityCenter";
+import { MAX_RADIUS } from "../config";
 
 const useActivities = () => {
   const { currentUser } = useAuthentication();
@@ -47,7 +48,7 @@ const useActivities = () => {
     ?.filter((activity) =>
       !isEmpty(selectedDestination.name)
         ? calculateDistance(activity.position, selectedDestination.cityCenter) <
-          50
+          (MAX_RADIUS ?? 50)
         : true
     )
     .filter((activity) =>
@@ -136,7 +137,7 @@ const useActivities = () => {
     setFilter,
     addComment,
     setActivitiesRouteOnMap,
-    removeAllSelectedActivity
+    removeAllSelectedActivity,
   };
 };
 

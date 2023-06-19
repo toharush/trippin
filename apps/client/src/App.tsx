@@ -15,6 +15,7 @@ function App() {
 
   useEffect(() => {
     fetchActivities();
+    console.log(process.env.REACT_APP_MAX_RADIUS)
   }, []);
 
   if (!isAppLoaded) return <Splash />;
