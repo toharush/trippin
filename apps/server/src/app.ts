@@ -40,8 +40,15 @@ const QueryRoot = new GraphQLObjectType({
   fields: () => ({
     places: {
       type: GraphQLList(Place),
+      args: {
+        limit: { type: GraphQLInt },
+      },
       resolve: (parent, args, context, resolveInfo) => {
+        const { limit } = args;
         return joinMonster.default(resolveInfo, {}, (sql: any) => {
+          if (limit) {
+            sql += ` LIMIT ${limit}`
+          }
           return client.query(sql);
         });
       },
