@@ -1,7 +1,7 @@
 import { getAllPositions } from "../controllers/position";
 import { GOOGLE_IMG_SCRAP } from "google-img-scrap";
 import turf from "turf";
-import { randomPoint } from "../../../server/src/controllers/mapCalculation";
+import { randomPoint } from "../../../server/src/controllers/mapCalc";
 import { convertDBCategoryToClientCategory } from "../../../server/src/controllers/mapCategory";
 import { clientCategories } from "../../../server/src/enums/clientCategory";
 export const getRandomLocation = async () => {
