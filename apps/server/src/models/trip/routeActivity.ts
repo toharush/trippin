@@ -1,5 +1,5 @@
 import { GraphQLObjectType } from "graphql";
-import { GraphQLFloat, GraphQLInt, GraphQLList } from "graphql/type";
+import { GraphQLFloat, GraphQLInt } from "graphql/type";
 import { schema, TABLES } from "../../../../../utils";
 import Place from "../place/place";
 
