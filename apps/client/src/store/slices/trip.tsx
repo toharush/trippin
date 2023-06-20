@@ -1,6 +1,9 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import ITrip from "../../interfaces/activity/trip";
-import { fetchCreateTripToServer } from "../middlewares/trip";
+import {
+  fetchCreateTripToServer,
+  getAllTripsByUserId,
+} from "../middlewares/trip";
 
 interface TripState {
   trips: ITrip[] | null;
@@ -39,17 +42,36 @@ const tripsSlice = createSlice({
       };
     },
     addTrip: (state, action: PayloadAction<ITrip>) => {
-      const newTrip = action.payload;
+      const newTrip = {
+        ...action.payload,
+        id: action.payload?.id ?? new Date().getTime(),
+      };
       const updatedTrips = state.trips ? [...state.trips, newTrip] : [newTrip];
       return {
         ...state,
         trips: updatedTrips,
       };
-    }
+    },
   },
   extraReducers: (builder) => {
+    builder.addCase(getAllTripsByUserId.fulfilled, (state, action) => ({
+      ...state,
+      trips: action.payload,
+      loading: false,
+    }));
+    builder.addCase(getAllTripsByUserId.pending, (state, action) => ({
+      ...state,
+      loading: true,
+    }));
+    builder.addCase(getAllTripsByUserId.rejected, (state, action) => ({
+      ...state,
+      loading: false,
+    }));
     builder.addCase(fetchCreateTripToServer.fulfilled, (state, action) => {
-      const newTrip = action.payload;
+      const newTrip = {
+        ...action.payload,
+        id: action.payload?.id ?? new Date().getTime(),
+      };
       const updatedTrips = state.trips ? [...state.trips, newTrip] : [newTrip];
       return {
         ...state,
@@ -69,5 +91,11 @@ const tripsSlice = createSlice({
   },
 });
 
-export const { setTrips, setSelectedTripId, resetSelectedTripId, removeTrip, addTrip } = tripsSlice.actions;
+export const {
+  setTrips,
+  setSelectedTripId,
+  resetSelectedTripId,
+  removeTrip,
+  addTrip,
+} = tripsSlice.actions;
 export default tripsSlice.reducer;

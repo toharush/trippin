@@ -74,19 +74,21 @@ const useActivities = () => {
   const setActivitiesRouteOnMap = async (
     activities: (Activity | ITripActivity)[]
   ) => {
-    const markerPoints: MarkerPoint[] = activities.map((activity) => {
-      if ("activity" in activity) {
-        activity = activity.activity;
-      }
-      return {
-        id: activity.id,
-        type: EntityTypes.activity,
-        name: activity.title,
-        location: [activity.position.lat, activity.position.lng],
-        show: true,
-        data: activity,
-      };
-    });
+    const markerPoints: MarkerPoint[] = activities
+      ? activities.map((activity) => {
+          if ("activity" in activity) {
+            activity = activity.activity;
+          }
+          return {
+            id: activity.id,
+            type: EntityTypes.activity,
+            name: activity.title,
+            location: [activity.position.lat, activity.position.lng],
+            show: true,
+            data: activity,
+          };
+        })
+      : [];
     await addMarkerPointsOfRoute(markerPoints);
   };
 

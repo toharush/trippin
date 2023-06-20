@@ -1,5 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { deleteTripById, fetchAllTripsByUserId, fetchCreateTrip } from "../../services";
+import {
+  deleteTripById,
+  fetchAllTripsByUserId,
+  fetchCreateTrip,
+} from "../../services";
 import ICoordinate from "../../interfaces/activity/coordinate";
 import IClientCategory from "../../interfaces/activity/clientCategory";
 import { Activity } from "../../interfaces";
@@ -25,7 +29,7 @@ export const fetchCreateTripToServer = createAsyncThunk(
       props.cityCenter,
       props.radius,
       props.categoryPriorities,
-      props.selectedActivities.map(item => item.id),
+      props.selectedActivities.map((item) => item.id),
       props.startDate,
       props.endDate,
       props.startHour,
@@ -34,11 +38,13 @@ export const fetchCreateTripToServer = createAsyncThunk(
   }
 );
 
-export const getAllTripsByUserId = createAsyncThunk<ITrip[], { user_id: string | null }>(
+export const getAllTripsByUserId = createAsyncThunk<
+  ITrip[],
+  { user_id: string | null }
+>(
   "trips/fetchByUserId",
-  async (props: { user_id: string | null }) => {
-    return await fetchAllTripsByUserId(props.user_id);
-  }
+  async (props: { user_id: string | null }) =>
+    await fetchAllTripsByUserId(props.user_id)
 );
 
 export const deleteTrip = createAsyncThunk(
