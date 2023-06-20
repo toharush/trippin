@@ -1,6 +1,6 @@
 import ICoordinate from '../../../client/src/interfaces/activity/coordinate';
 import { Activity } from '../../../client/src/interfaces';
-import { filter } from 'lodash';
+import { filter, map } from 'lodash';
 import {
     AVERAGE_RATE,
     AVERAGE_SPEED,
@@ -29,110 +29,124 @@ export function findBestActivities(
         startHour,
         endHour
     );
-    for (
-        let activitiesCombinationIndex = 0;
-        activitiesCombinationIndex < availableActivities.length;
-        activitiesCombinationIndex++
-    ) {
-        let reorderedActivities = reorderAvailableActivities(
-            availableActivities,
-            activitiesCombinationIndex
-        );
-        const currentCombinationValues: number[] = initCurrentCombinationValues(
-            startHour,
-            endHour
-        );
-        for (
-            let currentHour = startHour;
-            currentHour < calcActivityEndHour(startHour, endHour);
-            currentHour++
-        ) {
-            let selectedActivity: Activity | null = null;
-            let currentTimeSlot = currentHour - startHour;
-            let maxValueOfTimeSlot = currentCombinationValues[currentTimeSlot];
-            for (const activity of reorderedActivities) {
-                activity.duration = getActivityDuration(activity);
-                const lastSelectedActivity = getLastSelectedActivity(
-                    selectedActivitiesCombinations[activitiesCombinationIndex]
-                );
-                let distance: number = 0;
-                if (currentTimeSlot !== 0 && lastSelectedActivity !== null) {
-                    distance = calculateDistance(
-                        activity.position,
-                        lastSelectedActivity.position
-                    );
-                } else if (
-                    !compareLocations(startPosition, activity.position)
-                ) {
-                    distance = calculateDistance(
-                        startPosition,
-                        activity.position
-                    );
-                }
-                activity.travelAndVisitTime =
-                    distance !== 0
-                        ? calcActivityTravelAndVisitTime(
-                              activity.duration,
-                              distance
-                          )
-                        : activity.duration * SPLIT_TO_QUARTER;
-                const activityValue = activity.rate
-                    ? activity.rate / (distance + 1)
-                    : AVERAGE_RATE / (distance + 1);
-
-                const categoryDiversityFactor = getCategoryDiversityFactor(
-                    selectedActivitiesCombinations[activitiesCombinationIndex],
-                    activity.category.name
-                );
-                const weightedActivityValue =
-                    activityValue * categoryDiversityFactor;
-                if (
-                    isActivityOpenNow(
-                        activity,
-                        currentHour,
-                        startHour,
-                        endHour
-                    ) &&
-                    weightedActivityValue > maxValueOfTimeSlot
-                ) {
-                    maxValueOfTimeSlot = weightedActivityValue;
-                    currentCombinationValues[
-                        currentTimeSlot
-                    ] = maxValueOfTimeSlot;
-                    selectedActivity = activity;
-                }
-            }
-            combinationsValue[activitiesCombinationIndex] += maxValueOfTimeSlot;
-            if (
-                selectedActivity !== null &&
-                selectedActivity.travelAndVisitTime !== undefined
+    map(
+        availableActivities,
+        (availableActivity, activitiesCombinationIndex) => {
+            let reorderedActivities = reorderAvailableActivities(
+                availableActivities,
+                activitiesCombinationIndex
+            );
+            const currentCombinationValues: number[] = initCurrentCombinationValues(
+                startHour,
+                endHour
+            );
+            for (
+                let currentHour = startHour;
+                currentHour < calcActivityEndHour(startHour, endHour);
+                currentHour++
             ) {
-                let activityStartTime =
-                    (currentTimeSlot +
-                        calcActivityTravelTime(
-                            selectedActivity.travelAndVisitTime,
-                            selectedActivity.duration!
-                        )) /
-                        SPLIT_TO_QUARTER +
-                    startHour;
-                selectedActivity = setActivityTimeRange(
-                    selectedActivity,
-                    activityStartTime,
-                    date
-                );
-                for (let i = 0; i < selectedActivity.travelAndVisitTime!; i++) {
-                    selectedActivitiesCombinations[activitiesCombinationIndex][
-                        currentTimeSlot + i
-                    ] = selectedActivity;
+                let selectedActivity: Activity = reorderedActivities[0];
+                let currentTimeSlot = currentHour - startHour;
+                let maxValueOfTimeSlot =
+                    currentCombinationValues[currentTimeSlot];
+                map(reorderedActivities, activity => {
+                    activity.duration = getActivityDuration(activity);
+                    const lastSelectedActivity = getLastSelectedActivity(
+                        selectedActivitiesCombinations[
+                            activitiesCombinationIndex
+                        ]
+                    );
+                    let distance: number = 0;
+                    if (
+                        currentTimeSlot !== 0 &&
+                        lastSelectedActivity !== null
+                    ) {
+                        distance = calculateDistance(
+                            activity.position,
+                            lastSelectedActivity.position
+                        );
+                    } else if (
+                        !compareLocations(startPosition, activity.position)
+                    ) {
+                        distance = calculateDistance(
+                            startPosition,
+                            activity.position
+                        );
+                    }
+                    activity.travelAndVisitTime =
+                        distance !== 0
+                            ? calcActivityTravelAndVisitTime(
+                                  activity.duration,
+                                  distance
+                              )
+                            : activity.duration * SPLIT_TO_QUARTER;
+                    const activityValue = activity.rate
+                        ? activity.rate / (distance + 1)
+                        : AVERAGE_RATE / (distance + 1);
+
+                    const categoryDiversityFactor = getCategoryDiversityFactor(
+                        selectedActivitiesCombinations[
+                            activitiesCombinationIndex
+                        ],
+                        activity.category.name
+                    );
+                    const weightedActivityValue =
+                        activityValue * categoryDiversityFactor;
+                    if (
+                        isActivityOpenNow(
+                            activity,
+                            currentHour,
+                            startHour,
+                            endHour
+                        ) &&
+                        weightedActivityValue > maxValueOfTimeSlot
+                    ) {
+                        maxValueOfTimeSlot = weightedActivityValue;
+                        currentCombinationValues[
+                            currentTimeSlot
+                        ] = maxValueOfTimeSlot;
+                        selectedActivity = activity;
+                    }
+                });
+
+                combinationsValue[
+                    activitiesCombinationIndex
+                ] += maxValueOfTimeSlot;
+                if (
+                    selectedActivity !== null &&
+                    selectedActivity.travelAndVisitTime !== undefined
+                ) {
+                    let activityStartTime =
+                        (currentTimeSlot +
+                            calcActivityTravelTime(
+                                selectedActivity.travelAndVisitTime,
+                                selectedActivity.duration!
+                            )) /
+                            SPLIT_TO_QUARTER +
+                        startHour;
+                    selectedActivity = setActivityTimeRange(
+                        selectedActivity,
+                        activityStartTime,
+                        date
+                    );
+                    for (
+                        let i = 0;
+                        i < selectedActivity.travelAndVisitTime!;
+                        i++
+                    ) {
+                        selectedActivitiesCombinations[
+                            activitiesCombinationIndex
+                        ][currentTimeSlot + i] = selectedActivity;
+                    }
+                    currentHour += selectedActivity.travelAndVisitTime! - 1;
+                    reorderedActivities = removeActivityById(
+                        reorderedActivities,
+                        selectedActivity.id
+                    );
                 }
-                currentHour += selectedActivity.travelAndVisitTime! - 1;
-                reorderedActivities = removeActivityById(
-                    reorderedActivities,
-                    selectedActivity.id
-                );
             }
         }
-    }
+    );
 
     return getBestDayRoute(combinationsValue, selectedActivitiesCombinations);
 }
@@ -369,4 +383,3 @@ function getCategoryDiversityFactor(
     }
     return 1;
 }
-
