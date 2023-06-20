@@ -34,8 +34,9 @@ const fetchCreateTrip = async (
   startHour: number,
   endHour: number
 ) => {
-  return (await fetchGql(
-    `
+  return (
+    await fetchGql(
+      `
       mutation createTrip {
         createTrip(
         user_id: "${user_id}",
@@ -86,7 +87,8 @@ const fetchCreateTrip = async (
         }
       }
       `
-  )).data.data.createTrip as ITrip;
+    )
+  ).data.data.createTrip as ITrip;
 };
 
 const getCategoryPrioritiesQuery = (categoryPriorities: IClientCategory[]) => {
@@ -115,7 +117,8 @@ const getCommentsByPlaceId = async (place_id: string) => {
 
 const fetchAllTripsByUserId = async (user_id: string | null) => {
   return (
-    await fetchGql(`
+    ((
+      await fetchGql(`
     {
       tripByUserId(user_id: "${user_id}") {
         id
@@ -153,8 +156,9 @@ const fetchAllTripsByUserId = async (user_id: string | null) => {
       }
     }
     `)
-  ).data.data.tripByUserId as ITrip[];
-}
+    ).data.data.tripByUserId as ITrip[]) ?? []
+  );
+};
 
 const getAllActivities = async () => {
   return (
@@ -220,7 +224,7 @@ const deleteTripById = async (trip_id: number) => {
     }
     `)
   ).data.data.deleteTrip as boolean;
-}
+};
 
 export {
   getAllActivities,
@@ -228,5 +232,5 @@ export {
   getCommentsByPlaceId,
   fetchCreateTrip,
   fetchAllTripsByUserId,
-  deleteTripById
+  deleteTripById,
 };

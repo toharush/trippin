@@ -1,9 +1,23 @@
 import { useSelector } from "react-redux";
 import ITrip from "../interfaces/activity/trip";
 import { useAppDispatch } from "../store";
-import { fetchCreateTripToServer, getAllTripsByUserId } from "../store/middlewares/trip";
-import { selectAllTripsOfCurrentUser, selectSelectedTrip, selectSelectedTripId, selectTripLoading } from "../store/selectors/trip";
-import { addTrip, removeTrip, resetSelectedTripId, setSelectedTripId, setTrips } from "../store/slices/trip";
+import {
+  fetchCreateTripToServer,
+  getAllTripsByUserId,
+} from "../store/middlewares/trip";
+import {
+  selectAllTripsOfCurrentUser,
+  selectSelectedTrip,
+  selectSelectedTripId,
+  selectTripLoading,
+} from "../store/selectors/trip";
+import {
+  addTrip,
+  removeTrip,
+  resetSelectedTripId,
+  setSelectedTripId,
+  setTrips,
+} from "../store/slices/trip";
 import useActivities from "./useActivities";
 import useAuthentication from "./useAuthentication";
 import useDateAndTime from "./useDateAndTime";
@@ -50,18 +64,14 @@ const useTrip = () => {
     dispatch(setSelectedTripId(id));
   };
 
-
   const ResetSelectedTripId = () => {
     dispatch(resetSelectedTripId());
-  }
-
-  const getAllTripsOfCurrentUser = async () => {
-    const tripsOfCurrentUser = await dispatch(getAllTripsByUserId({ user_id: currentUser?.email ?? null }));
-    if (tripsOfCurrentUser.payload) {
-      const trips = tripsOfCurrentUser.payload as ITrip[];
-      dispatch(setTrips(trips));
-    }
   };
+
+  const getAllTripsOfCurrentUser = async () =>
+    await dispatch(
+      getAllTripsByUserId({ user_id: currentUser?.email ?? null })
+    );
 
   useEffect(() => {
     getAllTripsOfCurrentUser(); // Fetch trips when the user ID changes
@@ -84,7 +94,7 @@ const useTrip = () => {
     deleteTripById,
     selectedTrip,
     loading,
-    selectedTripId
+    selectedTripId,
   };
 };
 

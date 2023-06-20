@@ -46,7 +46,10 @@ const CalculatedTripComponent = ({
     const cityCenter = calculateCenterPointOfActivity(
       trip.routes[index].activities
     );
-    setFlyTo([cityCenter.lat, cityCenter.lng], 10);
+    if (trip.routes[index].activities.length > 0) {
+      setFlyTo([cityCenter.lat, cityCenter.lng], 10);
+    }
+
     setActivitiesRouteOnMap(trip.routes[index].activities);
     setActiveDayTrip(index);
   };
@@ -63,11 +66,16 @@ const CalculatedTripComponent = ({
           onChange={(event, index) => handleDayChange(index - 1)}
         />
       </div>
-      <Grid container spacing={2} alignItems="center" justifyContent="space-between" >
-        <Grid item sx={{ margin:'4%', color:"white", fontSize:"large" }}>
-        <span className="trip-name-title">{trip.name}</span>
+      <Grid
+        container
+        spacing={2}
+        alignItems="center"
+        justifyContent="space-between"
+      >
+        <Grid item sx={{ margin: "4%", color: "white", fontSize: "large" }}>
+          <span className="trip-name-title">{trip.name}</span>
         </Grid>
-        <Grid item sx={{marginRight:'4%'}}>
+        <Grid item sx={{ marginRight: "4%" }}>
           <Button variant="outlined" color="primary">
             Edit
           </Button>
