@@ -27,9 +27,14 @@ export const getActivitiesInRadiusDB = async (
                                   POWER(SIN((RADIANS(pos.lng) - RADIANS($3)) / 2), 2)
                             )
                           )
-                    ) <= $1
-                );`,
-            [radius, centerPoint.lat, centerPoint.lng]
+                    ) <= $1 
+                ) ORDER BY google.rate DESC LIMIT $4;`,
+            [
+                radius,
+                centerPoint.lat,
+                centerPoint.lng,
+                process.env.MAX_ACTIVITIES_SQL ?? 100,
+            ]
         )
     ).rows.map(rawData => ({
         ...rawData,
@@ -49,20 +54,7 @@ export const getActivitiesInRadiusDB = async (
 export const getActivityByIdDB = async (
     activityId: string
 ): Promise<Activity> => {
-    return (
-        await query(
-            `SELECT p.*,
-            pos.lat, pos.lng,
-            google.rate, google.spend, google.image_url,
-            category.name as category_name
-                FROM trippin."place" p
-                JOIN trippin."google" google ON p.id = google.place_id
-                JOIN trippin."category" category ON p.category_id = category.id
-                JOIN trippin."position" pos ON p.position_id = pos.id
-                WHERE p.id = ($1);`,
-            [activityId]
-        )
-    ).rows.map(rawData => ({
+    return (await query(`pg`, [activityId])).rows.map(rawData => ({
         ...rawData,
         position: { lat: rawData.lat, lng: rawData.lng },
         category: {
